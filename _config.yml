@@ -18,7 +18,7 @@ relative_links:
 # Настройки для партитур
 defaults:
   - scope:
-      path: "partitury"
+      path: "partitures"
     values:
       layout: "default"
       show_navigation: true

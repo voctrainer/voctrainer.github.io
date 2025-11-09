@@ -30,7 +30,126 @@ class PartitureGenerator {
         console.log('✅ Generation completed!');
     }
 
-    // ... остальные методы (cleanPartituresDir, scanAndGenerate, processFolder, generateFolderIndex) остаются без изменений ...
+    cleanPartituresDir() {
+        if (fs.existsSync(this.partituresDir)) {
+            console.log('🧹 Cleaning partitures directory...');
+            const items = fs.readdirSync(this.partituresDir);
+            
+            items.forEach(item => {
+                if (item === '.git') return;
+                
+                const itemPath = path.join(this.partituresDir, item);
+                this.deleteRecursive(itemPath);
+            });
+            console.log('✅ Partitures directory cleaned');
+        }
+    }
+
+    deleteRecursive(filePath) {
+        if (fs.existsSync(filePath)) {
+            if (fs.statSync(filePath).isDirectory()) {
+                const items = fs.readdirSync(filePath);
+                items.forEach(item => {
+                    this.deleteRecursive(path.join(filePath, item));
+                });
+                fs.rmdirSync(filePath);
+            } else {
+                fs.unlinkSync(filePath);
+            }
+        }
+    }
+
+    scanAndGenerate(abcPath, partituresPath) {
+        if (!fs.existsSync(abcPath)) {
+            console.log('❌ ABC path does not exist:', abcPath);
+            return;
+        }
+        
+        const items = fs.readdirSync(abcPath);
+        console.log('📁 Found items in', abcPath, ':', items);
+        
+        items.forEach(item => {
+            if (item === '.git') return;
+            
+            const abcItemPath = path.join(abcPath, item);
+            const stat = fs.statSync(abcItemPath);
+            
+            if (stat.isDirectory()) {
+                this.processFolder(abcItemPath, partituresPath);
+            } else if (item.endsWith('.abc')) {
+                this.processAbcFile(abcItemPath, partituresPath);
+            }
+        });
+    }
+
+    processFolder(abcFolderPath, partituresBasePath) {
+        const folderName = path.basename(abcFolderPath);
+        const partituresFolderPath = path.join(partituresBasePath, folderName);
+        
+        console.log('📂 Processing folder:', abcFolderPath, '->', partituresFolderPath);
+        
+        // Создаем папку в partitures
+        if (!fs.existsSync(partituresFolderPath)) {
+            fs.mkdirSync(partituresFolderPath, { recursive: true });
+        }
+
+        // Генерируем index.md для папки из folder.index
+        this.generateFolderIndex(abcFolderPath, partituresFolderPath);
+
+        // Обрабатываем содержимое папки
+        const items = fs.readdirSync(abcFolderPath);
+        
+        items.forEach(item => {
+            if (item === '.git' || item === 'folder.index') return;
+            
+            const abcItemPath = path.join(abcFolderPath, item);
+            const stat = fs.statSync(abcItemPath);
+            
+            if (stat.isDirectory()) {
+                this.processFolder(abcItemPath, partituresFolderPath);
+            } else if (item.endsWith('.abc')) {
+                this.processAbcFile(abcItemPath, partituresFolderPath);
+            }
+        });
+    }
+
+    generateFolderIndex(abcFolderPath, partituresFolderPath) {
+        const folderIndexPath = path.join(abcFolderPath, 'folder.index');
+        const outputIndexPath = path.join(partituresFolderPath, 'index.md');
+        
+        let title = this.formatName(path.basename(abcFolderPath));
+        let content = '';
+        
+        if (fs.existsSync(folderIndexPath)) {
+            const folderContent = fs.readFileSync(folderIndexPath, 'utf8').trim();
+            
+            // Если файл начинается с заголовка Markdown, извлекаем его
+            if (folderContent.startsWith('# ')) {
+                const firstLineEnd = folderContent.indexOf('\n');
+                if (firstLineEnd !== -1) {
+                    title = folderContent.substring(2, firstLineEnd).trim();
+                    content = folderContent.substring(firstLineEnd + 1).trim();
+                } else {
+                    title = folderContent.substring(2).trim();
+                }
+            } else {
+                content = folderContent;
+            }
+            console.log('📄 Generated folder index from folder.index:', outputIndexPath);
+        } else {
+            content = `# ${title}\n\nСодержимое папки.`;
+            console.log('📄 Generated default folder index:', outputIndexPath);
+        }
+        
+        const frontMatter = `---
+layout: folder
+title: "${title}"
+---
+
+${content}`;
+        
+        fs.writeFileSync(outputIndexPath, frontMatter, 'utf8');
+    }
 
     processAbcFile(abcFilePath, partituresPath) {
         const fileName = path.basename(abcFilePath, '.abc');

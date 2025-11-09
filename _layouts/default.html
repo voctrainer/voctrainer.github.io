@@ -1,23 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <meta charset="utf-8">
-    <title>{{ page.title }} - {{ site.title }}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ '/music.min.css' | relative_url }}" />
+    <script src="{{ '/abc-ui-1.0.0.min.js' | relative_url }}"></script>
+    <title>{{ page.title }}</title>
+    <style>
+        .content-wrapper {
+            display: flex;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .navigation-sidebar {
+            width: 300px;
+            padding: 20px;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+        }
+        .abc-source {
+            margin: 20px 0;
+        }
+    </style>
 </head>
 <body>
-    <aside>
-        <nav>
-            {% for nav_item in site.navigation %}
-                <a href="{{ nav_item.url | relative_url }}" 
-                   {% if page.url == nav_item.url %}class="active"{% endif %}>
-                    {{ nav_item.title }}
-                </a>
-            {% endfor %}
-        </nav>
-    </aside>
-    
-    <main>
-        {{ content }}
-    </main>
+    <div class="content-wrapper">
+        {% if page.show_navigation %}
+        <aside class="navigation-sidebar">
+            <h1><a href="{{ '/' | relative_url }}">Вокальный тренажер</a></h1>
+            {% include navigation.html %}
+        </aside>
+        {% endif %}
+        
+        <main class="main-content">
+            {% unless page.show_navigation %}
+            <div style="margin-bottom: 20px;">
+                <a href="{{ '/partitury/' | relative_url }}">← К списку партитур</a> | 
+                <a href="{{ '/' | relative_url }}">На главную</a>
+            </div>
+            {% endunless %}
+            
+            {{ content }}
+        </main>
+    </div>
+
+    <script src="{{ '/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            $ABC_UI.init();
+            $ABC_UTIL.addHtmlVievers({"bMacro":true,"bDeco":true,"bEditors":false});
+        });
+    </script>
 </body>
 </html>

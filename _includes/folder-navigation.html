@@ -18,12 +18,22 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadNavigation() {
     try {
         const currentPath = window.location.pathname;
-        const navFile = currentPath + (currentPath.endsWith('/') ? '' : '/') + '_navigation.json';
+        
+        // Определяем правильный путь к navigation.json
+        let navFile;
+        if (currentPath === '/partitures/' || currentPath === '/partitures') {
+            navFile = '/partitures/navigation.json';
+        } else {
+            // Для вложенных папок
+            navFile = currentPath.endsWith('/') 
+                ? currentPath + 'navigation.json' 
+                : currentPath + '/navigation.json';
+        }
         
         console.log('Loading navigation from:', navFile);
         
         const response = await fetch(navFile);
-        if (!response.ok) throw new Error('Navigation file not found');
+        if (!response.ok) throw new Error(`Navigation file not found: ${navFile}`);
         
         const navData = await response.json();
         renderNavigation(navData, currentPath);
@@ -31,19 +41,23 @@ async function loadNavigation() {
     } catch (error) {
         console.error('Error loading navigation:', error);
         document.getElementById('static-navigation').innerHTML = 
-            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
+            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Навигация временно недоступна</div>';
     }
 }
 
 function renderNavigation(navData, currentPath) {
     let html = '<ul style="list-style: none; padding-left: 0; margin: 0;">';
     
+    let hasContent = false;
+    
     // Папки
     if (navData.folders && navData.folders.length > 0) {
+        hasContent = true;
         navData.folders.forEach(folder => {
+            const folderPath = folder.path.startsWith('/') ? folder.path : '/' + folder.path;
             html += `
                 <li style="margin-bottom: 8px;">
-                    <a href="${currentPath}${folder.path}/" style="
+                    <a href="${folderPath}/" style="
                         color: #e67e22;
                         text-decoration: none;
                         display: flex;
@@ -66,10 +80,12 @@ function renderNavigation(navData, currentPath) {
     
     // Файлы
     if (navData.files && navData.files.length > 0) {
+        hasContent = true;
         navData.files.forEach(file => {
+            const filePath = file.path.startsWith('/') ? file.path : '/' + file.path;
             html += `
                 <li style="margin-bottom: 8px;">
-                    <a href="${currentPath}${file.path}" style="
+                    <a href="${filePath}" style="
                         color: #2c3e50;
                         text-decoration: none;
                         display: flex;
@@ -91,11 +107,9 @@ function renderNavigation(navData, currentPath) {
     
     html += '</ul>';
     
-    document.getElementById('static-navigation').innerHTML = html;
-    
-    // Если нет ни папок, ни файлов
-    if ((!navData.folders || navData.folders.length === 0) && 
-        (!navData.files || navData.files.length === 0)) {
+    if (hasContent) {
+        document.getElementById('static-navigation').innerHTML = html;
+    } else {
         document.getElementById('static-navigation').innerHTML = 
             '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
     }

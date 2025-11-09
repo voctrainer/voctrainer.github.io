@@ -8,20 +8,31 @@ theme: minima
 plugins:
   - jekyll-relative-links
 
+# Включите обработку плагинов
+include:
+  - _plugins
+
+# Настройки для ABC файлов
+abc:
+  wrapper_class: "abc-source 16 1.5"
+
 defaults:
   - scope:
       path: "partitures"
       type: "pages"
     values:
-      layout: "partiture"
+      layout: "abc_partiture"
       nav: true
   - scope:
       path: "partitures"
-      type: "pages"
-      values:
-        layout: "folder"
+    values:
+      layout: "folder"
       nav: true
   - scope:
       path: ""
     values:
       layout: "default"
+
+# Исключите ABC файлы из статических файлов
+exclude:
+  - "*.abc"

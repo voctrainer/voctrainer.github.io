@@ -28,16 +28,11 @@ jobs:
           
       - name: Generate partitures from ABC files
         run: |
-          echo "🚀 Starting complete regeneration from ABC files"
-          echo "=== ABC source structure ==="
-          find abc -name "*.abc" -o -name "folder.index" | sort
+          echo "🚀 Starting ABC to HTML conversion"
+          echo "=== Source ABC files ==="
+          find abc -name "*.abc" | wc -l
           node generate-partitures.js
-          echo "✅ Regeneration completed"
-          echo "=== Generated partitures structure ==="
-          find partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
-          echo "=== File counts ==="
-          echo "ABC files: $(find abc -name '*.abc' | wc -l)"
-          echo "Generated HTML files: $(find partitures -name '*.html' | wc -l)"
+          echo "✅ Conversion completed"
           
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
@@ -52,14 +47,9 @@ jobs:
         
       - name: Verify build
         run: |
-          echo "✅ Jekyll build successful!"
-          echo "=== Final site structure ==="
-          find _site -name "*.html" | sort
-          echo "=== Key files verification ==="
-          [ -f "_site/partitures/index.html" ] && echo "✅ partitures/index.html exists" || echo "❌ partitures/index.html missing"
-          [ -f "_site/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html missing"
-          [ -f "_site/partitures/cherubic/index.html" ] && echo "✅ partitures/cherubic/index.html exists" || echo "❌ partitures/cherubic/index.html missing"
-          [ -f "_site/partitures/cherubic/cherubic-ancient.html" ] && echo "✅ cherubic-ancient.html exists" || echo "❌ cherubic-ancient.html missing"
+          echo "✅ Build successful!"
+          echo "=== Generated pages ==="
+          find _site -name "*.html" | grep -E "(cherubic|partitures)" | sort
           
       - name: Setup Pages
         uses: actions/configure-pages@v4

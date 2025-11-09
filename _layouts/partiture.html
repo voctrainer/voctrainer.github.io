@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }} - Вокальный тренажер</title>
+    <title>{% if page.abc_title %}{{ page.abc_title }} - {{ page.abc_composer }}{% else %}{{ page.title }}{% endif %} - Вокальный тренажер</title>
     <link rel="stylesheet" href="{{ '/music.min.css' | relative_url }}" />
     <script src="{{ '/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <style>
@@ -27,6 +27,7 @@
             color: white;
             padding: 20px;
             min-height: 100vh;
+            overflow-y: auto;
         }
         .content {
             flex: 1;
@@ -37,12 +38,32 @@
             padding: 15px;
             background: #f8f9fa;
             border-radius: 5px;
+            border: 1px solid #e9ecef;
         }
         .breadcrumbs {
             margin-bottom: 20px;
-            padding: 10px;
+            padding: 10px 15px;
             background: #ecf0f1;
             border-radius: 5px;
+            font-size: 14px;
+        }
+        .breadcrumbs a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .breadcrumbs a:hover {
+            text-decoration: underline;
+        }
+        .partiture-info {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        .auto-title {
+            color: #2c3e50;
+            margin-top: 0;
         }
         .nav-link {
             color: #3498db;
@@ -65,7 +86,7 @@
 <body>
     <div class="container">
         <nav class="navigation">
-            <h2><a href="{{ '/' | relative_url }}" style="color: white;">Вокальный тренажер</a></h2>
+            <h2><a href="{{ '/' | relative_url }}" style="color: white; text-decoration: none;">Вокальный тренажер</a></h2>
             <h3>📁 Партитуры</h3>
             {% include navigation.html %}
         </nav>
@@ -75,8 +96,14 @@
                 <a href="{{ '/' | relative_url }}">Главная</a> → 
                 <a href="{{ '/partitures/' | relative_url }}">Партитуры</a>
                 {% if page.url != '/partitures/' %}
-                    → {{ page.title }}
+                    → <span id="dynamic-breadcrumb">Загрузка...</span>
                 {% endif %}
+            </div>
+            
+            <!-- Автоматический заголовок из ABC -->
+            <div class="partiture-info" id="abc-info" style="display: none;">
+                <h1 class="auto-title" id="abc-title">Загрузка...</h1>
+                <p id="abc-composer"></p>
             </div>
             
             {{ content }}
@@ -93,8 +120,40 @@
                     bDeco: true,
                     bEditors: false
                 });
+                
+                // Автоматическое извлечение информации из ABC-нотации
+                extractABCInfo();
             }
         });
+        
+        function extractABCInfo() {
+            const abcSources = document.querySelectorAll('.abc-source');
+            if (abcSources.length > 0) {
+                const firstSource = abcSources[0].textContent;
+                
+                // Извлекаем название (T:)
+                const titleMatch = firstSource.match(/T:([^\n]+)/);
+                const composerMatch = firstSource.match(/C:([^\n]+)/);
+                
+                if (titleMatch) {
+                    const title = titleMatch[1].trim();
+                    const composer = composerMatch ? composerMatch[1].trim() : '';
+                    
+                    // Обновляем заголовок страницы
+                    document.title = title + (composer ? ' - ' + composer : '') + ' - Вокальный тренажер';
+                    
+                    // Показываем блок с информацией
+                    document.getElementById('abc-title').textContent = title;
+                    if (composer) {
+                        document.getElementById('abc-composer').textContent = 'Композитор: ' + composer;
+                    }
+                    document.getElementById('abc-info').style.display = 'block';
+                    
+                    // Обновляем хлебные крошки
+                    document.getElementById('dynamic-breadcrumb').textContent = title;
+                }
+            }
+        }
     </script>
 </body>
 </html>

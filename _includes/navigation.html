@@ -1,3 +1,107 @@
-<div class="nav-tree">
-    {% include nav-tree.html path="/partitures/" %}
-</div>
+<ul style="list-style: none; padding-left: 0; margin: 0;">
+    {% assign partiture_pages = site.pages | where: "nav", true | sort: "url" %}
+    
+    <!-- Ссылка на главную страницу партитур -->
+    <li style="margin-bottom: 15px;">
+        <a href="{{ '/partitures/' | relative_url }}" 
+           class="nav-link {% if page.url == '/partitures/' %}active{% endif %}"
+           style="color: {% if page.url == '/partitures/' %}#e74c3c{% else %}#3498db{% endif %}; 
+                  font-weight: bold; 
+                  display: block; 
+                  padding: 8px 10px; 
+                  background: {% if page.url == '/partitures/' %}#34495e{% else %}transparent{% endif %};
+                  border-radius: 3px;
+                  text-decoration: none;">
+            📁 Все партитуры
+        </a>
+    </li>
+    
+    <!-- Разделитель -->
+    <hr style="border: none; border-top: 1px solid #34495e; margin: 10px 0;">
+    
+    <!-- Список всех партитур и папок -->
+    {% for node in partiture_pages %}
+        {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
+            {% assign depth = node.url | split: '/' | size | minus: 3 %}
+            {% assign indent = depth | times: 20 %}
+            
+            <!-- Определяем, является ли элемент папкой или файлом -->
+            {% assign is_folder = false %}
+            {% unless node.url contains '.html' or node.url contains '.md' %}
+                {% assign is_folder = true %}
+            {% endunless %}
+            
+            <li style="margin-left: {{ indent }}px; margin-bottom: 8px;">
+                {% if is_folder %}
+                    <!-- Отображение папки -->
+                    <details {% if page.url contains node.url %}open{% endif %} style="margin: 5px 0;">
+                        <summary style="color: #f39c12; 
+                                      cursor: pointer; 
+                                      font-weight: bold;
+                                      padding: 5px 0;
+                                      outline: none;">
+                            📁 {{ node.title | default: node.name | replace: '_', ' ' | capitalize }}
+                        </summary>
+                        <!-- Рекурсивно включаем навигацию для подпапок -->
+                        {% include nav-tree.html path=node.url %}
+                    </details>
+                {% else %}
+                    <!-- Отображение файла -->
+                    <a href="{{ node.url | relative_url }}" 
+                       class="file-link {% if page.url == node.url %}active{% endif %}"
+                       style="color: {% if page.url == node.url %}#e74c3c{% else %}#ecf0f1{% endif %};
+                              text-decoration: none;
+                              display: block;
+                              padding: 5px 10px;
+                              margin: 2px 0;
+                              border-radius: 3px;
+                              background: {% if page.url == node.url %}#34495e{% else %}transparent{% endif %};
+                              transition: background 0.2s;">
+                        📄 {{ node.title | default: node.name | replace: '.md', '' | replace: '_', ' ' | capitalize }}
+                    </a>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+    
+    <!-- Если нет партитур -->
+    {% assign has_partitures = false %}
+    {% for node in partiture_pages %}
+        {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
+            {% assign has_partitures = true %}
+        {% endif %}
+    {% endfor %}
+    
+    {% unless has_partitures %}
+        <li style="color: #7f8c8d; font-style: italic; padding: 10px;">
+            Партитуры пока не добавлены
+        </li>
+    {% endunless %}
+</ul>
+
+<style>
+    .file-link:hover {
+        background: #34495e !important;
+        color: #3498db !important;
+    }
+    
+    details summary::-webkit-details-marker {
+        display: none;
+    }
+    
+    details summary {
+        list-style: none;
+    }
+    
+    details[open] summary {
+        margin-bottom: 5px;
+    }
+    
+    /* Стили для вложенных списков */
+    details ul {
+        list-style: none;
+        padding-left: 15px;
+        margin: 5px 0;
+        border-left: 1px solid #34495e;
+    }
+</style>

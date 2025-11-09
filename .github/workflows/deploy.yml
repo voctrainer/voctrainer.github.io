@@ -3,24 +3,89 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
-  build:
+  generate-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - name: Checkout
+      uses: actions/checkout@v4
       
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
+    - name: Generate ABC file list
+      run: |
+        python3 << 'EOF'
+import json
+import os
+import glob
+
+def generate_file_list():
+    file_list = []
+    
+    # Добавляем корневую папку partitures
+    file_list.append({
+        "path": "/partitures/",
+        "name": "partitures",
+        "type": "folder"
+    })
+    
+    # Находим все папки
+    for root, dirs, files in os.walk('partitures'):
+        for dir_name in dirs:
+            if dir_name != '.git':  # Исключаем .git папки
+                dir_path = os.path.join(root, dir_name)
+                web_path = '/' + dir_path + '/'
+                file_list.append({
+                    "path": web_path,
+                    "name": dir_name,
+                    "type": "folder"
+                })
+    
+    # Находим все ABC файлы
+    abc_files = glob.glob('partitures/**/*.abc', recursive=True)
+    for abc_file in abc_files:
+        html_path = '/' + abc_file.replace('.abc', '.html')
+        file_name = os.path.basename(abc_file).replace('.abc', '')
         
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: '.'
-          
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+        file_list.append({
+            "path": html_path,
+            "name": file_name,
+            "type": "file"
+        })
+    
+    # Сохраняем в JSON
+    with open('partitures/filelist.json', 'w', encoding='utf-8') as f:
+        json.dump(file_list, f, ensure_ascii=False, indent=2)
+    
+    print(f"Generated file list with {len(file_list)} items")
+
+generate_file_list()
+EOF
+
+    - name: Commit generated filelist
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add partitures/filelist.json
+        git diff --staged --quiet || git commit -m "Auto-generate ABC file list"
+        git push
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.1'
+        
+    - name: Install Jekyll
+      run: gem install jekyll jekyll-relative-links
+        
+    - name: Build site
+      run: jekyll build
+      
+    - name: Deploy
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./_site

@@ -1,0 +1,64 @@
+name: Generate ABC File List
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  generate-filelist:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+        
+    - name: Generate file list
+      run: |
+        python << 'EOF'
+import json
+import os
+import glob
+
+def generate_file_list():
+    file_list = []
+    
+    # Находим все ABC файлы
+    abc_files = glob.glob('partitures/**/*.abc', recursive=True)
+    
+    for abc_file in abc_files:
+        # Создаем соответствующий HTML путь
+        html_path = '/' + abc_file.replace('.abc', '.html')
+        file_name = os.path.basename(abc_file).replace('.abc', '')
+        
+        file_list.append({
+            "path": html_path,
+            "name": file_name,
+            "type": "file"
+        })
+    
+    # Находим все папки
+    for root, dirs, files in os.walk('partitures'):
+        for dir_name in dirs:
+            dir_path = os.path.join(root, dir_name)
+            relative_path = '/' + dir_path + '/'
+            file_list.append({
+                "path": relative_path,
+                "name": dir_name,
+                "type": "folder"
+            })
+    
+    # Сохраняем в JSON
+    with open('partitures/filelist.json', 'w', encoding='utf-8') as f:
+        json.dump(file_list, f, ensure_ascii=False, indent=2)
+    
+    print(f"Generated file list with {len(file_list)} items")
+
+generate_file_list()
+EOF
+
+    - name: Commit and push filelist
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add partitures/filelist.json
+        git diff --staged --quiet || git commit -m "Update ABC file list"
+        git push

@@ -1,0 +1,47 @@
+{% comment %} Рекурсивный компонент для отображения дерева навигации {% endcomment %}
+{% for folder in include.navigation.folders %}
+<li style="margin-bottom: 8px;">
+    <a href="{{ folder.path | relative_url }}" style="
+        color: #e67e22;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 5px;
+        border: 1px solid #e9ecef;
+        font-weight: bold;
+        transition: all 0.2s;
+    " onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+        📁 {{ folder.displayName }}
+    </a>
+    
+    {% if folder.children %}
+        <ul style="list-style: none; padding-left: 20px; margin: 8px 0 0 0;">
+            {% include navigation-tree.html navigation=folder.children current_path=include.current_path %}
+        </ul>
+    {% endif %}
+</li>
+{% endfor %}
+
+{% for file in include.navigation.files %}
+<li style="margin-bottom: 8px;">
+    <a href="{{ file.path | relative_url }}" style="
+        color: #2c3e50;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 12px;
+        background: white;
+        border-radius: 5px;
+        border: 1px solid #e9ecef;
+        transition: all 0.2s;
+    " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
+       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+        📄 {{ file.displayName }}
+    </a>
+</li>
+{% endfor %}

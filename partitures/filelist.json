@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/partitures/cherubic/",
+    "name": "cherubic",
+    "type": "folder"
+  },
+  {
+    "path": "/partitures/cherubic/heruvimskaya_bogomolov.html",
+    "name": "heruvimskaya_bogomolov",
+    "type": "file"
+  },
+  {
+    "path": "/partitures/cherubic/heruvimskaya_preobrajenskoe.html",
+    "name": "heruvimskaya_preobrajenskoe",
+    "type": "file"
+  },
+  {
+    "path": "/partitures/cherubic/heruvimskaya_spasskaya.html",
+    "name": "heruvimskaya_spasskaya",
+    "type": "file"
+  },
+  {
+    "path": "/partitures/cherubic/heruvimskaya_staro_bolgarskaya.html",
+    "name": "heruvimskaya_staro_bolgarskaya",
+    "type": "file"
+  }
+]

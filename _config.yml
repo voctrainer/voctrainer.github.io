@@ -1,11 +1,12 @@
 title: "Вокальный тренажер"
 description: "Церковные песнопения"
 baseurl: ""
-url: ""
+url: "https://voctrainer.github.io"
 
 # Настройки Jekyll
 markdown: kramdown
 highlighter: rouge
+theme: minima  # Используем стандартную тему для начала
 
 # Включите плагины
 plugins:
@@ -18,7 +19,6 @@ relative_links:
 # Настройки для партитур
 defaults:
   - scope:
-      path: "partitures"
+      path: ""
     values:
       layout: "default"
-      show_navigation: true

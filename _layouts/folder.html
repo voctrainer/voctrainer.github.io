@@ -4,81 +4,123 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title }}</title>
-    <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
+    <link rel="stylesheet" href="/main.css" />
     <style>
-        .folder-container {
+        .site-wrapper {
+            min-height: 100vh;
             display: flex;
-            max-width: 1400px;
-            margin: 0 auto;
-            min-height: calc(100vh - 120px);
+            flex-direction: column;
         }
+        
         .folder-header {
             background-color: #4051b5;
             color: white;
-            padding: 20px;
+            padding: 20px 0;
+            width: 100%;
         }
+        
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
         .folder-nav {
             display: flex;
-            flex-wrap: wrap;
             gap: 20px;
-            margin-top: 15px;
         }
+        
         .folder-nav a {
             color: white;
             text-decoration: none;
-            padding: 5px 10px;
-            border-radius: 3px;
+            padding: 8px 16px;
+            border-radius: 4px;
             transition: background-color 0.3s;
         }
+        
         .folder-nav a:hover {
             background-color: #526cfe;
-            color: white;
         }
+        
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+            width: 100%;
+        }
+        
+        .folder-container {
+            display: flex;
+            min-height: calc(100vh - 120px);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
         .sidebar {
             width: 300px;
             background: #f8f9fa;
             padding: 20px;
-            border-right: 1px solid #e9ecef;
-            overflow-y: auto;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
+        
         .content {
             flex: 1;
             padding: 20px;
             background: white;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
         }
+        
         .folder-title {
             color: #2c3e50;
             margin-top: 0;
             border-bottom: 2px solid #4051b5;
             padding-bottom: 10px;
         }
+        
+        @media (max-width: 768px) {
+            .folder-container {
+                flex-direction: column;
+            }
+            .sidebar {
+                width: 100%;
+            }
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
     </style>
 </head>
-<body>
+<body class="site-wrapper">
     <header class="folder-header">
-        <h1>Нотная библиотека и тренажер</h1>
-        <nav class="folder-nav">
-            <a href="{{ '/' | relative_url }}">Главная</a>
-            {% unless page.url == '/partitures/' %}
-                <a href="{{ '/partitures/' | relative_url }}">Все партитуры</a>
-            {% endunless %}
-        </nav>
+        <div class="header-container">
+            <h1>Нотная библиотека и тренажер</h1>
+            <nav class="folder-nav">
+                <a href="/">Главная</a>
+                <a href="/partitures/">Партитуры</a>
+            </nav>
+        </div>
     </header>
 
-    <div class="folder-container">
-        <aside class="sidebar">
-            <div class="folder-navigation">
-                <!-- Навигация будет загружена через JavaScript -->
-                Загрузка навигации...
-            </div>
-        </aside>
-        
-        <main class="content">
-            <h1 class="folder-title">{{ page.title }}</h1>
-            {{ content }}
-        </main>
+    <div class="main-container">
+        <div class="folder-container">
+            <aside class="sidebar">
+                {% include folder-navigation.html %}
+            </aside>
+            
+            <main class="content">
+                <h1 class="folder-title">{{ page.title }}</h1>
+                {{ content }}
+            </main>
+        </div>
     </div>
 
-    <script src="{{ '/assets/js/abc-loader.js' | relative_url }}"></script>
+    <script src="/assets/js/abc-loader.js"></script>
 </body>
 </html>

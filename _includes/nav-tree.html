@@ -1,17 +1,26 @@
+{% assign current_path = include.path | default: "/partitures/" %}
+{% assign children = site.pages | where_exp: "item", "item.url contains current_path" | sort: "url" %}
+
 <ul>
-{% assign children = site.pages | where_exp: "item", "item.url contains include.path" | sort: "url" %}
 {% for child in children %}
-    {% unless child.url == include.path %}
+    {% unless child.url == current_path %}
         {% assign child_depth = child.url | split: '/' | size %}
-        {% assign base_depth = include.path | split: '/' | size %}
+        {% assign base_depth = current_path | split: '/' | size %}
         
         {% if child_depth == base_depth | plus: 1 %}
             <li>
                 {% if child.url contains '.md' or child.url contains '.html' %}
-                    📄 <a href="{{ child.url | relative_url }}">{{ child.title | default: child.name }}</a>
+                    📄 <a href="{{ child.url | relative_url }}" 
+                         style="color: {% if page.url == child.url %}#e74c3c{% else %}#ecf0f1{% endif %};">
+                        {{ child.title | default: child.name | replace: '.md', '' }}
+                    </a>
                 {% else %}
-                    📁 {{ child.title | default: child.name }}
-                    {% include nav-tree.html path: child.url %}
+                    <details {% if page.url contains child.url %}open{% endif %}>
+                        <summary style="color: #f39c12; cursor: pointer;">
+                            📁 {{ child.title | default: child.name }}
+                        </summary>
+                        {% include nav-tree.html path=child.url %}
+                    </details>
                 {% endif %}
             </li>
         {% endif %}

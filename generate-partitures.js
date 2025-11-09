@@ -122,12 +122,17 @@ class PartitureGenerator {
     let content = '';
     
     if (fs.existsSync(folderIndexPath)) {
-        const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
-        // Извлекаем заголовок из первой строки (если это заголовок)
-        const lines = folderContent.split('\n');
-        if (lines[0].startsWith('# ')) {
-            title = lines[0].substring(2).trim();
-            content = lines.slice(1).join('\n');
+        const folderContent = fs.readFileSync(folderIndexPath, 'utf8').trim();
+        
+        // Если файл начинается с заголовка Markdown, извлекаем его
+        if (folderContent.startsWith('# ')) {
+            const firstLineEnd = folderContent.indexOf('\n');
+            if (firstLineEnd !== -1) {
+                title = folderContent.substring(2, firstLineEnd).trim();
+                content = folderContent.substring(firstLineEnd + 1).trim();
+            } else {
+                title = folderContent.substring(2).trim();
+            }
         } else {
             content = folderContent;
         }

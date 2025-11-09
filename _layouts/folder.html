@@ -10,9 +10,10 @@
     <link rel="icon" type="image/jpg" href="{{ '/favicon.png' | relative_url }}"/>
     <style>
         .folder-container {
-            max-width: 1000px;
+            display: flex;
+            max-width: 1400px;
             margin: 0 auto;
-            padding: 20px;
+            min-height: calc(100vh - 120px);
         }
         .folder-header {
             background-color: #4051b5;
@@ -36,11 +37,23 @@
             background-color: #526cfe;
             color: white;
         }
-        .navigation-tree {
+        .sidebar {
+            width: 300px;
             background: #f8f9fa;
             padding: 20px;
-            border-radius: 5px;
-            margin: 20px 0;
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto;
+        }
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: white;
+        }
+        .folder-title {
+            color: #2c3e50;
+            margin-top: 0;
+            border-bottom: 2px solid #4051b5;
+            padding-bottom: 10px;
         }
     </style>
 </head>
@@ -49,19 +62,23 @@
         <h1>Нотная библиотека и тренажер</h1>
         <nav class="folder-nav">
             <a href="{{ '/' | relative_url }}">Главная</a>
-            <a href="{{ '/partitures/' | relative_url }}">Все партитуры</a>
+            {% unless page.url == '/partitures/' %}
+                <a href="{{ '/partitures/' | relative_url }}">Все партитуры</a>
+            {% endunless %}
         </nav>
     </header>
 
     <div class="folder-container">
-        <h1>{{ page.title }}</h1>
+        <!-- Левая колонка - навигация по файлам и папкам -->
+        <aside class="sidebar">
+            {% include folder-navigation.html %}
+        </aside>
         
-        {{ content }}
-        
-        <div class="navigation-tree">
-            <h3>Содержание папки:</h3>
-            {% include navigation.html %}
-        </div>
+        <!-- Правая колонка - контент -->
+        <main class="content">
+            <h1 class="folder-title">{{ page.title }}</h1>
+            {{ content }}
+        </main>
     </div>
 </body>
 </html>

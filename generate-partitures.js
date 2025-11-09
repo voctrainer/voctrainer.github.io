@@ -167,7 +167,7 @@ ${content}`;
         const composer = composerMatch ? composerMatch[1].trim() : '';
 
         // Сохраняем метаданные для навигации
-        this.saveAbcMetadata(abcFilePath, partituresPath, fileName, title, composer);
+        this.saveAbcMetadata(partituresPath, fileName, title, composer);
 
         // Генерируем HTML
         const htmlContent = `---
@@ -185,8 +185,8 @@ ${abcContent}
         console.log('✅ Generated HTML:', htmlFilePath);
     }
 
-    saveAbcMetadata(abcFilePath, partituresPath, fileName, title, composer) {
-        const metadataPath = path.join(partituresPath, '_metadata.json');
+    saveAbcMetadata(partituresPath, fileName, title, composer) {
+        const metadataPath = path.join(partituresPath, 'metadata.json'); // Без подчеркивания!
         let metadata = {};
         
         if (fs.existsSync(metadataPath)) {
@@ -215,7 +215,7 @@ ${abcContent}
             };
             
             items.forEach(item => {
-                if (item === '.git' || item === 'filelist.json' || item.startsWith('_')) return;
+                if (item === '.git' || item.startsWith('_')) return; // Пропускаем файлы с _
                 
                 const fullPath = path.join(dir, item);
                 const stat = fs.statSync(fullPath);
@@ -230,7 +230,7 @@ ${abcContent}
                     });
                 } else if (item.endsWith('.html')) {
                     // Загружаем метаданные для файла
-                    const metadataPath = path.join(dir, '_metadata.json');
+                    const metadataPath = path.join(dir, 'metadata.json');
                     let displayName = this.formatName(path.basename(item, '.html'));
                     
                     if (fs.existsSync(metadataPath)) {
@@ -248,8 +248,8 @@ ${abcContent}
                 }
             });
             
-            // Сохраняем навигацию для текущей папки
-            const navPath = path.join(dir, '_navigation.json');
+            // Сохраняем навигацию для текущей папки (без подчеркивания!)
+            const navPath = path.join(dir, 'navigation.json');
             fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
             
             return navigation;
@@ -257,6 +257,74 @@ ${abcContent}
         
         scanDir(this.partituresDir);
         console.log('✅ Navigation data generated');
+        
+        // Также генерируем общий filelist.json
+        this.generateFileList();
+    }
+
+    generateFileList() {
+        const fileList = [];
+        
+        const scanDir = (dir, basePath = '') => {
+            if (!fs.existsSync(dir)) return;
+            
+            const items = fs.readdirSync(dir);
+            
+            items.forEach(item => {
+                if (item === '.git' || item.startsWith('_')) return;
+                
+                const fullPath = path.join(dir, item);
+                const relativePath = path.join(basePath, item);
+                const stat = fs.statSync(fullPath);
+                
+                if (stat.isDirectory()) {
+                    // Добавляем папку
+                    const folderPath = `/partitures/${relativePath}/`;
+                    if (!fileList.some(existing => existing.path === folderPath)) {
+                        fileList.push({
+                            path: folderPath,
+                            name: item,
+                            type: 'folder'
+                        });
+                    }
+                    scanDir(fullPath, relativePath);
+                } else if (item.endsWith('.html')) {
+                    // Добавляем HTML файлы
+                    fileList.push({
+                        path: `/partitures/${relativePath}`,
+                        name: path.basename(item, '.html'),
+                        type: 'file'
+                    });
+                }
+            });
+        };
+        
+        scanDir(this.partituresDir);
+        
+        // Добавляем корневую папку partitures
+        if (!fileList.some(item => item.path === '/partitures/')) {
+            fileList.push({
+                path: '/partitures/',
+                name: 'partitures',
+                type: 'folder'
+            });
+        }
+        
+        // Сортируем: сначала папки, потом файлы
+        fileList.sort((a, b) => {
+            if (a.type === b.type) {
+                return a.name.localeCompare(b.name);
+            }
+            return a.type === 'folder' ? -1 : 1;
+        });
+        
+        fs.writeFileSync(
+            path.join(this.partituresDir, 'filelist.json'),
+            JSON.stringify(fileList, null, 2),
+            'utf8'
+        );
+        
+        console.log('📋 Generated filelist.json with', fileList.length, 'items');
     }
 
     formatFolderName(name) {

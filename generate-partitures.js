@@ -115,28 +115,37 @@ class PartitureGenerator {
     }
 
     generateFolderIndex(abcFolderPath, partituresFolderPath) {
-        const folderIndexPath = path.join(abcFolderPath, 'folder.index');
-        const outputIndexPath = path.join(partituresFolderPath, 'index.md');
-        
-        let content = `---
+    const folderIndexPath = path.join(abcFolderPath, 'folder.index');
+    const outputIndexPath = path.join(partituresFolderPath, 'index.md');
+    
+    let title = this.formatName(path.basename(abcFolderPath));
+    let content = '';
+    
+    if (fs.existsSync(folderIndexPath)) {
+        const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
+        // Извлекаем заголовок из первой строки (если это заголовок)
+        const lines = folderContent.split('\n');
+        if (lines[0].startsWith('# ')) {
+            title = lines[0].substring(2).trim();
+            content = lines.slice(1).join('\n');
+        } else {
+            content = folderContent;
+        }
+        console.log('📄 Generated folder index from folder.index:', outputIndexPath);
+    } else {
+        content = `# ${title}\n\nСодержимое папки.`;
+        console.log('📄 Generated default folder index:', outputIndexPath);
+    }
+    
+    const frontMatter = `---
 layout: folder
-title: "${this.formatName(path.basename(abcFolderPath))}"
+title: "${title}"
 ---
 
-`;
-        
-        if (fs.existsSync(folderIndexPath)) {
-            const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
-            content += folderContent;
-            console.log('📄 Generated folder index from folder.index:', outputIndexPath);
-        } else {
-            content += `# ${this.formatName(path.basename(abcFolderPath))}\n\nСодержимое папки.`;
-            console.log('📄 Generated default folder index:', outputIndexPath);
-        }
-        
-        fs.writeFileSync(outputIndexPath, content, 'utf8');
-    }
-
+${content}`;
+    
+    fs.writeFileSync(outputIndexPath, frontMatter, 'utf8');
+}
     processAbcFile(abcFilePath, partituresPath) {
         const fileName = path.basename(abcFilePath, '.abc');
         const htmlFilePath = path.join(partituresPath, fileName + '.html');

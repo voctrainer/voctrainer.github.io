@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ page.title }}</title>
+    <meta charset="utf-8">
+    <title>{{ page.title }} - {{ site.title }}</title>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="/">Главная</a></li>
-            <li><a href="/partitures/">Партитуры</a></li>
-            <li><a href="/about/">О проекте</a></li>
-        </ul>
-    </nav>
+    <aside>
+        <nav>
+            {% for nav_item in site.navigation %}
+                <a href="{{ nav_item.url | relative_url }}" 
+                   {% if page.url == nav_item.url %}class="active"{% endif %}>
+                    {{ nav_item.title }}
+                </a>
+            {% endfor %}
+        </nav>
+    </aside>
     
     <main>
         {{ content }}

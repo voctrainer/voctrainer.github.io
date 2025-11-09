@@ -183,69 +183,69 @@ ${abcContent}
     }
 
     generateFileList() {
-        const fileList = [];
+    const fileList = [];
+    
+    const scanDir = (dir, basePath = '') => {
+        if (!fs.existsSync(dir)) return;
         
-        const scanDir = (dir, basePath = '') => {
-            if (!fs.existsSync(dir)) return;
+        const items = fs.readdirSync(dir);
+        
+        items.forEach(item => {
+            if (item === 'filelist.json' || item === '.git') return;
             
-            const items = fs.readdirSync(dir);
+            const fullPath = path.join(dir, item);
+            const relativePath = path.join(basePath, item);
+            const stat = fs.statSync(fullPath);
             
-            items.forEach(item => {
-                if (item === 'filelist.json' || item === '.git') return;
-                
-                const fullPath = path.join(dir, item);
-                const relativePath = path.join(basePath, item);
-                const stat = fs.statSync(fullPath);
-                
-                if (stat.isDirectory()) {
-                    // Добавляем папку только один раз
-                    const folderPath = `/partitures/${relativePath}/`;
-                    if (!fileList.some(item => item.path === folderPath)) {
-                        fileList.push({
-                            path: folderPath,
-                            name: item,
-                            type: 'folder'
-                        });
-                    }
-                    scanDir(fullPath, relativePath);
-                } else if (item.endsWith('.html')) {
-                    // Добавляем HTML файлы
+            if (stat.isDirectory()) {
+                // Добавляем папку
+                const folderPath = `/partitures/${relativePath}/`;
+                if (!fileList.some(existing => existing.path === folderPath)) {
                     fileList.push({
-                        path: `/partitures/${relativePath}`,
-                        name: path.basename(item, '.html'),
-                        type: 'file'
+                        path: folderPath,
+                        name: item,
+                        type: 'folder'
                     });
-                } else if (item === 'index.md') {
-                    // Для корневой папки partitures
-                    if (basePath === '') {
-                        fileList.push({
-                            path: '/partitures/',
-                            name: 'partitures',
-                            type: 'folder'
-                        });
-                    }
                 }
-            });
-        };
-        
-        scanDir(this.partituresDir);
-        
-        // Сортируем: сначала папки, потом файлы
-        fileList.sort((a, b) => {
-            if (a.type === b.type) {
-                return a.name.localeCompare(b.name);
+                scanDir(fullPath, relativePath);
+            } else if (item.endsWith('.html')) {
+                // Добавляем HTML файлы
+                fileList.push({
+                    path: `/partitures/${relativePath}`,
+                    name: path.basename(item, '.html'),
+                    type: 'file'
+                });
             }
-            return a.type === 'folder' ? -1 : 1;
         });
-        
-        fs.writeFileSync(
-            path.join(this.partituresDir, 'filelist.json'),
-            JSON.stringify(fileList, null, 2),
-            'utf8'
-        );
-        
-        console.log('📋 Generated filelist.json with', fileList.length, 'items');
+    };
+    
+    scanDir(this.partituresDir);
+    
+    // Добавляем корневую папку partitures
+    if (!fileList.some(item => item.path === '/partitures/')) {
+        fileList.push({
+            path: '/partitures/',
+            name: 'partitures',
+            type: 'folder'
+        });
     }
+    
+    // Сортируем: сначала папки, потом файлы
+    fileList.sort((a, b) => {
+        if (a.type === b.type) {
+            return a.name.localeCompare(b.name);
+        }
+        return a.type === 'folder' ? -1 : 1;
+    });
+    
+    fs.writeFileSync(
+        path.join(this.partituresDir, 'filelist.json'),
+        JSON.stringify(fileList, null, 2),
+        'utf8'
+    );
+    
+    console.log('📋 Generated filelist.json with', fileList.length, 'items');
+}
 
     formatName(name) {
         return name

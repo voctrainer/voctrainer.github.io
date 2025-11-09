@@ -40,35 +40,6 @@
             background-color: #526cfe;
             color: white;
         }
-        .tune-navigation {
-            background: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            margin: 20px 0;
-            border-left: 4px solid #3498db;
-        }
-        .tune-navigation h3 {
-            margin-top: 0;
-            color: #2c3e50;
-        }
-        .tune-list {
-            list-style: none;
-            padding: 0;
-        }
-        .tune-list li {
-            margin: 8px 0;
-        }
-        .tune-list a {
-            color: #4051b5;
-            text-decoration: none;
-            padding: 5px 10px;
-            display: block;
-            border-radius: 3px;
-            transition: background-color 0.2s;
-        }
-        .tune-list a:hover {
-            background-color: #e3f2fd;
-        }
     </style>
 </head>
 <body>
@@ -77,42 +48,12 @@
         <nav class="partiture-nav">
             <a href="{{ '/' | relative_url }}">Главная</a>
             <a href="{{ '/partitures/' | relative_url }}">Все партитуры</a>
-            {% include partiture-folder-nav.html %}
+            <a href="{{ '/partitures/cherubic/' | relative_url }}">Херувимские</a>
         </nav>
     </header>
 
     <div class="partiture-container">
-        {% comment %} Генерируем навигацию по партитурам, если их несколько {% endcomment %}
-        {% assign tunes = page.abc_source | split: 'X:' %}
-        {% assign tune_count = tunes.size | minus: 1 %}
-        
-        {% if tune_count > 1 %}
-        <div class="tune-navigation">
-            <h3>Партитуры на этой странице:</h3>
-            <ul class="tune-list">
-                {% for i in (1..tune_count) %}
-                    {% assign tune = tunes[i] %}
-                    {% assign tune_title = tune | match: 'T:\s*([^\n]+)' %}
-                    {% assign tune_composer = tune | match: 'C:\s*([^\n]+)' %}
-                    <li>
-                        <a href="#tune-{{ i }}">
-                            {{ tune_title | default: "Партитура " | append: i }}{% if tune_composer %} - {{ tune_composer }}{% endif %}
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-        {% endif %}
-
-        {% comment %} Выводим все партитуры {% endcomment %}
-        {% assign tunes = page.abc_source | split: 'X:' %}
-        {% for i in (1..tune_count) %}
-            {% assign tune = tunes[i] %}
-            <div class="abc-source 16 1.5" id="tune-{{ i }}">
-X:{{ i }}
-{{ tune }}
-            </div>
-        {% endfor %}
+        {{ content }}
     </div>
 
     <script src="{{ '/acoustic_grand_piano-mp3.js' | relative_url }}"></script>

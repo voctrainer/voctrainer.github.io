@@ -1,112 +1,103 @@
 <div class="folder-navigation">
-    {% comment %} Определяем текущий путь {% endcomment %}
-    {% assign current_path = page.url %}
-    {% assign path_parts = current_path | split: '/' %}
-    {% assign current_dir = path_parts | pop | join: '/' %}
-    
-    {% comment %} Загружаем навигационные данные для текущей папки {% endcomment %}
-    {% assign nav_file_path = current_path | append: '_navigation.json' | replace: '//', '/' %}
-    {% assign nav_data = site.data.navigation[current_path] %}
-    
-    {% comment %} Если нет данных, пробуем загрузить из файла {% endcomment %}
-    {% unless nav_data %}
-        {% assign nav_file = current_path | append: '_navigation.json' | replace: '//', '/' %}
-        {% for file in site.static_files %}
-            {% if file.path == nav_file %}
-                {% assign nav_data = file %}
-            {% endif %}
-        {% endfor %}
-    {% endunless %}
-    
     <h3 style="margin: 0 0 15px 0; color: #2c3e50;">
         📁 Содержание
     </h3>
     
-    {% if nav_data %}
-        <div id="static-navigation">
-            {% comment %} Рекурсивно отображаем навигацию {% endcomment %}
-            <ul style="list-style: none; padding-left: 0; margin: 0;">
-                {% include navigation-tree.html navigation=nav_data current_path=current_path %}
-            </ul>
-        </div>
-    {% else %}
+    <div id="static-navigation">
         <div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">
-            Навигация загружается...
+            Загрузка навигации...
         </div>
-        
-        {% comment %} Fallback: простая статическая навигация {% endcomment %}
-        <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            loadFallbackNavigation('{{ current_path }}');
-        });
-        
-        async function loadFallbackNavigation(currentPath) {
-            try {
-                const navFile = currentPath + (currentPath.endsWith('/') ? '' : '/') + '_navigation.json';
-                const response = await fetch(navFile);
-                if (!response.ok) throw new Error('Navigation file not found');
-                
-                const navData = await response.json();
-                renderNavigation(navData, currentPath);
-            } catch (error) {
-                console.error('Error loading navigation:', error);
-                document.getElementById('static-navigation').innerHTML = 
-                    '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
-            }
-        }
-        
-        function renderNavigation(navData, currentPath) {
-            let html = '';
-            
-            // Папки
-            navData.folders.forEach(folder => {
-                html += `
-                    <li style="margin-bottom: 8px;">
-                        <a href="${currentPath}${folder.path}/" style="
-                            color: #e67e22;
-                            text-decoration: none;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                            padding: 8px 12px;
-                            background: white;
-                            border-radius: 5px;
-                            border: 1px solid #e9ecef;
-                            font-weight: bold;
-                            transition: all 0.2s;
-                        " onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
-                           onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
-                            📁 ${folder.displayName}
-                        </a>
-                    </li>
-                `;
-            });
-            
-            // Файлы
-            navData.files.forEach(file => {
-                html += `
-                    <li style="margin-bottom: 8px;">
-                        <a href="${currentPath}${file.path}" style="
-                            color: #2c3e50;
-                            text-decoration: none;
-                            display: flex;
-                            align-items: center;
-                            gap: 8px;
-                            padding: 8px 12px;
-                            background: white;
-                            border-radius: 5px;
-                            border: 1px solid #e9ecef;
-                            transition: all 0.2s;
-                        " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
-                           onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
-                            📄 ${file.displayName}
-                        </a>
-                    </li>
-                `;
-            });
-            
-            document.getElementById('static-navigation').innerHTML = html;
-        }
-        </script>
-    {% endif %}
+    </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadNavigation();
+});
+
+async function loadNavigation() {
+    try {
+        const currentPath = window.location.pathname;
+        const navFile = currentPath + (currentPath.endsWith('/') ? '' : '/') + '_navigation.json';
+        
+        console.log('Loading navigation from:', navFile);
+        
+        const response = await fetch(navFile);
+        if (!response.ok) throw new Error('Navigation file not found');
+        
+        const navData = await response.json();
+        renderNavigation(navData, currentPath);
+        
+    } catch (error) {
+        console.error('Error loading navigation:', error);
+        document.getElementById('static-navigation').innerHTML = 
+            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
+    }
+}
+
+function renderNavigation(navData, currentPath) {
+    let html = '<ul style="list-style: none; padding-left: 0; margin: 0;">';
+    
+    // Папки
+    if (navData.folders && navData.folders.length > 0) {
+        navData.folders.forEach(folder => {
+            html += `
+                <li style="margin-bottom: 8px;">
+                    <a href="${currentPath}${folder.path}/" style="
+                        color: #e67e22;
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 12px;
+                        background: white;
+                        border-radius: 5px;
+                        border: 1px solid #e9ecef;
+                        font-weight: bold;
+                        transition: all 0.2s;
+                    " onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+                       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                        📁 ${folder.displayName}
+                    </a>
+                </li>
+            `;
+        });
+    }
+    
+    // Файлы
+    if (navData.files && navData.files.length > 0) {
+        navData.files.forEach(file => {
+            html += `
+                <li style="margin-bottom: 8px;">
+                    <a href="${currentPath}${file.path}" style="
+                        color: #2c3e50;
+                        text-decoration: none;
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 12px;
+                        background: white;
+                        border-radius: 5px;
+                        border: 1px solid #e9ecef;
+                        transition: all 0.2s;
+                    " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
+                       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                        📄 ${file.displayName}
+                    </a>
+                </li>
+            `;
+        });
+    }
+    
+    html += '</ul>';
+    
+    document.getElementById('static-navigation').innerHTML = html;
+    
+    // Если нет ни папок, ни файлов
+    if ((!navData.folders || navData.folders.length === 0) && 
+        (!navData.files || navData.files.length === 0)) {
+        document.getElementById('static-navigation').innerHTML = 
+            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
+    }
+}
+</script>

@@ -2,13 +2,9 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{{ '/music.min.css' | relative_url }}" />
+    <title>{{ page.title }}</title>
     <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
-    <script src="{{ '/assets/js/abc-loader.js' | relative_url }}"></script>
-    <title>{{ page.title }} - Нотная библиотека</title>
-    <link rel="icon" type="image/jpg" href="{{ '/favicon.png' | relative_url }}"/>
     <style>
         .folder-container {
             display: flex;
@@ -70,16 +66,19 @@
     </header>
 
     <div class="folder-container">
-        <!-- Левая колонка - навигация по файлам и папкам -->
         <aside class="sidebar">
-            {% include folder-navigation.html %}
+            <div class="folder-navigation">
+                <!-- Навигация будет загружена через JavaScript -->
+                Загрузка навигации...
+            </div>
         </aside>
         
-        <!-- Правая колонка - контент -->
         <main class="content">
             <h1 class="folder-title">{{ page.title }}</h1>
             {{ content }}
         </main>
     </div>
+
+    <script src="{{ '/assets/js/abc-loader.js' | relative_url }}"></script>
 </body>
 </html>

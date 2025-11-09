@@ -1,4 +1,4 @@
-title: "Вокальный тренажер"
+title: "Нотная библиотека и тренажер"
 description: "Церковные песнопения для обучения хоровому пению"
 baseurl: ""
 url: "https://username.github.io"
@@ -8,17 +8,18 @@ theme: minima
 plugins:
   - jekyll-relative-links
 
-collections:
-  partitures:
-    output: true
-    permalink: /:path/
-
 defaults:
   - scope:
       path: "partitures"
       type: "pages"
     values:
       layout: "partiture"
+      nav: true
+  - scope:
+      path: "partitures"
+      type: "pages"
+      values:
+        layout: "folder"
       nav: true
   - scope:
       path: ""

@@ -1,0 +1,24 @@
+title: "Вокальный тренажер"
+description: "Церковные песнопения"
+baseurl: ""
+url: ""
+
+# Настройки Jekyll
+markdown: kramdown
+highlighter: rouge
+
+# Включите плагины
+plugins:
+  - jekyll-relative-links
+
+relative_links:
+  enabled: true
+  collections: true
+
+# Настройки для партитур
+defaults:
+  - scope:
+      path: "partitury"
+    values:
+      layout: "default"
+      show_navigation: true

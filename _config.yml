@@ -1,7 +1,7 @@
 title: "Нотная библиотека и тренажер"
 description: "Церковные песнопения для обучения хоровому пению"
 baseurl: ""
-url: "https://username.github.io"
+url: "https://voctrainer.github.io"
 
 # Настройки Jekyll
 theme: minima

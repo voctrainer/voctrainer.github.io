@@ -1,0 +1,27 @@
+<nav>
+    <h3>Партитуры</h3>
+    {% assign sorted_pages = site.pages | sort: 'url' %}
+    <ul>
+        {% for node in sorted_pages %}
+            {% if node.url contains '/partitury/' and node.url != '/partitury/' %}
+                {% assign depth = node.url | split: '/' | size | minus: 2 %}
+                {% if depth == 1 %}
+                    <li style="margin-left: {{ depth | times: 20 }}px;">
+                        <a href="{{ node.url | relative_url }}" 
+                           {% if page.url == node.url %}class="active"{% endif %}>
+                            📄 {{ node.title | default: node.name }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </ul>
+    
+    <!-- Рекурсивная навигация по папкам -->
+    <script>
+        // JavaScript для динамической навигации (опционально)
+        function buildNavigation() {
+            // Можно добавить динамическую загрузку структуры папок
+        }
+    </script>
+</nav>

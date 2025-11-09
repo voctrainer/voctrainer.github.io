@@ -23,7 +23,7 @@
     {% for node in partiture_pages %}
         {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
             {% assign depth = node.url | split: '/' | size | minus: 3 %}
-            {% assign indent = depth | times: 20 %}
+            {% assign indent = depth | times: 15 %}
             
             <!-- Определяем, является ли элемент папкой или файлом -->
             {% assign is_folder = false %}
@@ -46,7 +46,8 @@
                         {% include nav-tree.html path=node.url %}
                     </details>
                 {% else %}
-                    <!-- Отображение файла -->
+                    <!-- Отображение файла - используем короткое имя файла -->
+                    {% assign short_name = node.name | replace: '.md', '' | replace: '_', ' ' %}
                     <a href="{{ node.url | relative_url }}" 
                        class="file-link {% if page.url == node.url %}active{% endif %}"
                        style="color: {% if page.url == node.url %}#e74c3c{% else %}#ecf0f1{% endif %};
@@ -56,27 +57,14 @@
                               margin: 2px 0;
                               border-radius: 3px;
                               background: {% if page.url == node.url %}#34495e{% else %}transparent{% endif %};
-                              transition: background 0.2s;">
-                        📄 {{ node.title | default: node.name | replace: '.md', '' | replace: '_', ' ' | capitalize }}
+                              transition: background 0.2s;
+                              font-size: 0.9em;">
+                        📄 {{ short_name }}
                     </a>
                 {% endif %}
             </li>
         {% endif %}
     {% endfor %}
-    
-    <!-- Если нет партитур -->
-    {% assign has_partitures = false %}
-    {% for node in partiture_pages %}
-        {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
-            {% assign has_partitures = true %}
-        {% endif %}
-    {% endfor %}
-    
-    {% unless has_partitures %}
-        <li style="color: #7f8c8d; font-style: italic; padding: 10px;">
-            Партитуры пока не добавлены
-        </li>
-    {% endunless %}
 </ul>
 
 <style>
@@ -91,17 +79,5 @@
     
     details summary {
         list-style: none;
-    }
-    
-    details[open] summary {
-        margin-bottom: 5px;
-    }
-    
-    /* Стили для вложенных списков */
-    details ul {
-        list-style: none;
-        padding-left: 15px;
-        margin: 5px 0;
-        border-left: 1px solid #34495e;
     }
 </style>

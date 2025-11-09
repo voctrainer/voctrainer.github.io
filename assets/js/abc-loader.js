@@ -7,25 +7,18 @@ class AbcLoader {
     async init() {
         await this.loadAbcFileList();
         this.generateNavigation();
-        this.loadCurrentAbcFile();
     }
 
     async loadAbcFileList() {
-        // Получаем список всех ABC файлов
         try {
             const response = await fetch('/partitures/filelist.json');
+            if (!response.ok) throw new Error('File not found');
             this.abcFiles = await response.json();
+            console.log('Loaded navigation data:', this.abcFiles);
         } catch (error) {
-            console.error('Error loading ABC file list:', error);
-            // Если файла нет, генерируем список из структуры страниц
-            this.generateFileListFromPages();
+            console.error('Error loading file list:', error);
+            this.abcFiles = [];
         }
-    }
-
-    generateFileListFromPages() {
-        // Альтернативный способ - анализируем структуру URL
-        this.abcFiles = [];
-        // Этот метод можно расширить для анализа sitemap
     }
 
     generateNavigation() {
@@ -33,24 +26,46 @@ class AbcLoader {
         if (!navContainer) return;
 
         const currentPath = window.location.pathname;
-        const pathParts = currentPath.split('/').filter(part => part);
         
-        // Генерируем навигацию на основе текущего пути
-        const relevantFiles = this.abcFiles.filter(file => 
-            file.path.startsWith(currentPath) && file.path !== currentPath
-        );
+        // Фильтруем элементы для текущей папки
+        const childItems = this.abcFiles.filter(item => {
+            if (item.type === 'folder') {
+                return item.path === currentPath;
+            } else {
+                const itemDir = item.path.split('/').slice(0, -1).join('/') + '/';
+                return itemDir === currentPath;
+            }
+        });
 
-        let html = '<h3>📁 Навигация</h3><ul>';
+        if (childItems.length === 0) {
+            navContainer.innerHTML = '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
+            return;
+        }
+
+        let html = '<h3 style="margin: 0 0 15px 0; color: #2c3e50;">📁 Навигация</h3>';
+        html += '<ul style="list-style: none; padding-left: 0; margin: 0;">';
         
-        relevantFiles.forEach(file => {
-            const isFolder = !file.path.includes('.html');
-            const icon = isFolder ? '📁' : '📄';
-            const name = file.name.replace(/_/g, ' ').replace('.html', '');
+        childItems.forEach(item => {
+            const icon = item.type === 'folder' ? '📁' : '📄';
+            const displayName = this.formatDisplayName(item.name);
             
             html += `
-                <li>
-                    <a href="${file.path}" class="nav-item ${isFolder ? 'folder' : 'file'}">
-                        ${icon} ${name}
+                <li style="margin-bottom: 8px;">
+                    <a href="${item.path}" style="
+                        display: flex;
+                        align-items: center;
+                        gap: 8px;
+                        padding: 8px 12px;
+                        background: white;
+                        border-radius: 5px;
+                        border: 1px solid #e9ecef;
+                        color: ${item.type === 'folder' ? '#e67e22' : '#2c3e50'};
+                        text-decoration: none;
+                        font-weight: ${item.type === 'folder' ? 'bold' : 'normal'};
+                        transition: all 0.2s;
+                    " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='${item.type === 'folder' ? '#e67e22' : '#4051b5'}'" 
+                       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef'">
+                        ${icon} ${displayName}
                     </a>
                 </li>
             `;
@@ -60,64 +75,15 @@ class AbcLoader {
         navContainer.innerHTML = html;
     }
 
-    async loadCurrentAbcFile() {
-        const currentPath = window.location.pathname;
-        if (!currentPath.includes('.html')) return;
-
-        // Если это HTML файл, созданный из ABC, загружаем ABC контент
-        const abcFilePath = currentPath.replace('.html', '.abc');
-        
-        try {
-            const response = await fetch(abcFilePath);
-            if (response.ok) {
-                const abcContent = await response.text();
-                this.renderAbcContent(abcContent);
-            }
-        } catch (error) {
-            console.log('Not an ABC-based page or ABC file not found');
-        }
-    }
-
-    renderAbcContent(abcContent) {
-        const container = document.querySelector('.abc-container');
-        if (!container) return;
-
-        // Разбиваем на отдельные партитуры если их несколько
-        const tunes = abcContent.split(/(?=X:\d+)/).filter(tune => tune.trim());
-        
-        let html = '';
-        tunes.forEach((tune, index) => {
-            const titleMatch = tune.match(/T:\s*([^\n]+)/);
-            const composerMatch = tune.match(/C:\s*([^\n]+)/);
-            
-            const title = titleMatch ? titleMatch[1].trim() : `Партитура ${index + 1}`;
-            const composer = composerMatch ? composerMatch[1].trim() : '';
-            
-            html += `
-                <div class="tune-section">
-                    <h3>${title}${composer ? ` - ${composer}` : ''}</h3>
-                    <div class="abc-source 16 1.5" id="tune-${index + 1}">
-                        ${tune.trim()}
-                    </div>
-                </div>
-            `;
-        });
-
-        container.innerHTML = html;
-        
-        // Инициализируем ABC рендерер
-        if (typeof $ABC_UI !== 'undefined') {
-            $ABC_UI.init();
-            $ABC_UTIL.addHtmlVievers({
-                bMacro: true,
-                bDeco: true,
-                bEditors: false
-            });
-        }
+    formatDisplayName(name) {
+        return name
+            .split('_')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+            .join(' ');
     }
 }
 
-// Инициализация при загрузке страницы
+// Инициализация
 document.addEventListener('DOMContentLoaded', () => {
     new AbcLoader();
 });

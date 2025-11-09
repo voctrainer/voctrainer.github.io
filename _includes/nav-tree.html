@@ -1,0 +1,20 @@
+<ul>
+{% assign children = site.pages | where_exp: "item", "item.url contains include.path" | sort: "url" %}
+{% for child in children %}
+    {% unless child.url == include.path %}
+        {% assign child_depth = child.url | split: '/' | size %}
+        {% assign base_depth = include.path | split: '/' | size %}
+        
+        {% if child_depth == base_depth | plus: 1 %}
+            <li>
+                {% if child.url contains '.md' or child.url contains '.html' %}
+                    📄 <a href="{{ child.url | relative_url }}">{{ child.title | default: child.name }}</a>
+                {% else %}
+                    📁 {{ child.title | default: child.name }}
+                    {% include nav-tree.html path: child.url %}
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endunless %}
+{% endfor %}
+</ul>

@@ -1,22 +1,3 @@
-<ul style="list-style: none; padding-left: 10px;">
-    {% assign partiture_pages = site.pages | where: "nav", true | sort: "url" %}
-    
-    {% for node in partiture_pages %}
-        {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
-            {% assign depth = node.url | split: '/' | size | minus: 3 %}
-            {% assign indent = depth | times: 20 %}
-            
-            <li style="margin-left: {{ indent }}px; margin-bottom: 5px;">
-                {% if node.url contains '.html' or node.url contains '.md' %}
-                    <a href="{{ node.url | relative_url }}" 
-                       class="file {% if page.url == node.url %}active{% endif %}"
-                       style="color: {% if page.url == node.url %}#e74c3c{% else %}#ecf0f1{% endif %};">
-                        📄 {{ node.title | default: node.name | replace: '.md', '' }}
-                    </a>
-                {% else %}
-                    <span class="folder">📁 {{ node.title | default: node.name }}</span>
-                {% endif %}
-            </li>
-        {% endif %}
-    {% endfor %}
-</ul>
+<div class="nav-tree">
+    {% include nav-tree.html path="/partitures/" %}
+</div>

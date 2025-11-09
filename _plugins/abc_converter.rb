@@ -38,7 +38,6 @@ module Jekyll
           'layout' => 'abc_partiture',
           'title' => title,
           'composer' => composer,
-          'nav' => true,
           'abc_source' => abc_content
         }
         
@@ -48,6 +47,9 @@ module Jekyll
         # Создаем страницу
         page = AbcPage.new(site, site.source, abc_file.dir, html_name, '', front_matter)
         site.pages << page
+        
+        # Удаляем оригинальный статический файл из обработки
+        site.static_files.delete(abc_file)
       end
     end
   end

@@ -1,0 +1,128 @@
+{% comment %}
+Определяем текущий путь и родительскую папку
+{% endcomment %}
+{% assign current_path = page.url %}
+{% assign path_parts = current_path | split: '/' %}
+{% assign depth = path_parts | size | minus: 2 %}
+
+{% comment %} Ссылка на верхний уровень (если не корневая) {% endcomment %}
+{% if depth > 0 %}
+    {% assign parent_path = '' %}
+    {% for i in (0..depth) %}
+        {% assign part = path_parts[i] %}
+        {% if part != '' %}
+            {% assign parent_path = parent_path | append: '/' | append: part %}
+        {% endif %}
+    {% endfor %}
+    <div class="parent-link">
+        <a href="{{ parent_path | relative_url }}" style="
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #4051b5;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #e9ecef;
+        ">
+            ⤴️ На уровень выше
+        </a>
+    </div>
+{% endif %}
+
+{% comment %} Заголовок навигации {% endcomment %}
+<h3 style="margin: 0 0 15px 0; color: #2c3e50;">
+    {% if page.url == '/partitures/' %}
+        📁 Все партитуры
+    {% else %}
+        📁 Содержание
+    {% endif %}
+</h3>
+
+{% comment %} Получаем все страницы для навигации {% endcomment %}
+{% assign folder_pages = site.pages | where: "nav", true | sort: "url" %}
+
+{% comment %} Фильтруем страницы, относящиеся к текущей папке {% endcomment %}
+<ul style="list-style: none; padding-left: 0; margin: 0;">
+    {% for node in folder_pages %}
+        {% if node.url contains current_path and node.url != current_path %}
+            {% assign node_depth = node.url | split: '/' | size %}
+            {% assign current_depth = current_path | split: '/' | size %}
+            
+            {% comment %} Показываем только прямые дочерние элементы {% endcomment %}
+            {% if node_depth == current_depth | plus: 1 %}
+                {% assign is_folder = false %}
+                {% unless node.url contains '.html' %}
+                    {% assign is_folder = true %}
+                {% endunless %}
+                
+                <li style="margin-bottom: 8px;">
+                    {% if is_folder %}
+                        {% comment %} Это папка {% endcomment %}
+                        {% assign folder_name = node.url | split: '/' | last %}
+                        <a href="{{ node.url | relative_url }}" 
+                           style="
+                                color: #e67e22;
+                                text-decoration: none;
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                padding: 8px 12px;
+                                background: white;
+                                border-radius: 5px;
+                                border: 1px solid #e9ecef;
+                                font-weight: bold;
+                                transition: all 0.2s;
+                           "
+                           onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+                           onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                            📁 {{ folder_name | replace: '_', ' ' | capitalize }}
+                        </a>
+                    {% else %}
+                        {% comment %} Это файл {% endcomment %}
+                        {% assign file_name = node.name | replace: '.md', '' | replace: '.html', '' %}
+                        <a href="{{ node.url | relative_url }}" 
+                           style="
+                                color: #2c3e50;
+                                text-decoration: none;
+                                display: flex;
+                                align-items: center;
+                                gap: 8px;
+                                padding: 8px 12px;
+                                background: white;
+                                border-radius: 5px;
+                                border: 1px solid #e9ecef;
+                                transition: all 0.2s;
+                           "
+                           onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
+                           onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                            📄 {{ file_name | replace: '_', ' ' | capitalize }}
+                        </a>
+                    {% endif %}
+                </li>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</ul>
+
+{% comment %} Если папка пустая {% endcomment %}
+{% assign has_children = false %}
+{% for node in folder_pages %}
+    {% if node.url contains current_path and node.url != current_path %}
+        {% assign node_depth = node.url | split: '/' | size %}
+        {% assign current_depth = current_path | split: '/' | size %}
+        {% if node_depth == current_depth | plus: 1 %}
+            {% assign has_children = true %}
+            {% break %}
+        {% endif %}
+    {% endif %}
+{% endfor %}
+
+{% unless has_children %}
+    <div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">
+        Папка пуста
+    </div>
+{% endunless %}

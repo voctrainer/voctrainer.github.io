@@ -3,7 +3,6 @@ description: "Церковные песнопения для обучения"
 baseurl: ""
 url: "https://voctrainer.github.io"
 
-# Убираем тему minima, используем кастомные layout'ы
 theme: null
 
 plugins:
@@ -23,3 +22,6 @@ defaults:
       type: "pages"
     values:
       layout: "abc_partiture"
+
+# Добавьте для правильной обработки UTF-8
+encoding: "utf-8"

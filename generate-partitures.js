@@ -16,41 +16,15 @@ class PartitureGenerator {
         }
         
         // Генерируем корневой index.md
-        this.generateRootIndex();
+        this.generateFolderIndex(this.abcDir, this.partituresDir);
         
         // Сканируем и генерируем все файлы
         this.scanAndGenerate(this.abcDir, this.partituresDir);
         
-        // Генерируем filelist.json
+        // Генерируем filelist.json для JavaScript навигации
         this.generateFileList();
         
         console.log('Generation completed!');
-    }
-
-    generateRootIndex() {
-        const rootIndexPath = path.join(this.abcDir, 'folder.index');
-        const outputPath = path.join(this.partituresDir, 'index.md');
-        
-        let content = `---
-layout: folder
-title: "Коллекция партитур"
----
-
-`;
-        
-        if (fs.existsSync(rootIndexPath)) {
-            const folderContent = fs.readFileSync(rootIndexPath, 'utf8');
-            content += folderContent;
-        } else {
-            content += `# 🎵 Нотная библиотека
-
-Добро пожаловать в коллекцию церковных песнопений.
-
-Выберите раздел из списка слева для просмотра партитур.`;
-        }
-        
-        fs.writeFileSync(outputPath, content, 'utf8');
-        console.log('Generated:', outputPath);
     }
 
     scanAndGenerate(abcPath, partituresPath) {
@@ -60,10 +34,9 @@ title: "Коллекция партитур"
         }
         
         const items = fs.readdirSync(abcPath);
-        console.log('Found items in', abcPath, ':', items);
         
         items.forEach(item => {
-            if (item === '.git' || item === 'folder.index') return;
+            if (item === '.git') return;
             
             const abcItemPath = path.join(abcPath, item);
             const stat = fs.statSync(abcItemPath);
@@ -73,6 +46,7 @@ title: "Коллекция партитур"
             } else if (item.endsWith('.abc')) {
                 this.processAbcFile(abcItemPath, partituresPath);
             }
+            // folder.index обрабатывается в processFolder
         });
     }
 
@@ -82,31 +56,13 @@ title: "Коллекция партитур"
         
         console.log('Processing folder:', abcFolderPath, '->', partituresFolderPath);
         
-        // Создаем папку в partitures
+        // Создаем папку в partitures если не существует
         if (!fs.existsSync(partituresFolderPath)) {
             fs.mkdirSync(partituresFolderPath, { recursive: true });
         }
 
-        // Генерируем index.md для папки
-        const folderIndexPath = path.join(abcFolderPath, 'folder.index');
-        const outputIndexPath = path.join(partituresFolderPath, 'index.md');
-        
-        let content = `---
-layout: folder
-title: "${this.formatName(folderName)}"
----
-
-`;
-        
-        if (fs.existsSync(folderIndexPath)) {
-            const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
-            content += folderContent;
-        } else {
-            content += `# ${this.formatName(folderName)}\n\nСодержимое папки.`;
-        }
-        
-        fs.writeFileSync(outputIndexPath, content, 'utf8');
-        console.log('Generated folder index:', outputIndexPath);
+        // Генерируем/обновляем index.md для папки из folder.index
+        this.generateFolderIndex(abcFolderPath, partituresFolderPath);
 
         // Обрабатываем содержимое папки
         const items = fs.readdirSync(abcFolderPath);
@@ -125,23 +81,52 @@ title: "${this.formatName(folderName)}"
         });
     }
 
+    generateFolderIndex(abcFolderPath, partituresFolderPath) {
+        const folderIndexPath = path.join(abcFolderPath, 'folder.index');
+        const outputIndexPath = path.join(partituresFolderPath, 'index.md');
+        
+        // Проверяем, нужно ли обновлять файл
+        if (this.shouldRegenerate(folderIndexPath, outputIndexPath)) {
+            let content = `---
+layout: folder
+title: "${this.formatName(path.basename(abcFolderPath))}"
+---
+
+`;
+            
+            if (fs.existsSync(folderIndexPath)) {
+                const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
+                content += folderContent;
+            } else {
+                content += `# ${this.formatName(path.basename(abcFolderPath))}\n\nСодержимое папки.`;
+            }
+            
+            fs.writeFileSync(outputIndexPath, content, 'utf8');
+            console.log('Generated/Updated folder index:', outputIndexPath);
+        } else {
+            console.log('Skipped unchanged folder index:', outputIndexPath);
+        }
+    }
+
     processAbcFile(abcFilePath, partituresPath) {
         const fileName = path.basename(abcFilePath, '.abc');
         const htmlFilePath = path.join(partituresPath, fileName + '.html');
         
-        console.log('Processing ABC file:', abcFilePath, '->', htmlFilePath);
-        
-        const abcContent = fs.readFileSync(abcFilePath, 'utf8');
-        
-        // Извлекаем метаданные
-        const titleMatch = abcContent.match(/T:\s*([^\n]+)/);
-        const composerMatch = abcContent.match(/C:\s*([^\n]+)/);
-        
-        const title = titleMatch ? titleMatch[1].trim() : fileName;
-        const composer = composerMatch ? composerMatch[1].trim() : '';
+        // Проверяем, нужно ли обновлять файл
+        if (this.shouldRegenerate(abcFilePath, htmlFilePath)) {
+            console.log('Processing ABC file:', abcFilePath, '->', htmlFilePath);
+            
+            const abcContent = fs.readFileSync(abcFilePath, 'utf8');
+            
+            // Извлекаем метаданные
+            const titleMatch = abcContent.match(/T:\s*([^\n]+)/);
+            const composerMatch = abcContent.match(/C:\s*([^\n]+)/);
+            
+            const title = titleMatch ? titleMatch[1].trim() : fileName;
+            const composer = composerMatch ? composerMatch[1].trim() : '';
 
-        // Генерируем HTML
-        const htmlContent = `---
+            // Генерируем HTML
+            const htmlContent = `---
 layout: abc_partiture
 title: "${title}"
 composer: "${composer}"
@@ -151,9 +136,25 @@ composer: "${composer}"
 ${abcContent}
 </div>
 `;
+            
+            fs.writeFileSync(htmlFilePath, htmlContent, 'utf8');
+            console.log('Generated HTML:', htmlFilePath);
+        } else {
+            console.log('Skipped unchanged ABC file:', htmlFilePath);
+        }
+    }
+
+    shouldRegenerate(sourcePath, targetPath) {
+        // Если целевого файла не существует, нужно генерировать
+        if (!fs.existsSync(targetPath)) {
+            return true;
+        }
         
-        fs.writeFileSync(htmlFilePath, htmlContent, 'utf8');
-        console.log('Generated HTML:', htmlFilePath);
+        // Если исходный файл новее целевого, нужно перегенерировать
+        const sourceTime = fs.statSync(sourcePath).mtime;
+        const targetTime = fs.statSync(targetPath).mtime;
+        
+        return sourceTime > targetTime;
     }
 
     generateFileList() {

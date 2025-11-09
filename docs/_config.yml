@@ -1,6 +1,20 @@
+title: "Voctrainer"
+description: "Певческий тренажер"
 theme: jekyll-theme-cayman
+
+# Включите плагины
 plugins:
   - jekyll-relative-links
+
 relative_links:
   enabled: true
   collections: true
+
+# Определите структуру навигации
+navigation:
+  - title: "Главная"
+    url: "/"
+  - title: "Партитуры"
+    url: "/partitures/"
+  - title: "О проекте"
+    url: "/about/"

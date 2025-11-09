@@ -1,0 +1,20 @@
+{% comment %}
+Определяем текущую папку партитуры и создаем ссылку на ее индекс
+{% endcomment %}
+
+{% assign current_path = page.url %}
+{% assign path_parts = current_path | split: '/' %}
+
+{% comment %} Ищем папку, в которой находится текущая партитура {% endcomment %}
+{% assign folder_path = '' %}
+{% for part in path_parts %}
+    {% unless part contains '.html' or part contains '.md' or part == '' %}
+        {% assign folder_path = folder_path | append: '/' | append: part %}
+    {% endunless %}
+{% endfor %}
+
+{% comment %} Если нашли папку, создаем ссылку на ее индекс {% endcomment %}
+{% if folder_path != '' and folder_path != '/partitures' %}
+    {% assign folder_name = folder_path | split: '/' | last %}
+    <a href="{{ folder_path | relative_url }}">{{ folder_name | replace: '_', ' ' | capitalize }}</a>
+{% endif %}

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ '/music.min.css' | relative_url }}" />
+    <link rel="stylesheet" href="{{ '/main.css' | relative_url }}" />
+    <script src="{{ '/abc-ui-1.0.0.min.js' | relative_url }}"></script>
+    <title>{{ page.title }}{% if page.composer %} - {{ page.composer }}{% endif %}</title>
+    <link rel="icon" type="image/jpg" href="{{ '/favicon.png' | relative_url }}"/>
+    <style>
+        .partiture-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .abc-source {
+            margin: 20px 0;
+        }
+        .partiture-header {
+            background-color: #4051b5;
+            color: white;
+            padding: 20px;
+        }
+        .partiture-nav {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 15px;
+        }
+        .partiture-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+        .partiture-nav a:hover {
+            background-color: #526cfe;
+            color: white;
+        }
+        .tune-navigation {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            border-left: 4px solid #3498db;
+        }
+        .tune-navigation h3 {
+            margin-top: 0;
+            color: #2c3e50;
+        }
+        .tune-list {
+            list-style: none;
+            padding: 0;
+        }
+        .tune-list li {
+            margin: 8px 0;
+        }
+        .tune-list a {
+            color: #4051b5;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 3px;
+            transition: background-color 0.2s;
+        }
+        .tune-list a:hover {
+            background-color: #e3f2fd;
+        }
+    </style>
+</head>
+<body>
+    <header class="partiture-header">
+        <h1>Нотная библиотека и тренажер</h1>
+        <nav class="partiture-nav">
+            <a href="{{ '/' | relative_url }}">Главная</a>
+            <a href="{{ '/partitures/' | relative_url }}">Все партитуры</a>
+            {% include partiture-folder-nav.html %}
+        </nav>
+    </header>
+
+    <div class="partiture-container">
+        {% comment %} Генерируем навигацию по партитурам, если их несколько {% endcomment %}
+        {% assign tunes = page.abc_source | split: 'X:' %}
+        {% assign tune_count = tunes.size | minus: 1 %}
+        
+        {% if tune_count > 1 %}
+        <div class="tune-navigation">
+            <h3>Партитуры на этой странице:</h3>
+            <ul class="tune-list">
+                {% for i in (1..tune_count) %}
+                    {% assign tune = tunes[i] %}
+                    {% assign tune_title = tune | match: 'T:\s*([^\n]+)' %}
+                    {% assign tune_composer = tune | match: 'C:\s*([^\n]+)' %}
+                    <li>
+                        <a href="#tune-{{ i }}">
+                            {{ tune_title | default: "Партитура " | append: i }}{% if tune_composer %} - {{ tune_composer }}{% endif %}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% comment %} Выводим все партитуры {% endcomment %}
+        {% assign tunes = page.abc_source | split: 'X:' %}
+        {% for i in (1..tune_count) %}
+            {% assign tune = tunes[i] %}
+            <div class="abc-source 16 1.5" id="tune-{{ i }}">
+X:{{ i }}
+{{ tune }}
+            </div>
+        {% endfor %}
+    </div>
+
+    <script src="{{ '/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof $ABC_UI !== 'undefined') {
+                $ABC_UI.init();
+                $ABC_UTIL.addHtmlVievers({
+                    bMacro: true,
+                    bDeco: true,
+                    bEditors: false
+                });
+            }
+        });
+    </script>
+</body>
+</html>

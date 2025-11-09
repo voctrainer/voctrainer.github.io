@@ -19,19 +19,38 @@ jobs:
       uses: actions/setup-node@v4
       with:
         node-version: '18'
-        cache: 'npm'
         
-    - name: Generate partitures
+    - name: Debug - Show current structure
       run: |
-        node generate-partitures.js
+        echo "=== Current structure ==="
+        find . -name "*.abc" -o -name "*.html" -o -name "*.md" | grep -E "(abc|partitures)" | sort
+        echo "=== ABC folder ==="
+        ls -la abc/ || echo "No abc folder"
+        echo "=== Partitures folder ==="
+        ls -la partitures/ || echo "No partitures folder"
         
-    - name: Commit generated files
+    - name: Generate partitures from ABC files
+      run: |
+        echo "=== Generating partitures from ABC files ==="
+        node generate-partitures.js
+        echo "=== Generation completed ==="
+        
+    - name: Show generated files
+      run: |
+        echo "=== Generated structure ==="
+        find partitures -type f | sort
+        echo "=== File contents ==="
+        ls -la partitures/
+        [ -f "partitures/index.md" ] && echo "index.md exists" || echo "index.md MISSING"
+        [ -f "partitures/filelist.json" ] && echo "filelist.json exists" || echo "filelist.json MISSING"
+        
+    - name: Commit generated partitures
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add partitures/
-        git diff --staged --quiet || git commit -m "Auto-generate partitures from ABC files"
-        git push
+        git status
+        git diff --staged --quiet || (git commit -m "Auto-generate: Update partitures from ABC source" && git push) || echo "No changes to commit"
         
     - name: Setup Ruby
       uses: ruby/setup-ruby@v1
@@ -43,6 +62,12 @@ jobs:
         
     - name: Build site
       run: jekyll build
+      
+    - name: Debug - Show built site
+      run: |
+        echo "=== Built site structure ==="
+        find _site -name "*.html" | sort
+        [ -f "_site/partitures/index.html" ] && echo "partitures/index.html EXISTS" || echo "partitures/index.html MISSING"
       
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3

@@ -2,9 +2,13 @@ title: "Voctrainer"
 description: "Певческий тренажер"
 theme: jekyll-theme-cayman
 
+kramdown:
+  toc_levels: 2..3
+
 # Включите плагины
 plugins:
   - jekyll-relative-links
+  - jekyll-toc
 
 relative_links:
   enabled: true

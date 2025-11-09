@@ -42,12 +42,11 @@
     {% endif %}
 </h3>
 
-{% comment %} Получаем все статические файлы и страницы {% endcomment %}
-{% assign all_files = site.static_files %}
-{% assign all_pages = site.pages %}
+{% comment %} Получаем все страницы {% endcomment %}
+{% assign all_pages = site.pages | sort: 'url' %}
 
 <ul style="list-style: none; padding-left: 0; margin: 0;">
-    {% comment %} Сначала обрабатываем папки (страницы без расширения) {% endcomment %}
+    {% comment %} Сначала обрабатываем папки (страницы без .html в URL) {% endcomment %}
     {% for node in all_pages %}
         {% if node.url contains current_path and node.url != current_path %}
             {% assign node_depth = node.url | split: '/' | size %}
@@ -87,44 +86,7 @@
         {% endif %}
     {% endfor %}
     
-    {% comment %} Затем обрабатываем файлы (статические файлы и страницы с расширением) {% endcomment %}
-    {% comment %} Статические файлы (.abc) {% endcomment %}
-    {% for file in all_files %}
-        {% if file.path contains current_path %}
-            {% assign file_dir = file.path | remove: file.name %}
-            {% assign file_dir_depth = file_dir | split: '/' | size %}
-            {% assign current_dir_depth = current_path | split: '/' | size %}
-            
-            {% comment %} Показываем только файлы в текущей папке {% endcomment %}
-            {% if file_dir_depth == current_dir_depth %}
-                {% if file.extname == '.abc' %}
-                    <li style="margin-bottom: 8px;">
-                        {% assign file_name = file.basename %}
-                        {% assign html_file = file_name | append: '.html' %}
-                        <a href="{{ current_path | relative_url }}{{ html_file }}" 
-                           style="
-                                color: #2c3e50;
-                                text-decoration: none;
-                                display: flex;
-                                align-items: center;
-                                gap: 8px;
-                                padding: 8px 12px;
-                                background: white;
-                                border-radius: 5px;
-                                border: 1px solid #e9ecef;
-                                transition: all 0.2s;
-                           "
-                           onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
-                           onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
-                            📄 {{ file_name | replace: '_', ' ' | capitalize }}
-                        </a>
-                    </li>
-                {% endif %}
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-    
-    {% comment %} HTML страницы {% endcomment %}
+    {% comment %} Затем обрабатываем HTML файлы {% endcomment %}
     {% for node in all_pages %}
         {% if node.url contains current_path and node.url != current_path %}
             {% assign node_depth = node.url | split: '/' | size %}
@@ -167,30 +129,16 @@
 {% comment %} Проверяем, есть ли дочерние элементы {% endcomment %}
 {% assign has_children = false %}
 
-{% comment %} Проверяем папки {% endcomment %}
 {% for node in all_pages %}
     {% if node.url contains current_path and node.url != current_path %}
         {% assign node_depth = node.url | split: '/' | size %}
         {% assign current_depth = current_path | split: '/' | size %}
         {% if node_depth == current_depth | plus: 1 %}
             {% assign has_children = true %}
+            {% break %}
         {% endif %}
     {% endif %}
 {% endfor %}
-
-{% comment %} Проверяем статические файлы {% endcomment %}
-{% unless has_children %}
-    {% for file in all_files %}
-        {% if file.path contains current_path %}
-            {% assign file_dir = file.path | remove: file.name %}
-            {% assign file_dir_depth = file_dir | split: '/' | size %}
-            {% assign current_dir_depth = current_path | split: '/' | size %}
-            {% if file_dir_depth == current_dir_depth and file.extname == '.abc' %}
-                {% assign has_children = true %}
-            {% endif %}
-        {% endif %}
-    {% endfor %}
-{% endunless %}
 
 {% unless has_children %}
     <div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">

@@ -73,35 +73,45 @@ a:hover {
     color: blue;
 }
 
-/* Стили для навигационного дерева */
-.nav-tree ul {
-    list-style: none;
-    padding-left: 0;
+/* Стили для навигации в папках */
+.folder-navigation {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 20px;
 }
 
-.nav-tree li {
-    margin: 8px 0;
-}
-
-.nav-tree a {
+.folder-navigation h3 {
     color: #2c3e50;
-    text-decoration: none;
-    display: block;
-    padding: 5px 10px;
-    border-radius: 3px;
+    margin-top: 0;
+    border-bottom: 1px solid #e9ecef;
+    padding-bottom: 10px;
+}
+
+.folder-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
     transition: background-color 0.2s;
 }
 
-.nav-tree a:hover {
-    background-color: #ecf0f1;
-    color: #4051b5;
+.folder-item:hover {
+    background-color: #e3f2fd;
 }
 
-.nav-tree .folder {
+.folder-item.folder {
     color: #e67e22;
     font-weight: bold;
 }
 
-.nav-tree .file {
+.folder-item.file {
     color: #2c3e50;
+}
+
+.parent-link {
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9ecef;
 }

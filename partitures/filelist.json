@@ -23,5 +23,15 @@
     "path": "/partitures/cherubic/heruvimskaya_staro_bolgarskaya.html",
     "name": "heruvimskaya_staro_bolgarskaya",
     "type": "file"
+  },
+  {
+    "path": "/partitures/cherubic",
+    "name": "cherubic",
+    "type": "folder"
+  },
+  {
+    "path": "/partitures//",
+    "name": "partitures",
+    "type": "folder"
   }
 ]

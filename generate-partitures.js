@@ -8,7 +8,10 @@ class PartitureGenerator {
     }
 
     generateAll() {
-        console.log('Starting generation from:', this.abcDir);
+        console.log('🚀 Starting complete regeneration from:', this.abcDir);
+        
+        // Полностью очищаем папку partitures
+        this.cleanPartituresDir();
         
         // Создаем основную папку partitures
         if (!fs.existsSync(this.partituresDir)) {
@@ -24,16 +27,46 @@ class PartitureGenerator {
         // Генерируем filelist.json для JavaScript навигации
         this.generateFileList();
         
-        console.log('Generation completed!');
+        console.log('✅ Generation completed!');
+    }
+
+    cleanPartituresDir() {
+        if (fs.existsSync(this.partituresDir)) {
+            console.log('🧹 Cleaning partitures directory...');
+            const items = fs.readdirSync(this.partituresDir);
+            
+            items.forEach(item => {
+                if (item === '.git') return; // Не удаляем .git если есть
+                
+                const itemPath = path.join(this.partituresDir, item);
+                this.deleteRecursive(itemPath);
+            });
+            console.log('✅ Partitures directory cleaned');
+        }
+    }
+
+    deleteRecursive(filePath) {
+        if (fs.existsSync(filePath)) {
+            if (fs.statSync(filePath).isDirectory()) {
+                const items = fs.readdirSync(filePath);
+                items.forEach(item => {
+                    this.deleteRecursive(path.join(filePath, item));
+                });
+                fs.rmdirSync(filePath);
+            } else {
+                fs.unlinkSync(filePath);
+            }
+        }
     }
 
     scanAndGenerate(abcPath, partituresPath) {
         if (!fs.existsSync(abcPath)) {
-            console.log('ABC path does not exist:', abcPath);
+            console.log('❌ ABC path does not exist:', abcPath);
             return;
         }
         
         const items = fs.readdirSync(abcPath);
+        console.log('📁 Found items in', abcPath, ':', items);
         
         items.forEach(item => {
             if (item === '.git') return;
@@ -54,14 +87,14 @@ class PartitureGenerator {
         const folderName = path.basename(abcFolderPath);
         const partituresFolderPath = path.join(partituresBasePath, folderName);
         
-        console.log('Processing folder:', abcFolderPath, '->', partituresFolderPath);
+        console.log('📂 Processing folder:', abcFolderPath, '->', partituresFolderPath);
         
-        // Создаем папку в partitures если не существует
+        // Создаем папку в partitures
         if (!fs.existsSync(partituresFolderPath)) {
             fs.mkdirSync(partituresFolderPath, { recursive: true });
         }
 
-        // Генерируем/обновляем index.md для папки из folder.index
+        // Генерируем index.md для папки из folder.index
         this.generateFolderIndex(abcFolderPath, partituresFolderPath);
 
         // Обрабатываем содержимое папки
@@ -85,48 +118,42 @@ class PartitureGenerator {
         const folderIndexPath = path.join(abcFolderPath, 'folder.index');
         const outputIndexPath = path.join(partituresFolderPath, 'index.md');
         
-        // Проверяем, нужно ли обновлять файл
-        if (this.shouldRegenerate(folderIndexPath, outputIndexPath)) {
-            let content = `---
+        let content = `---
 layout: folder
 title: "${this.formatName(path.basename(abcFolderPath))}"
 ---
 
 `;
-            
-            if (fs.existsSync(folderIndexPath)) {
-                const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
-                content += folderContent;
-            } else {
-                content += `# ${this.formatName(path.basename(abcFolderPath))}\n\nСодержимое папки.`;
-            }
-            
-            fs.writeFileSync(outputIndexPath, content, 'utf8');
-            console.log('Generated/Updated folder index:', outputIndexPath);
+        
+        if (fs.existsSync(folderIndexPath)) {
+            const folderContent = fs.readFileSync(folderIndexPath, 'utf8');
+            content += folderContent;
+            console.log('📄 Generated folder index from folder.index:', outputIndexPath);
         } else {
-            console.log('Skipped unchanged folder index:', outputIndexPath);
+            content += `# ${this.formatName(path.basename(abcFolderPath))}\n\nСодержимое папки.`;
+            console.log('📄 Generated default folder index:', outputIndexPath);
         }
+        
+        fs.writeFileSync(outputIndexPath, content, 'utf8');
     }
 
     processAbcFile(abcFilePath, partituresPath) {
         const fileName = path.basename(abcFilePath, '.abc');
         const htmlFilePath = path.join(partituresPath, fileName + '.html');
         
-        // Проверяем, нужно ли обновлять файл
-        if (this.shouldRegenerate(abcFilePath, htmlFilePath)) {
-            console.log('Processing ABC file:', abcFilePath, '->', htmlFilePath);
-            
-            const abcContent = fs.readFileSync(abcFilePath, 'utf8');
-            
-            // Извлекаем метаданные
-            const titleMatch = abcContent.match(/T:\s*([^\n]+)/);
-            const composerMatch = abcContent.match(/C:\s*([^\n]+)/);
-            
-            const title = titleMatch ? titleMatch[1].trim() : fileName;
-            const composer = composerMatch ? composerMatch[1].trim() : '';
+        console.log('🎵 Processing ABC file:', abcFilePath, '->', htmlFilePath);
+        
+        const abcContent = fs.readFileSync(abcFilePath, 'utf8');
+        
+        // Извлекаем метаданные
+        const titleMatch = abcContent.match(/T:\s*([^\n]+)/);
+        const composerMatch = abcContent.match(/C:\s*([^\n]+)/);
+        
+        const title = titleMatch ? titleMatch[1].trim() : this.formatName(fileName);
+        const composer = composerMatch ? composerMatch[1].trim() : '';
 
-            // Генерируем HTML
-            const htmlContent = `---
+        // Генерируем HTML
+        const htmlContent = `---
 layout: abc_partiture
 title: "${title}"
 composer: "${composer}"
@@ -136,25 +163,9 @@ composer: "${composer}"
 ${abcContent}
 </div>
 `;
-            
-            fs.writeFileSync(htmlFilePath, htmlContent, 'utf8');
-            console.log('Generated HTML:', htmlFilePath);
-        } else {
-            console.log('Skipped unchanged ABC file:', htmlFilePath);
-        }
-    }
-
-    shouldRegenerate(sourcePath, targetPath) {
-        // Если целевого файла не существует, нужно генерировать
-        if (!fs.existsSync(targetPath)) {
-            return true;
-        }
         
-        // Если исходный файл новее целевого, нужно перегенерировать
-        const sourceTime = fs.statSync(sourcePath).mtime;
-        const targetTime = fs.statSync(targetPath).mtime;
-        
-        return sourceTime > targetTime;
+        fs.writeFileSync(htmlFilePath, htmlContent, 'utf8');
+        console.log('✅ Generated HTML:', htmlFilePath);
     }
 
     generateFileList() {
@@ -173,25 +184,30 @@ ${abcContent}
                 const stat = fs.statSync(fullPath);
                 
                 if (stat.isDirectory()) {
-                    fileList.push({
-                        path: `/partitures/${relativePath}/`,
-                        name: item,
-                        type: 'folder'
-                    });
-                    scanDir(fullPath, relativePath);
-                } else if (item.endsWith('.html') || item.endsWith('.md')) {
-                    // Для index.md используем путь папки
-                    if (item === 'index.md') {
+                    // Добавляем папку только один раз
+                    const folderPath = `/partitures/${relativePath}/`;
+                    if (!fileList.some(item => item.path === folderPath)) {
                         fileList.push({
-                            path: `/partitures/${basePath}${basePath ? '' : '/'}`,
-                            name: basePath || 'partitures',
+                            path: folderPath,
+                            name: item,
                             type: 'folder'
                         });
-                    } else if (item.endsWith('.html')) {
+                    }
+                    scanDir(fullPath, relativePath);
+                } else if (item.endsWith('.html')) {
+                    // Добавляем HTML файлы
+                    fileList.push({
+                        path: `/partitures/${relativePath}`,
+                        name: path.basename(item, '.html'),
+                        type: 'file'
+                    });
+                } else if (item === 'index.md') {
+                    // Для корневой папки partitures
+                    if (basePath === '') {
                         fileList.push({
-                            path: `/partitures/${relativePath}`,
-                            name: path.basename(item, '.html'),
-                            type: 'file'
+                            path: '/partitures/',
+                            name: 'partitures',
+                            type: 'folder'
                         });
                     }
                 }
@@ -200,18 +216,21 @@ ${abcContent}
         
         scanDir(this.partituresDir);
         
-        // Удаляем дубликаты
-        const uniqueFileList = fileList.filter((item, index, self) => 
-            index === self.findIndex(i => i.path === item.path)
-        );
+        // Сортируем: сначала папки, потом файлы
+        fileList.sort((a, b) => {
+            if (a.type === b.type) {
+                return a.name.localeCompare(b.name);
+            }
+            return a.type === 'folder' ? -1 : 1;
+        });
         
         fs.writeFileSync(
             path.join(this.partituresDir, 'filelist.json'),
-            JSON.stringify(uniqueFileList, null, 2),
+            JSON.stringify(fileList, null, 2),
             'utf8'
         );
         
-        console.log('Generated filelist.json with', uniqueFileList.length, 'items');
+        console.log('📋 Generated filelist.json with', fileList.length, 'items');
     }
 
     formatName(name) {
@@ -227,6 +246,6 @@ try {
     const generator = new PartitureGenerator();
     generator.generateAll();
 } catch (error) {
-    console.error('Generation error:', error);
+    console.error('❌ Generation error:', error);
     process.exit(1);
 }

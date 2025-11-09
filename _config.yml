@@ -1,3 +1,14 @@
+title: "Нотная библиотека"
+description: "Церковные песнопения для обучения"
+baseurl: ""
+url: "https://voctrainer.github.io"
+
+# Убираем тему minima, используем кастомные layout'ы
+theme: null
+
+plugins:
+  - jekyll-relative-links
+
 defaults:
   - scope:
       path: ""
@@ -5,7 +16,6 @@ defaults:
       layout: "default"
   - scope:
       path: "partitures"
-      type: "pages"
     values:
       layout: "folder"
   - scope:

@@ -8,13 +8,20 @@
 {% comment %} Ищем папку, в которой находится текущая партитура {% endcomment %}
 {% assign folder_path = '' %}
 {% for part in path_parts %}
-    {% unless part contains '.html' or part contains '.md' or part == '' %}
+    {% unless part contains '.html' or part == '' %}
         {% assign folder_path = folder_path | append: '/' | append: part %}
+        {% if part contains '.abc' %}
+            {% break %}
+        {% endif %}
     {% endunless %}
 {% endfor %}
 
+{% comment %} Убираем расширение файла из пути {% endcomment %}
+{% assign folder_path = folder_path | replace: '.abc.html', '' | replace: '.html', '' %}
+
 {% comment %} Если нашли папку, создаем ссылку на ее индекс {% endcomment %}
 {% if folder_path != '' and folder_path != '/partitures' %}
-    {% assign folder_name = folder_path | split: '/' | last %}
+    {% assign folder_parts = folder_path | split: '/' %}
+    {% assign folder_name = folder_parts | last %}
     <a href="{{ folder_path | relative_url }}">{{ folder_name | replace: '_', ' ' | capitalize }}</a>
 {% endif %}

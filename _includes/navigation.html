@@ -1,27 +1,22 @@
-<nav>
-    <h3>Партитуры</h3>
-    {% assign sorted_pages = site.pages | sort: 'url' %}
-    <ul>
-        {% for node in sorted_pages %}
-            {% if node.url contains '/partitury/' and node.url != '/partitury/' %}
-                {% assign depth = node.url | split: '/' | size | minus: 2 %}
-                {% if depth == 1 %}
-                    <li style="margin-left: {{ depth | times: 20 }}px;">
-                        <a href="{{ node.url | relative_url }}" 
-                           {% if page.url == node.url %}class="active"{% endif %}>
-                            📄 {{ node.title | default: node.name }}
-                        </a>
-                    </li>
-                {% endif %}
-            {% endif %}
-        {% endfor %}
-    </ul>
+<ul style="list-style: none; padding-left: 10px;">
+    {% assign partiture_pages = site.pages | where: "nav", true | sort: "url" %}
     
-    <!-- Рекурсивная навигация по папкам -->
-    <script>
-        // JavaScript для динамической навигации (опционально)
-        function buildNavigation() {
-            // Можно добавить динамическую загрузку структуры папок
-        }
-    </script>
-</nav>
+    {% for node in partiture_pages %}
+        {% if node.url contains '/partitures/' and node.url != '/partitures/' %}
+            {% assign depth = node.url | split: '/' | size | minus: 3 %}
+            {% assign indent = depth | times: 20 %}
+            
+            <li style="margin-left: {{ indent }}px; margin-bottom: 5px;">
+                {% if node.url contains '.html' or node.url contains '.md' %}
+                    <a href="{{ node.url | relative_url }}" 
+                       class="file {% if page.url == node.url %}active{% endif %}"
+                       style="color: {% if page.url == node.url %}#e74c3c{% else %}#ecf0f1{% endif %};">
+                        📄 {{ node.title | default: node.name | replace: '.md', '' }}
+                    </a>
+                {% else %}
+                    <span class="folder">📁 {{ node.title | default: node.name }}</span>
+                {% endif %}
+            </li>
+        {% endif %}
+    {% endfor %}
+</ul>

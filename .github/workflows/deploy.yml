@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
         
       - name: Setup Node.js
@@ -28,20 +28,21 @@ jobs:
           
       - name: Generate partitures from ABC files
         run: |
-          echo "=== Generating partitures from ABC files ==="
+          echo "🚀 Starting complete regeneration from ABC files"
+          echo "=== ABC source structure ==="
+          find abc -name "*.abc" -o -name "folder.index" | sort
           node generate-partitures.js
-          echo "=== Generation completed ==="
-          
-      - name: Show generated files
-        run: |
-          echo "=== Generated structure ==="
+          echo "✅ Regeneration completed"
+          echo "=== Generated partitures structure ==="
           find partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
+          echo "=== File counts ==="
+          echo "ABC files: $(find abc -name '*.abc' | wc -l)"
+          echo "Generated HTML files: $(find partitures -name '*.html' | wc -l)"
           
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
-          bundler-cache: true
           
       - name: Install Jekyll
         run: gem install jekyll jekyll-relative-links
@@ -49,6 +50,17 @@ jobs:
       - name: Build with Jekyll
         run: jekyll build --trace
         
+      - name: Verify build
+        run: |
+          echo "✅ Jekyll build successful!"
+          echo "=== Final site structure ==="
+          find _site -name "*.html" | sort
+          echo "=== Key files verification ==="
+          [ -f "_site/partitures/index.html" ] && echo "✅ partitures/index.html exists" || echo "❌ partitures/index.html missing"
+          [ -f "_site/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html missing"
+          [ -f "_site/partitures/cherubic/index.html" ] && echo "✅ partitures/cherubic/index.html exists" || echo "❌ partitures/cherubic/index.html missing"
+          [ -f "_site/partitures/cherubic/cherubic-ancient.html" ] && echo "✅ cherubic-ancient.html exists" || echo "❌ cherubic-ancient.html missing"
+          
       - name: Setup Pages
         uses: actions/configure-pages@v4
         

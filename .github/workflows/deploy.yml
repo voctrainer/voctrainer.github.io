@@ -2,11 +2,11 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [ main ]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -18,50 +18,53 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '18'
+      - name: Checkout
+        uses: actions/checkout@v4
         
-    - name: Generate partitures from ABC files
-      run: |
-        echo "=== Generating partitures from ABC files ==="
-        node generate-partitures.js
-        echo "=== Generation completed ==="
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          
+      - name: Generate partitures from ABC files
+        run: |
+          echo "=== Generating partitures from ABC files ==="
+          node generate-partitures.js
+          echo "=== Generation completed ==="
+          
+      - name: Show generated files
+        run: |
+          echo "=== Generated structure ==="
+          find partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
+          
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+          bundler-cache: true
+          
+      - name: Install Jekyll and dependencies
+        run: |
+          gem install jekyll jekyll-relative-links
+          gem list jekyll
+          
+      - name: Build with Jekyll
+        run: jekyll build --trace
         
-    - name: Show generated files
-      run: |
-        echo "=== Generated structure ==="
-        ls -la partitures/
-        find partitures -type f | sort
+      - name: Show built site
+        run: |
+          echo "=== Built site structure ==="
+          find _site -name "*.html" | sort
+          [ -f "_site/partitures/index.html" ] && echo "✅ partitures/index.html exists" || echo "❌ partitures/index.html missing"
+          [ -f "_site/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html missing"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
         
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.1'
-        
-    - name: Install Jekyll
-      run: gem install jekyll jekyll-relative-links
-        
-    - name: Build site with Jekyll
-      run: jekyll build
-      
-    - name: Show built site
-      run: |
-        echo "=== Built site structure ==="
-        ls -la _site/
-        find _site -name "*.html" | head -20
-        
-    - name: Setup Pages
-      uses: actions/configure-pages@v4
-      
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site
 
   deploy:
     environment:
@@ -72,4 +75,4 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v3

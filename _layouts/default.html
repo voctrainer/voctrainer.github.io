@@ -2,57 +2,35 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ page.title }}</title>
     <link rel="stylesheet" href="{{ '/music.min.css' | relative_url }}" />
     <script src="{{ '/abc-ui-1.0.0.min.js' | relative_url }}"></script>
-    <title>{{ page.title }}</title>
     <style>
-        .content-wrapper {
-            display: flex;
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f5f5f5;
+        }
+        .container {
             max-width: 1200px;
             margin: 0 auto;
+            background: white;
+            min-height: 100vh;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
-        .navigation-sidebar {
-            width: 300px;
+        .content {
             padding: 20px;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-        }
-        .abc-source {
-            margin: 20px 0;
         }
     </style>
 </head>
 <body>
-    <div class="content-wrapper">
-        {% if page.show_navigation %}
-        <aside class="navigation-sidebar">
-            <h1><a href="{{ '/' | relative_url }}">Вокальный тренажер</a></h1>
-            {% include navigation.html %}
-        </aside>
-        {% endif %}
-        
-        <main class="main-content">
-            {% unless page.show_navigation %}
-            <div style="margin-bottom: 20px;">
-                <a href="{{ '/partitury/' | relative_url }}">← К списку партитур</a> | 
-                <a href="{{ '/' | relative_url }}">На главную</a>
-            </div>
-            {% endunless %}
-            
+    <div class="container">
+        <div class="content">
             {{ content }}
-        </main>
+        </div>
     </div>
-
-    <script src="{{ '/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            $ABC_UI.init();
-            $ABC_UTIL.addHtmlVievers({"bMacro":true,"bDeco":true,"bEditors":false});
-        });
-    </script>
 </body>
 </html>

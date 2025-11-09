@@ -1,18 +1,9 @@
-name: Deploy to GitHub Pages
+name: Build and Test
 
 on:
   push:
     branches: ["main"]
   workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build:
@@ -36,43 +27,26 @@ jobs:
         run: |
           echo "=== Generated structure ==="
           find partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
+          echo "=== File sizes ==="
+          find partitures -name "*.html" -exec wc -l {} \;
           
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
-          bundler-cache: true
           
-      - name: Install Jekyll and dependencies
-        run: |
-          gem install jekyll jekyll-relative-links
-          gem list jekyll
+      - name: Install Jekyll
+        run: gem install jekyll jekyll-relative-links
           
       - name: Build with Jekyll
         run: jekyll build --trace
         
-      - name: Show built site
+      - name: Verify build
         run: |
-          echo "=== Built site structure ==="
+          echo "✅ Jekyll build successful!"
+          echo "=== Final site structure ==="
           find _site -name "*.html" | sort
+          echo "=== Key files ==="
           [ -f "_site/partitures/index.html" ] && echo "✅ partitures/index.html exists" || echo "❌ partitures/index.html missing"
           [ -f "_site/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html missing"
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./_site
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v3
+          [ -f "_site/partitures/cherubic/heruvimskaya_spasskaya.html" ] && echo "✅ heruvimskaya_spasskaya.html exists" || echo "❌ heruvimskaya_spasskaya.html missing"

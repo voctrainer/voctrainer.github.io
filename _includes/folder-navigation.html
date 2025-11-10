@@ -28,7 +28,7 @@ async function loadNavigation() {
         console.error('Error loading navigation:', error);
         document.getElementById('static-navigation').innerHTML = 
             '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center;">' +
-            '❌ Навигация временно недоступна' +
+            '❌ Навигация временно недоступна<br><small>' + error.message + '</small>' +
             '</div>';
     }
 }
@@ -42,7 +42,9 @@ function renderNavigation(navData) {
     if (navData.folders && navData.folders.length > 0) {
         hasContent = true;
         navData.folders.forEach(folder => {
-            const folderPath = '/partitures' + (folder.path.startsWith('/') ? folder.path : '/' + folder.path) + '/';
+            // Путь уже содержит /partitures/, не добавляем его снова
+            let folderPath = folder.path;
+            if (!folderPath.endsWith('/')) folderPath += '/';
             
             html += `
                 <li style="margin-bottom: 8px;">
@@ -71,7 +73,8 @@ function renderNavigation(navData) {
     if (navData.files && navData.files.length > 0) {
         hasContent = true;
         navData.files.forEach(file => {
-            const filePath = '/partitures' + (file.path.startsWith('/') ? file.path : '/' + file.path);
+            // Путь уже содержит /partitures/, не добавляем его снова
+            const filePath = file.path;
             const isActive = window.location.pathname === filePath;
             const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';
             
@@ -107,4 +110,12 @@ function renderNavigation(navData) {
             '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
     }
 }
+
+// Debug: выводим в консоль что загрузилось
+setTimeout(() => {
+    fetch('./navigation.json')
+        .then(r => r.json())
+        .then(data => console.log('Navigation data:', data))
+        .catch(e => console.log('Cannot load navigation for debug'));
+}, 1000);
 </script>

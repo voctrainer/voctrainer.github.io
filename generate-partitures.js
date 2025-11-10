@@ -345,7 +345,7 @@ ${abcContent}
         }
         
         // По умолчанию показываем в навигации
-        return false;
+        return true;
     }
 
     getRelativePath(fullPath) {

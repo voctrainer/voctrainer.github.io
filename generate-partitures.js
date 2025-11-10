@@ -214,9 +214,15 @@ ${abcContent}
                 files: [],
                 currentFolder: {
                     name: path.basename(dir),
-                    displayName: this.getFolderDisplayName(dir)
+                    displayName: this.getFolderDisplayName(dir),
+                    showInNavigation: this.getFolderNavigationStatus(dir)
                 }
             };
+            
+            // Если текущая папка скрыта из навигации, возвращаем пустую навигацию
+            if (!navigation.currentFolder.showInNavigation) {
+                return navigation;
+            }
             
             items.forEach(item => {
                 if (item === '.git' || item.startsWith('_')) return;
@@ -225,16 +231,19 @@ ${abcContent}
                 const stat = fs.statSync(fullPath);
                 
                 if (stat.isDirectory()) {
-                    const folderData = scanDir(fullPath);
-                    
-                    // ФИКС: генерируем относительные пути без дублирования
-                    const relativePath = this.getRelativePath(fullPath);
-                    
-                    navigation.folders.push({
-                        name: item,
-                        displayName: folderData.currentFolder.displayName,
-                        path: relativePath
-                    });
+                    // Проверяем, должна ли папка показываться в навигации
+                    if (this.getFolderNavigationStatus(fullPath)) {
+                        const folderData = scanDir(fullPath);
+                        
+                        // Формируем относительный путь
+                        const relativePath = this.getRelativePath(fullPath);
+                        
+                        navigation.folders.push({
+                            name: item,
+                            displayName: folderData.currentFolder.displayName,
+                            path: relativePath
+                        });
+                    }
                 } else if (item.endsWith('.html')) {
                     // Загружаем метаданные для файла
                     const metadataPath = path.join(dir, 'metadata.json');
@@ -251,7 +260,7 @@ ${abcContent}
                         }
                     }
                     
-                    // ФИКС: генерируем относительные пути без дублирования
+                    // Формируем относительный путь
                     const relativePath = this.getRelativePath(fullPath);
                     
                     navigation.files.push({
@@ -275,6 +284,28 @@ ${abcContent}
         
         scanDir(this.partituresDir);
         console.log('✅ Navigation data generated');
+    }
+
+    // Новый метод для проверки статуса навигации папки
+    getFolderNavigationStatus(folderPath) {
+        const indexPath = path.join(folderPath, 'folder.index');
+        
+        if (fs.existsSync(indexPath)) {
+            try {
+                const content = fs.readFileSync(indexPath, 'utf8');
+                
+                // Ищем параметр showInNavigation в содержимом
+                const navigationMatch = content.match(/showInNavigation:\s*(true|false)/i);
+                if (navigationMatch) {
+                    return navigationMatch[1].toLowerCase() === 'true';
+                }
+            } catch (e) {
+                console.warn('⚠️ Could not read folder navigation status:', indexPath, e.message);
+            }
+        }
+        
+        // По умолчанию показываем в навигации
+        return false;
     }
 
     getRelativePath(fullPath) {

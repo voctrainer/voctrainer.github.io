@@ -13,103 +13,123 @@ class FolderStructureGenerator {
             fs.mkdirSync(this.baseDir, { recursive: true });
         }
 
-        const structure =  {
+        const structure = {
             'vespers': {
                 name: 'Вечерня',
                 description: 'Первая служба суточного круга, совершаемая в вечернее время. Включает псалмы, стихиры, прокимны и другие песнопения.',
+                showInNavigation: true,
                 subfolders: {
-                    'opening_psalms': { name: 'Начальные псалмы', description: 'Псалмы, с которых начинается вечерня' },
-                    'kathismas': { name: 'Кафизмы', description: 'Разделы Псалтири, читаемые на вечерне' },
-                    'stichera_lord_i_call': { name: 'Стихиры на Господи воззвах', description: 'Стихиры, исполняемые на стихирах вечерни' },
-                    'stichera_stichera': { name: 'Стихиры на стиховне', description: 'Стихиры, исполняемые в конце вечерни' },
-                    'prokeimenons': { name: 'Прокимны', description: 'Стихи из Псалтири, предваряющие чтения' },
-                    'dismissal_troparia': { name: 'Отпустительные тропари', description: 'Тропари, исполняемые в конце службы' }
+                    'opening_psalms': { name: 'Начальные псалмы', description: 'Псалмы, с которых начинается вечерня', showInNavigation: true },
+                    'kathismas': { name: 'Кафизмы', description: 'Разделы Псалтири, читаемые на вечерне', showInNavigation: false },
+                    'stichera_lord_i_call': { name: 'Стихиры на Господи воззвах', description: 'Стихиры, исполняемые на стихирах вечерни', showInNavigation: false },
+                    'vouchsafe_o_lord': { name: 'Сподоби, Господи', description: 'Сподоби, Господи, в вечер сей без греха сохранитися нам', showInNavigation: true },
+                    'ektene': { name: 'Ектения на литии', description: 'Ектения на литии', showInNavigation: true },
+                    'stichera_stichera': { name: 'Стихиры на стиховне', description: 'Стихиры, исполняемые в конце вечерни', showInNavigation: false },
+                    'prokeimenons': { name: 'Прокимны вечерни', description: 'Прокимны на вечерне. Стихи из Псалтири, предваряющие чтения паремий на вечерне', showInNavigation: true },
+                    'dismissal_troparia': { name: 'Отпустительные тропари', description: 'Тропари, исполняемые в конце службы', showInNavigation: false }
                 }
             },
             'matins': {
                 name: 'Утреня',
                 description: 'Утреннее богослужение, включающее шестопсалмие, каноны, полиелей и великое славословие.',
+                showInNavigation: true,
                 subfolders: {
-                    'hexapsalm': { name: 'Шестопсалмие', description: 'Шесть псалмов, читаемых в начале утрени' },
-                    'polyeleos': { name: 'Полиелей', description: 'Торжественная часть утрени с пением хвалебных псалмов' },
-                    'kathismas': { name: 'Кафизмы', description: 'Разделы Псалтири, читаемые на утрене' },
-                    'sedalny': { name: 'Седальны', description: 'Песнопения, во время которых разрешается сидеть' },
-                    'prokeimenons': { name: 'Прокимны', description: 'Стихи из Псалтири, предваряющие чтения' },
+                    'hexapsalm': { name: 'Шестопсалмие', description: 'Шесть псалмов, читаемых в начале утрени', showInNavigation: false },
+                    'polyeleos': { name: 'Полиелей', description: 'Торжественная часть утрени с пением хвалебных псалмов', showInNavigation: true },
+                    'kathismas': { name: 'Кафизмы', description: 'Разделы Псалтири, читаемые на утрене', showInNavigation: false },
+                    'sedalny': { name: 'Седальны', description: 'Песнопения, во время которых разрешается сидеть', showInNavigation: false },
+                    'prokeimenons': { name: 'Прокимны утрени', description: 'Стихи из Псалтири, предваряющие чтения Евангелия', showInNavigation: true },
                     'canons': {
                         name: 'Каноны',
                         description: 'Циклы песнопений, посвященные празднику или святому',
+                        showInNavigation: true,
                         subfolders: {
-                            'irmosy': { name: 'Ирмосы', description: 'Первые песни канонов, задающие мелодический образец' },
-                            'troparia': { name: 'Тропари', description: 'Последующие песни канонов' }
+                            'irmosy': { name: 'Ирмосы', description: 'Первые песни канонов, задающие мелодический образец', showInNavigation: true },
+                            'troparia': { name: 'Тропари', description: 'Последующие песни канонов', showInNavigation: false }
                         }
                     },
-                    'great_doxology': { name: 'Великое славословие', description: 'Торжественное песнопение в конце утрени' },
-                    'dismissal_troparia': { name: 'Отпустительные тропари', description: 'Тропари, исполняемые в конце службы' }
+                    'great_doxology': { name: 'Великое славословие', description: 'Торжественное песнопение в конце утрени', showInNavigation: true },
+                    'dismissal_troparia': { name: 'Отпустительные тропари', description: 'Тропари, исполняемые в конце службы', showInNavigation: true }
                 }
             },
             'hours': {
                 name: 'Часы',
                 description: 'Краткие богослужения, совершаемые в определенное время суток.',
+                showInNavigation: false,
                 subfolders: {
-                    'first_hour': { name: 'Первый час', description: 'Служба, совершаемая около 7 часов утра' },
-                    'third_hour': { name: 'Третий час', description: 'Служба, совершаемая около 9 часов утра' },
-                    'sixth_hour': { name: 'Шестой час', description: 'Служба, совершаемая около 12 часов дня' },
-                    'ninth_hour': { name: 'Девятый час', description: 'Служба, совершаемая около 15 часов дня' }
+                    'first_hour': { name: 'Первый час', description: 'Служба, совершаемая около 7 часов утра', showInNavigation: false },
+                    'third_hour': { name: 'Третий час', description: 'Служба, совершаемая около 9 часов утра', showInNavigation: false },
+                    'sixth_hour': { name: 'Шестой час', description: 'Служба, совершаемая около 12 часов дня', showInNavigation: false },
+                    'ninth_hour': { name: 'Девятый час', description: 'Служба, совершаемая около 15 часов дня', showInNavigation: false }
                 }
             },
             'liturgy': {
                 name: 'Литургия',
-                description: 'Основное христианское богослужение, во время которого совершается таинство Евхаристии.',
+                description: 'Главное христианское богослужение, во время которого совершается таинство Евхаристии.',
+                showInNavigation: true,
                 subfolders: {
-                    'antiphons': { name: 'Антифоны', description: 'Псалмы или песнопения, исполняемые попеременно двумя хорами' },
-                    'troparia_third_antiphon': { name: 'Тропари третьего антифона', description: 'Тропари, исполняемые на третьем антифоне' },
-                    'little_entrance': { name: 'Малый вход', description: 'Торжественный вход с Евангелием' },
-                    'trisagion': { name: 'Трисвятое', description: 'Песнопение "Святый Боже, Святый Крепкий, Святый Бессмертный"' },
-                    'prokeimenons_alleluia': { name: 'Прокимны и аллилуарии', description: 'Стихи, предваряющие чтение Апостола и Евангелия' },
-                    'epistle_gospel_readings': { name: 'Чтение Апостола и Евангелия', description: 'Чтения из Нового Завета' },
-                    'eucharistic_canon': {
-                        name: 'Евхаристический канон',
-                        description: 'Центральная часть Литургии, во время которой совершается преложение Святых Даров',
+                    'liturgy_of_the_catechumens': {
+                        name: 'Литургия оглашенных',
+                        description: 'Часть литургии, на которой могут присутствовать оглашенные.',
+                        showInNavigation: true,
                         subfolders: {
-                            'mercy_of_peace': { name: 'Милость мира', description: 'Начало евхаристического канона' },
-                            'we_hymn_thee': { name: 'Тебе поем', description: 'Песнопение евхаристического канона' },
-                            'it_is_meet': { name: 'Достойно есть', description: 'Песнопение в честь Божией Матери' },
-                            'communion_hymn': { name: 'Задостойник', description: 'Песнопение, заменяющее "Достойно есть" в праздники' },
-                            'our_father': { name: 'Отче наш', description: 'Молитва Господня' },
-                            'cherubic_hymn': { name: 'Херувимская песнь', description: 'Песнопение, исполняемое во время Великого входа' }
+                            'sinaptai': { 
+                                name: 'Ектении', 
+                                description: 'Молитвенные прошения на богослужении', 
+                                showInNavigation: true,
+                                subfolders: {
+                                    'great_litany': { name: 'Великая ектения', description: 'Великая ектения начинается словами «Миром Господу помолимся». Великая ектения состоит из 12 прошений или отделов.', showInNavigation: true },
+                                    'ektene_of_supplication': { name: 'Сугубая ектения', description: 'Сугубая ектения получила свое название как от двукратного [«усугублённого»] обращения в начале ектении к милосердию Божию о помиловании, так и от троекратного пения молитвы «Господи, помилуй»', showInNavigation: true },
+                                    'petitioning_ektene': { name: 'Просительная ектения', description: 'В просительной ектении прошения заканчиваются пением «Подай, Господи» и малая – состоит только из трех прошений и начинается словами «Паки и паки…» (т.е. «снова и снова»).', showInNavigation: true },
+                                    'litany_of_the_departed': { name: 'Заупокойная ектения', description: 'Ектения об усопших', showInNavigation: true },
+                                    'little_litany': { name: 'Малая ектения', description: 'Великая ектения начинается словами «Миром Господу помолимся». Великая ектения состоит из 12 прошений или отделов.', showInNavigation: true }
+                                }
+                            },
+                            'antiphons': { name: 'Антифоны', description: 'Псалмы или песнопения, исполняемые попеременно двумя хорами', showInNavigation: true },
+                            'the_only-begotten_son': { name: 'Единородный Сыне', description: 'Неизменяемый православный гимн, входящий в состав второго антифона литургий Иоанна Златоуста и Василия Великого. Описывает воплощение и Божественную и Человеческую природы Иисуса Христа.', showInNavigation: true },
+                            'third_antiphon': { name: 'Блаженны', description: 'Тропари, исполняемые на третьем антифоне', showInNavigation: true },
+                            'little_entrance': { name: 'Малый вход', description: 'Торжественный вход с Евангелием', showInNavigation: true },
+                            'trisagion': { name: 'Трисвятое', description: 'Песнопение "Святый Боже, Святый Крепкий, Святый Бессмертный"', showInNavigation: true },
+                            'prokeimenons_alleluia': { name: 'Прокимны и аллилуарии', description: 'Стихи, предваряющие чтение Апостола и Евангелия', showInNavigation: true },
+                            'epistle_gospel_readings': { name: 'Чтение Апостола и Евангелия', description: 'Чтения из Нового Завета', showInNavigation: false }
                         }
                     },
-                    'communion_hymns': { name: 'Причастные стихи', description: 'Песнопения, исполняемые во время причащения' },
-                    'ambon_prayers': { name: 'Заамвонные молитвы', description: 'Молитвы, читаемые священником на амвоне в конце службы' }
-                }
-            },
-            'all_night_vigil': {
-                name: 'Всенощное бдение',
-                description: 'Праздничное богослужение, объединяющее великую вечерню, утреню и первый час.',
-                subfolders: {
-                    'great_vespers': { name: 'Великая вечерня', description: 'Праздничный чин вечерни' },
-                    'matins': { name: 'Утреня', description: 'Праздничный чин утрени' },
-                    'first_hour': { name: 'Первый час', description: 'Краткая служба, завершающая бдение' }
+                    'liturgy_of_the_faithful': {
+                        name: 'Литургия верных',
+                        description: 'Центральная часть Литургии, во время которой совершается преложение Святых Даров',
+                        showInNavigation: true,
+                        subfolders: {
+                            'cherubic_hymn': { name: 'Херувимская песнь', description: 'Песнопение, исполняемое во время Великого входа', showInNavigation: true },
+                            'mercy_of_peace': { name: 'Милость мира', description: 'Начало евхаристического канона', showInNavigation: true },
+                            'it_is_meet': { name: 'Достойно есть', description: 'Песнопение в честь Божией Матери', showInNavigation: true },
+                            'communion_hymn': { name: 'Задостойник', description: 'Песнопение, заменяющее "Достойно есть" в праздники', showInNavigation: true },
+                            'our_father': { name: 'Отче наш', description: 'Молитва Господня', showInNavigation: true },
+                            'communion_hymns': { name: 'Причастные стихи', description: 'Песнопения, исполняемые во время причащения', showInNavigation: true }
+                        }
+                    }
                 }
             },
             'sacraments': {
                 name: 'Требы',
                 description: 'Богослужения, совершаемые по потребностям верующих.',
+                showInNavigation: true,
                 subfolders: {
-                    'baptism': { name: 'Крещение', description: 'Таинство вхождения в Церковь' },
-                    'wedding': { name: 'Венчание', description: 'Таинство бракосочетания' },
-                    'unction': { name: 'Соборование', description: 'Таинство исцеления души и тела' },
-                    'funeral': { name: 'Отпевание', description: 'Чин погребения усопших' }
+                    'baptism': { name: 'Крещение', description: 'Таинство вхождения в Церковь', showInNavigation: true },
+                    'wedding': { name: 'Венчание', description: 'Таинство бракосочетания', showInNavigation: true },
+                    'unction': { name: 'Соборование', description: 'Таинство исцеления души и тела', showInNavigation: true },
+                    'funeral': { name: 'Отпевание', description: 'Чин погребения усопших', showInNavigation: true }
                 }
             },
             'special_services': {
                 name: 'Особые службы',
                 description: 'Богослужения, совершаемые в особые периоды церковного года.',
+                showInNavigation: true,
                 subfolders: {
-                    'great_lent': { name: 'Великий пост', description: 'Службы великопостного периода' },
-                    'paschal_services': { name: 'Пасхальные службы', description: 'Службы пасхального периода' },
-                    'nativity_services': { name: 'Рождественские службы', description: 'Службы рождественского периода' },
-                    'theotokos_feasts': { name: 'Богородичные праздники', description: 'Службы в честь Божией Матери' }
+                    'great_lent': { name: 'Великий пост', description: 'Службы великопостного периода', showInNavigation: true },
+                    'paschal_services': { name: 'Пасхальные службы', description: 'Службы пасхального периода', showInNavigation: true },
+                    'nativity_services': { name: 'Рождественские службы', description: 'Службы рождественского периода', showInNavigation: true },
+                    'theotokos_feasts': { name: 'Богородичные праздники', description: 'Службы в честь Божией Матери', showInNavigation: true },
+                    'episcopal_worship': { name: 'Архиерейское богослужение', description: 'Богослужение, совершаемое архиереем', showInNavigation: true }
                 }
             }
         };

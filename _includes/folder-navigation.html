@@ -17,35 +17,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadNavigation() {
     try {
-        const currentPath = window.location.pathname;
-        
-        // Определяем правильный путь к navigation.json
-        let navFile;
-        if (currentPath === '/partitures/' || currentPath === '/partitures') {
-            navFile = '/partitures/navigation.json';
-        } else {
-            // Для вложенных папок
-            navFile = currentPath.endsWith('/') 
-                ? currentPath + 'navigation.json' 
-                : currentPath + '/navigation.json';
-        }
-        
-        console.log('Loading navigation from:', navFile);
-        
-        const response = await fetch(navFile);
-        if (!response.ok) throw new Error(`Navigation file not found: ${navFile}`);
+        // Всегда загружаем из текущей директории
+        const response = await fetch('./navigation.json');
+        if (!response.ok) throw new Error('Navigation file not found');
         
         const navData = await response.json();
-        renderNavigation(navData, currentPath);
+        renderNavigation(navData);
         
     } catch (error) {
         console.error('Error loading navigation:', error);
         document.getElementById('static-navigation').innerHTML = 
-            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Навигация временно недоступна</div>';
+            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center;">' +
+            '❌ Навигация временно недоступна' +
+            '</div>';
     }
 }
 
-function renderNavigation(navData, currentPath) {
+function renderNavigation(navData) {
     let html = '<ul style="list-style: none; padding-left: 0; margin: 0;">';
     
     let hasContent = false;
@@ -54,10 +42,11 @@ function renderNavigation(navData, currentPath) {
     if (navData.folders && navData.folders.length > 0) {
         hasContent = true;
         navData.folders.forEach(folder => {
-            const folderPath = folder.path.startsWith('/') ? folder.path : '/' + folder.path;
+            const folderPath = '/partitures' + (folder.path.startsWith('/') ? folder.path : '/' + folder.path) + '/';
+            
             html += `
                 <li style="margin-bottom: 8px;">
-                    <a href="${folderPath}/" style="
+                    <a href="${folderPath}" style="
                         color: #e67e22;
                         text-decoration: none;
                         display: flex;
@@ -82,7 +71,10 @@ function renderNavigation(navData, currentPath) {
     if (navData.files && navData.files.length > 0) {
         hasContent = true;
         navData.files.forEach(file => {
-            const filePath = file.path.startsWith('/') ? file.path : '/' + file.path;
+            const filePath = '/partitures' + (file.path.startsWith('/') ? file.path : '/' + file.path);
+            const isActive = window.location.pathname === filePath;
+            const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';
+            
             html += `
                 <li style="margin-bottom: 8px;">
                     <a href="${filePath}" style="
@@ -96,8 +88,9 @@ function renderNavigation(navData, currentPath) {
                         border-radius: 5px;
                         border: 1px solid #e9ecef;
                         transition: all 0.2s;
-                    " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
-                       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                        ${activeStyle}
+                    " onmouseover="this.style.backgroundColor='${isActive ? '#4051b5' : '#f8f9fa'}'; this.style.borderColor='#4051b5';"
+                       onmouseout="this.style.backgroundColor='${isActive ? '#4051b5' : 'white'}'; this.style.borderColor='${isActive ? '#4051b5' : '#e9ecef'}';">
                         📄 ${file.displayName}
                     </a>
                 </li>

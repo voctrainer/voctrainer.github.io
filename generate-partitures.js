@@ -206,9 +206,16 @@ ${abcContent}
         console.log('📋 Generating navigation data...');
         
         const scanDir = (dir) => {
-            if (!fs.existsSync(dir)) return null;
+            console.log(`🔍 Scanning directory: ${dir}`);
+            
+            if (!fs.existsSync(dir)) {
+                console.log(`❌ Directory does not exist: ${dir}`);
+                return null;
+            }
             
             const items = fs.readdirSync(dir);
+            console.log(`📁 Items in ${dir}:`, items);
+            
             const navigation = {
                 folders: [],
                 files: [],
@@ -219,23 +226,36 @@ ${abcContent}
                 }
             };
             
+            console.log(`📊 Navigation for ${dir}:`, {
+                displayName: navigation.currentFolder.displayName,
+                showInNavigation: navigation.currentFolder.showInNavigation
+            });
+            
             // Если текущая папка скрыта из навигации, возвращаем пустую навигацию
             if (!navigation.currentFolder.showInNavigation) {
-                // Но все равно сохраняем navigation.json для консистентности
+                console.log(`🚫 Folder ${dir} is hidden from navigation`);
                 const navPath = path.join(dir, 'navigation.json');
                 fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
+                console.log(`💾 Created navigation.json for hidden folder: ${navPath}`);
                 return navigation;
             }
             
             items.forEach(item => {
-                if (item === '.git' || item.startsWith('_') || item === 'navigation.json') return;
+                if (item === '.git' || item.startsWith('_') || item === 'navigation.json') {
+                    console.log(`⏭️  Skipping: ${item}`);
+                    return;
+                }
                 
                 const fullPath = path.join(dir, item);
                 const stat = fs.statSync(fullPath);
                 
                 if (stat.isDirectory()) {
+                    console.log(`📂 Processing folder: ${item}`);
                     // Проверяем, должна ли папка показываться в навигации
-                    if (this.getFolderNavigationStatus(fullPath)) {
+                    const shouldShow = this.getFolderNavigationStatus(fullPath);
+                    console.log(`📂 Folder ${item} showInNavigation: ${shouldShow}`);
+                    
+                    if (shouldShow) {
                         const folderData = scanDir(fullPath);
                         
                         // Формируем относительный путь
@@ -246,8 +266,13 @@ ${abcContent}
                             displayName: folderData.currentFolder.displayName,
                             path: relativePath
                         });
+                        
+                        console.log(`✅ Added folder to navigation: ${item}`);
+                    } else {
+                        console.log(`🚫 Skipped hidden folder: ${item}`);
                     }
                 } else if (item.endsWith('.html')) {
+                    console.log(`📄 Processing file: ${item}`);
                     // Загружаем метаданные для файла
                     const metadataPath = path.join(dir, 'metadata.json');
                     let displayName = this.formatName(path.basename(item, '.html'));
@@ -271,6 +296,8 @@ ${abcContent}
                         displayName: displayName,
                         path: relativePath
                     });
+                    
+                    console.log(`✅ Added file to navigation: ${item}`);
                 }
             });
             
@@ -280,16 +307,23 @@ ${abcContent}
             
             // Сохраняем навигацию для текущей папки
             const navPath = path.join(dir, 'navigation.json');
-            fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
+            console.log(`💾 Saving navigation to: ${navPath}`);
+            console.log(`📊 Navigation content:`, JSON.stringify(navigation, null, 2));
             
-            console.log(`📋 Generated navigation for: ${dir}`);
+            try {
+                fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
+                console.log(`✅ Successfully created: ${navPath}`);
+            } catch (error) {
+                console.error(`❌ Failed to create ${navPath}:`, error);
+            }
             
             return navigation;
         };
         
         // Запускаем сканирование с корневой папки partitures
-        scanDir(this.partituresDir);
-        console.log('✅ Navigation data generated');
+        const result = scanDir(this.partituresDir);
+        console.log('✅ Navigation data generation completed');
+        return result;
     }
 
     // Новый метод для проверки статуса навигации папки

@@ -24,7 +24,7 @@ class PartitureGenerator {
         // Сканируем и генерируем все файлы
         this.scanAndGenerate(this.abcDir, this.partituresDir);
         
-        // Генерируем навигационные данные для каждой папки
+        // Генерируем навигационные данные для каждой папки (включая корневую)
         this.generateNavigationData();
         
         console.log('✅ Generation completed!');
@@ -221,11 +221,14 @@ ${abcContent}
             
             // Если текущая папка скрыта из навигации, возвращаем пустую навигацию
             if (!navigation.currentFolder.showInNavigation) {
+                // Но все равно сохраняем navigation.json для консистентности
+                const navPath = path.join(dir, 'navigation.json');
+                fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
                 return navigation;
             }
             
             items.forEach(item => {
-                if (item === '.git' || item.startsWith('_')) return;
+                if (item === '.git' || item.startsWith('_') || item === 'navigation.json') return;
                 
                 const fullPath = path.join(dir, item);
                 const stat = fs.statSync(fullPath);
@@ -279,9 +282,12 @@ ${abcContent}
             const navPath = path.join(dir, 'navigation.json');
             fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
             
+            console.log(`📋 Generated navigation for: ${dir}`);
+            
             return navigation;
         };
         
+        // Запускаем сканирование с корневой папки partitures
         scanDir(this.partituresDir);
         console.log('✅ Navigation data generated');
     }

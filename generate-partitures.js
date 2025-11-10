@@ -226,10 +226,14 @@ ${abcContent}
                 
                 if (stat.isDirectory()) {
                     const folderData = scanDir(fullPath);
+                    
+                    // ФИКС: генерируем относительные пути без дублирования
+                    const relativePath = this.getRelativePath(fullPath);
+                    
                     navigation.folders.push({
                         name: item,
                         displayName: folderData.currentFolder.displayName,
-                        path: fullPath.replace(this.partituresDir, '')
+                        path: relativePath
                     });
                 } else if (item.endsWith('.html')) {
                     // Загружаем метаданные для файла
@@ -247,10 +251,13 @@ ${abcContent}
                         }
                     }
                     
+                    // ФИКС: генерируем относительные пути без дублирования
+                    const relativePath = this.getRelativePath(fullPath);
+                    
                     navigation.files.push({
                         name: item,
                         displayName: displayName,
-                        path: fullPath.replace(this.partituresDir, '')
+                        path: relativePath
                     });
                 }
             });
@@ -268,6 +275,21 @@ ${abcContent}
         
         scanDir(this.partituresDir);
         console.log('✅ Navigation data generated');
+    }
+
+    getRelativePath(fullPath) {
+        // Преобразуем абсолютный путь в относительный от корня сайта
+        let relativePath = fullPath.replace(this.partituresDir, '');
+        
+        // Для Windows путей заменяем обратные слеши
+        relativePath = relativePath.replace(/\\/g, '/');
+        
+        // Убеждаемся что путь начинается с /
+        if (!relativePath.startsWith('/')) {
+            relativePath = '/' + relativePath;
+        }
+        
+        return relativePath;
     }
 
     getFolderDisplayName(folderPath) {

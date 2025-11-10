@@ -149,6 +149,14 @@ title: "${title}"
 ${content}`;
         
         fs.writeFileSync(outputIndexPath, frontMatter, 'utf8');
+        
+        // Сохраняем название папки для использования в навигации
+        this.saveFolderTitle(partituresFolderPath, title);
+    }
+
+    saveFolderTitle(partituresFolderPath, title) {
+        const titlePath = path.join(partituresFolderPath, 'folder-title.json');
+        fs.writeFileSync(titlePath, JSON.stringify({ title: title }, null, 2), 'utf8');
     }
 
     processAbcFile(abcFilePath, partituresPath) {
@@ -186,7 +194,7 @@ ${abcContent}
     }
 
     saveAbcMetadata(partituresPath, fileName, title, composer) {
-        const metadataPath = path.join(partituresPath, 'metadata.json'); // Без подчеркивания!
+        const metadataPath = path.join(partituresPath, 'metadata.json');
         let metadata = {};
         
         if (fs.existsSync(metadataPath)) {
@@ -215,16 +223,29 @@ ${abcContent}
             };
             
             items.forEach(item => {
-                if (item === '.git' || item.startsWith('_')) return; // Пропускаем файлы с _
+                if (item === '.git' || item.startsWith('_')) return;
                 
                 const fullPath = path.join(dir, item);
                 const stat = fs.statSync(fullPath);
                 
                 if (stat.isDirectory()) {
+                    // Получаем название папки из folder-title.json
+                    const titlePath = path.join(fullPath, 'folder-title.json');
+                    let displayName = this.formatName(item);
+                    
+                    if (fs.existsSync(titlePath)) {
+                        try {
+                            const titleData = JSON.parse(fs.readFileSync(titlePath, 'utf8'));
+                            displayName = titleData.title || displayName;
+                        } catch (e) {
+                            console.warn('⚠️ Could not read folder title:', titlePath, e.message);
+                        }
+                    }
+                    
                     const folderData = scanDir(fullPath);
                     navigation.folders.push({
                         name: item,
-                        displayName: this.formatFolderName(item),
+                        displayName: displayName,
                         path: fullPath.replace(this.partituresDir, ''),
                         children: folderData
                     });
@@ -234,9 +255,13 @@ ${abcContent}
                     let displayName = this.formatName(path.basename(item, '.html'));
                     
                     if (fs.existsSync(metadataPath)) {
-                        const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
-                        if (metadata[item] && metadata[item].displayName) {
-                            displayName = metadata[item].displayName;
+                        try {
+                            const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+                            if (metadata[item] && metadata[item].displayName) {
+                                displayName = metadata[item].displayName;
+                            }
+                        } catch (e) {
+                            console.warn('⚠️ Could not read metadata:', metadataPath, e.message);
                         }
                     }
                     
@@ -248,7 +273,11 @@ ${abcContent}
                 }
             });
             
-            // Сохраняем навигацию для текущей папки (без подчеркивания!)
+            // Сортируем: сначала папки, потом файлы
+            navigation.folders.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            navigation.files.sort((a, b) => a.displayName.localeCompare(b.displayName));
+            
+            // Сохраняем навигацию для текущей папки
             const navPath = path.join(dir, 'navigation.json');
             fs.writeFileSync(navPath, JSON.stringify(navigation, null, 2), 'utf8');
             
@@ -278,21 +307,51 @@ ${abcContent}
                 const stat = fs.statSync(fullPath);
                 
                 if (stat.isDirectory()) {
+                    // Получаем название папки
+                    const titlePath = path.join(fullPath, 'folder-title.json');
+                    let displayName = this.formatName(item);
+                    
+                    if (fs.existsSync(titlePath)) {
+                        try {
+                            const titleData = JSON.parse(fs.readFileSync(titlePath, 'utf8'));
+                            displayName = titleData.title || displayName;
+                        } catch (e) {
+                            console.warn('⚠️ Could not read folder title for filelist:', titlePath);
+                        }
+                    }
+                    
                     // Добавляем папку
                     const folderPath = `/partitures/${relativePath}/`;
                     if (!fileList.some(existing => existing.path === folderPath)) {
                         fileList.push({
                             path: folderPath,
                             name: item,
+                            displayName: displayName,
                             type: 'folder'
                         });
                     }
                     scanDir(fullPath, relativePath);
                 } else if (item.endsWith('.html')) {
+                    // Получаем метаданные для файла
+                    const metadataPath = path.join(dir, 'metadata.json');
+                    let displayName = this.formatName(path.basename(item, '.html'));
+                    
+                    if (fs.existsSync(metadataPath)) {
+                        try {
+                            const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+                            if (metadata[item] && metadata[item].displayName) {
+                                displayName = metadata[item].displayName;
+                            }
+                        } catch (e) {
+                            console.warn('⚠️ Could not read metadata for filelist:', metadataPath);
+                        }
+                    }
+                    
                     // Добавляем HTML файлы
                     fileList.push({
                         path: `/partitures/${relativePath}`,
                         name: path.basename(item, '.html'),
+                        displayName: displayName,
                         type: 'file'
                     });
                 }
@@ -302,10 +361,23 @@ ${abcContent}
         scanDir(this.partituresDir);
         
         // Добавляем корневую папку partitures
+        const rootTitlePath = path.join(this.partituresDir, 'folder-title.json');
+        let rootDisplayName = 'Коллекция партитур';
+        
+        if (fs.existsSync(rootTitlePath)) {
+            try {
+                const titleData = JSON.parse(fs.readFileSync(rootTitlePath, 'utf8'));
+                rootDisplayName = titleData.title || rootDisplayName;
+            } catch (e) {
+                console.warn('⚠️ Could not read root folder title:', rootTitlePath);
+            }
+        }
+        
         if (!fileList.some(item => item.path === '/partitures/')) {
             fileList.push({
                 path: '/partitures/',
                 name: 'partitures',
+                displayName: rootDisplayName,
                 type: 'folder'
             });
         }
@@ -313,7 +385,7 @@ ${abcContent}
         // Сортируем: сначала папки, потом файлы
         fileList.sort((a, b) => {
             if (a.type === b.type) {
-                return a.name.localeCompare(b.name);
+                return a.displayName.localeCompare(b.displayName);
             }
             return a.type === 'folder' ? -1 : 1;
         });
@@ -325,15 +397,6 @@ ${abcContent}
         );
         
         console.log('📋 Generated filelist.json with', fileList.length, 'items');
-    }
-
-    formatFolderName(name) {
-        const folderNames = {
-            'partitures': 'Коллекция партитур',
-            'cherubic': 'Херувимские песни'
-        };
-        
-        return folderNames[name] || this.formatName(name);
     }
 
     formatName(name) {

@@ -42,13 +42,13 @@ function renderNavigation(navData) {
     if (navData.folders && navData.folders.length > 0) {
         hasContent = true;
         navData.folders.forEach(folder => {
-            // Путь уже содержит /partitures/, не добавляем его снова
+            // ФИКС: используем путь как есть, без добавления /partitures/
             let folderPath = folder.path;
             if (!folderPath.endsWith('/')) folderPath += '/';
             
             html += `
                 <li style="margin-bottom: 8px;">
-                    <a href="${folderPath}" style="
+                    <a href=".${folderPath}" style="
                         color: #e67e22;
                         text-decoration: none;
                         display: flex;
@@ -73,14 +73,14 @@ function renderNavigation(navData) {
     if (navData.files && navData.files.length > 0) {
         hasContent = true;
         navData.files.forEach(file => {
-            // Путь уже содержит /partitures/, не добавляем его снова
+            // ФИКС: используем путь как есть, без добавления /partitures/
             const filePath = file.path;
-            const isActive = window.location.pathname === filePath;
+            const isActive = window.location.pathname.endsWith(filePath);
             const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';
             
             html += `
                 <li style="margin-bottom: 8px;">
-                    <a href="${filePath}" style="
+                    <a href=".${filePath}" style="
                         color: #2c3e50;
                         text-decoration: none;
                         display: flex;
@@ -115,7 +115,10 @@ function renderNavigation(navData) {
 setTimeout(() => {
     fetch('./navigation.json')
         .then(r => r.json())
-        .then(data => console.log('Navigation data:', data))
+        .then(data => {
+            console.log('Navigation data:', data);
+            console.log('Current path:', window.location.pathname);
+        })
         .catch(e => console.log('Cannot load navigation for debug'));
 }, 1000);
 </script>

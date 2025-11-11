@@ -1,0 +1,115 @@
+%abc-2.1
+
+X:1
+T:Антифоны на Литургии
+C:Музыка: И. Тумаркин.
+C:Изложение для см.х: Гончаров И.И.
+M:14/4
+L:1/4
+%%tempo { 40, 60, *80, 100, 120, 140 }
+K:Bb
+%%player_top
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-2 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%score [(1 2) (3 4)]
+[V:1]GGGB BBBB A2AB2 | BBB GGG ^F2FG2 || %1
+[V:2]DDD GGGGG F2FF2 | FFFEEED2DD2 || %1
+w:Бла-го-сло-ви, ду-ше мо-я, Го-спо-да, Бла-го-сло-вен е-си, Го-спо-ди. %1
+[V:3]bbbe'e'e'e'e'c'2c'd'2 |d'd'd'bbc'a2ab2 || %1
+[V:4]gggcccccf2fB2 | BBBeecd2dg2 || %1
+[V:1]GGG BBB BB A2AB2 | BBGGGGGG | GGG^F2FFG2 || %2
+[V:2]DDD GGGGG F2FF2 | FF EEEEEE | EEE D2DDD2 || %2
+w:Бла-го-сло-ви, ду-ше мо-я, Го-спо-да, и вся вну-трен-ня-я мо-я И-мя свя-то-е Е-го. %2
+[V:3]bbbe'e'e'e'e'c'2c'd'2 | d'd'bbbbbb | bbc'a2aab2|| %2
+[V:4]gggcccccf2fB2 | BBeeeeee | eecd2ddg2 || %2
+[V:1]GGG BBB BB A2AB2 | BBBB GGGG ^F2 FF G2 || %3
+[V:2]DDDGGGGG F2F F2 | FFFF EEEE D2DDD2 || %3
+w:Бла-го-сло-ви, ду-ше мо-я Го-спо-да, и не за-бы-вай всех воз-да-я-ний Е-го: %3
+[V:3]bbbe'e'e'e'e'c'2c'd'2| d'd'd'd'bbbc'a2aab2 || %3
+[V:4]gggcccccf2fB2 | BBBBeeecd2ddg2 || %3
+[V:1]GG BBB BBB BA2 AAA B2 | BB GGGGGG ^F2FFG2 || %4
+[V:2]DD GGGGGGG F2FFFF2 | FF EEEEEE D2DDD2 || %4
+w:о-чи-ща-ю-ща-го вся бе-за-ко-ни-я тво-я, ис-це-ля-ю-ща-го вся не-ду-ги тво-я, %4
+[V:3]bbe'e'e'e'e'e'e'c'2c'c'c'd'2| d'd'bbbbbc'a2aab2 || %4
+[V:4]ggcccccccf2fffB2 | BBeeeeecd2ddg2 || %4
+[V:1]GG B BBBBBBBBB A2B2 | BBBBBB GGGGGG ^F2 FG2 || %5
+[V:2]DD G GGG GGGGG GF2F2 | FFFFFF EEEEEE D2DD2 || %5
+w:из-ба-вля-ю-ща-го от ис-тле-ни-я жи-вот твой, вен-ча-ю-ща-го тя ми-ло-сти-ю и щед-ро-та-ми, %5
+[V:3]bbe'e'e'e'e'e'e'e'e'e'c'2 d'2 |d'd'd'd'd'd'bbbbbc'a2 ab2|| %5
+[V:4]ggccccccccccf2B2 | BBBBBBeeeeecd2dg2 || %5
+[V:1]GG BBBBBB BB A2AA AB2 | BBGGGGGG ^F2FFG2 || %6
+[V:2]DD GGGGGGGGF2FFFF2 | FF EEEEEE D2DDD2 || %6
+w:ис-пол-ня-ю-ща-го во бла-гих же-ла-ни-е тво-е: об-но-вит-ся я-ко ор-ля ю-ность тво-я. %6
+[V:3]bbe'e'e'e'e'e'e'e'c'2c'c' c'd'2 |d'd'bbbbbc'a2aab2 || %6
+[V:4]ggccccccccf2fffB2 | BBeeeeecd2ddg2 || %6
+[V:1]B2BA2AAAB2 | BBBB GGGG ^F2FG2 || %7
+[V:2]G2GF2FFFF2 | FFFFEEEED2DD2 || %7
+w:Щедр и ми-лос-тив Гос-подь, Дол-го-тер-пе-лив и мно-го-ми-лос-тив. %7
+[V:3]e'2e'c'2c'c'c'd'2 |d'd'd'd'bbbc'a2ab2 || %7
+[V:4]c2cf2fffB2 | BBBBeeecd2dg2 || %7
+[V:1]GGG B BBBBBBBBBB BBBBBBB B A2AA B2 | BBBGGG ^F2F2 !fermata!G4 |] %8
+[V:2]DDD GGGGGGGGGGGGGGGGGGGF2FFF2 | FFFEEED2D2!fermata!D4 |] %8
+w:Бла-гос-ло-ви, ду-ше мо-я, Гос-по-да и вся внут-рен-ня-я мо-я И-мя свя-то-е Е-го. Бла-го-сло-вен е-си Гос-по-ди. %8
+[V:3]bbbe'e'e'e'e'e'e'e'e'e'e'e'e'e'e'e'e'e'e'c'2c'c'd'2 |  d'd'd'bbc'a2a2!fermata!b4 |] %8
+[V:4]gggcccccccccccccccccccf2ffB2 | BBBeecd2d2!fermata![g4G4]|] %8
+% Хвали
+[V:1]GBBBBBA2AB2 |
+[V:1]BB G GGG GGG GGG GGGGGG ^F2FFG2 || %1
+[V:2]DGGGGGF2FF2 |
+w: Хва-ли, ду-ше мо-я Го-спо-да.
+[V:2]FFEEEEEEEEEEEEEEEED2DDD2 ||  %1
+w:Вос-хва-лю Го-спо-да в~жи-во-те мо-ем, по-ю Бо-гу мо-е-му, дон-де-же есмь. %1
+[V:3]be'e'e'e'e'c'2c'd'2 |
+[V:3]d'd'bbbbbbbbbbbbbbbc'a2aab2 ||  %1
+[V:4]gcccccf2fB2 |
+[V:4]BBeeeeeeeeeeeeeeecd2ddg2 ||  %1
+[V:1]GG B BBBB BBBBBB A2 AA B2 | GGGG ^F2 F G2 ||  %2
+[V:2]DDGGGGGGGGGGGF2FFF2 | EEEED2DD2 ||  %2
+w:Не на-дей-те-ся на кня-зи на сы-ны че-ло-ве-чес-ки-я, в~них же несть спа-се-ни-я.  %2
+[V:3]bbe'e'e'e'e'e'e'e'e'e'e'c'2c'c'd'2 | bbbc'a2ab2 ||  %2
+[V:4]ggcccccccccccf2ffB2 | eeecd2dg2 ||  %2
+[V:1]GGG BBBBBBB A2 AA B2 | BBB GG GGG ^F2 FFFG2 ||  %3
+[V:2]DDD GGGGGGGF2FFF2 | FFFEEEEED2DDDD2 ||  %3
+w:И-зы-дет дух его, и воз-вра-тит-ся в~зем-лю сво-ю, в~той день по-гиб-нут вся по-мыш-ле-ни-я е-го.  %3
+[V:3]bbbe'e'e'e'e'e'e'c'2c'c' d'2 | d'd'd'bbbbc'a2aaab2 ||  %3
+[V:4]gggcccccccf2ffB2 | BBBeeeecd2dddg2 ||  %3
+[V:1]G B BBB BBBB B A2AAB2 | BB GGGGG GGGG ^F2FFFG2 ||  %4
+[V:2]D GGGGGGGGGF2FFF2 | FFEEEEEEEEED2DDDD2 ||  %4
+w:Бла-жен, е-му же Бог И-а-ковль по-мощ-ник е-го, у-по-ва-ни-е е-го на Гос-по-да Бо-га сво-е-го.  %4
+[V:3]be'e'e'e'e'e'e'e'e'c'2c'c' d'2 | d'd'bbbbbbbbc'a2aaab2 || %4
+[V:4]gcccccccccf2ffB2 | BBeeeeeeeecd2dddg2 ||  %4
+[V:1]G BBBBBB A2B2 | GGGG ^F2FG2 ||  %5
+[V:2]DGGGGGGF2F2 | EEEED2DD2 ||  %5
+w:Со-твор-ша-го не-бо и зем-лю, мо-ре и вся, я-же в~них.  %5
+[V:3]be'e'e'e'e'e'c'2d'2 | bbbc'a2ab2 ||  %5
+[V:4]gccccccf2B2 | eeecd2dg2 ||  %5
+[V:1]GBBBA2AAB2 | BBBBBBGGGG GGGG G ^F2FG2 ||  %6
+[V:2]D GGGF2FFF2 | FFFFFFEEEEEEEEED2DD2 ||  %6
+w:Хра-ня-ще-го ис-ти-ну в~век, тво-ря-ща-го суд о-би-ди-мым, да-ю-ща-го пи-щу ал-чу-щим.  %6
+[V:3]be'e'e'c'2c'c'd'2 | d'd'd'd'd'd'bbbbbbbbc'a2ab2 ||  %6
+[V:4]gcccf2ffB2 | BBBBBBeeeeeeeecd2dg2 ||  %6
+[V:1]GGG B BBB BBBB B A2AAB2 |
+[V:2]DDDGGGGGGGGGF2FFF2 |
+w:Гос-подь ре-шит о-ко-ван-ныя, Гос-подь у-муд-ря-ет слеп-цы,
+[V:3]bbbe'e'e'e'e'e'e'e'e'c'2c'c'd'2 |
+[V:4]gggcccccccccf2ffB2 |
+[V:1]BBB GG GGG GGGG GG ^F2FFG2 ||  %7
+[V:2]FFFEEEEEEEEEEED2DDD2 ||  %7
+w:Гос-подь воз-во-дит низ-вер-жен-ны-я, Гос-подь лю-бит пра-вед-ни-ки, %7
+[V:3]d'd'd'bbbbbbbbbbc'a2aab2 ||  %7
+[V:4]BBBeeeeeeeeeecd2ddg2 ||  %7
+[V:1]G BBBB A2B2 | BBBB GGGG GG ^F2FFFG2 ||  %8
+[V:2]DGGGGF2F2 | FFFFEEEEEED2DDDD2 ||  %8
+w:Гос-подь хра-нит при-шель-цы, си-ра и вдо-ву при-и-мет, и путь греш-ных по-гу-бит.  %8
+[V:3]be'e'e'e'c'2d'2 | d'd'd'd'bbbbbc'a2aaab2 ||  %8
+[V:4]gccccf2B2 | BBBBeeeeecd2dddg2 ||  %8
+[V:1]GG BBB A2AB2 | BBB GG ^F2F2 !fermata! G4 |] %9
+[V:2]DDGGGF2FF2 | FFFEED2D2!fermata!D4 |] %9
+w:Во-ца-рит-ся Гос-подь во век, Бог твой в Си-о-не в род и род. %9
+[V:3]bbe'e'e'c'2c'd'2 | d'd'd'bc'a2a2!fermata!b4 |] %9
+[V:4]ggcccf2fB2 | BBBecd2d2!fermata![g4G4] |] %9

@@ -1,0 +1,28 @@
+%abc-2.1
+
+X:1
+T:Прокимен воскресный
+C:2 глас
+L:1/4
+M:41/4
+%%tempo {60, 80, 100, 120, *140, 160}
+K:F
+%%player_top
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass name="Tenor"
+%%MIDI program 40
+V:4 clef=bass name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+[V:1]
+BBBBBBBBBBBB|BB(Bcdc)B2c2(BABcB2)d2c4|]
+w: Кре-пость мо-я и пе-ни-е мо-е Гос-подь, и бысть мне*** во-спа-се-----ни-е
+[V:2]
+GGGGGGGGGGGGGG(GABA)G2A2(GFGAG2)B2A4|]
+[V:3]
+DDDDDDDDDDDD|DDD4C2C2(C4C2)E2F4|]
+[V:4]
+G,G,G,G,G,G,G,G,G,G,G,G,G,G,(G,F,B,F,)C,2C,2C,6(B,,D,)F,4|]

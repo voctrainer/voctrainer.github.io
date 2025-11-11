@@ -1,0 +1,23 @@
+%abc-2.1
+
+X:1
+T:Милость мира
+C:Е.Богданова (1996 г.)
+M:4/4
+L:1/4
+%%tempo { 40, 60, *80, 100, 120, 140 }
+K:G
+%%player_top
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-2 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%score [(1 2) (3 4)]
+[V:1]G2FG | A2A2 | A2GF | G2F2 | E4 || GG| A2AA | G4 || F>GFA | G2F2 |  E4  || F | G2FG | (A>B) A/2G/2 F | E2FG | (ABA/2G/2)F | EFGB | (A>B A/2G/2F) | E2EF | (GA)(FD) | (EFG)B | (c>d c/2B/2)A | BBAB | (c>d c/2B/2A) | G2(FG) | A2(A/2G/2F) | (GAFD) | E4 || G2F2 | G3B | (A>B) A/2G/2F | E2FG | ABA/2G/2F | (E3F) |GAFD |EFGB  | (c>d c/2B/2A) | BBAB | (c>d c/2B/2)A | G2 (FG) | A2 A/2G/2F | (GAFD) | E2E2 | F2G2 | (A4 | B2A2) | B4 || F2 | G4 || (A2B2 | A2GF | G2F2) | E4 || F|(G2F)G | (A>B A/2G/2)F | E2(FG) | AB A/2G/2F | (EFG) B | A>B A/2G/2F | (E3F) | (GA)(FD) | (EFG)B | (c>d c/2B/2A | B)BAB | (c>d c/2B/2)A | (G2FG) | ((A2 A/2)G/2 F | GA)(FD) | E2 (E2 | F2)G2 | (A4 | B2)A2 | !fermata! B4 |]
+[V:2]E2E2 | E2E2 | D2DD | D2D2 | B,4 || EE| E2ED | D4 || D>DDD | D2D2 | B,4 || F | E2EE | E2 ED | E2EE | E3D | EDEF | (E3D) | E2ED | E2(DA,) | (B,2E)G | (A>B A/2G/2)F | GGFG | (A>B A/2G/2F) | E2 E2 | E2E2 | D4 | B4 || E2D2 | E3F | E2ED | E2EE | EEED | (E3D) | EEDA, | B,B,EG| (A>B A/2G/2F) | GGFG | (A>B A/2G/2)F | E2 E2 | E2 EE | D4 | B,2E2 | E2E2 | (E4 | E2F2) | E4 || D2 | E4 || (F2G2 | F2ED | E2D2) | C4 || F|E3E | E3D | E2E2 | EEED | (EDE) F | E>E ED | (E3D) | E2(DA,) | (B,2E)G | (A>B A/2G/2F | G)GFG | (A>B A/2G/2)F | E4 | E4 | D2)D2 | B,2(E2 | E2)E2 |(E4| E2)F2 |  E4 |]
+w: Ми-лость ми-ра же-ртву хва-ле-ни-я. И со ду-хом тво-им. И-ма-мы ко Го-спо-ду. До-стой-но и пра-вед-но есть по-кла-ня-ти-ся От-цу и Сы--ну и Свя-то-му * Ду--ху, Тро----и-це Е-ди-но-сущ-----ней и Не-раз-дель-ней. Свят, Свят, Свят Го-сподь Са-ва-оф, ис-полнь не-бо и зем-ля* сла-вы Тво-е-я; о-сан-на ввыш-----них, бла-го-сло-вен*** Гря-дый во и-мя Гос-под-не, о-сан-на ввыш---них. А-минь. А-------минь. Те-бе, Те-бе по-ем, Те-бе бла-го-сло-вим,** Те-бе бла-го-да-рим,* Го-спо--ди,* и мо------лим Ти ся, Бо----же наш, Бо--же наш, Бо--же, Бо--же наш.
+[V:3]b2(ab) | c'2c'2 | c'2ba | b2a2 | g4 | bb | c'2c'c' | b4 || a>bac' | b2a2 | g4 || b | b2ab | (c'>d') c'/b/a | g2ab | (c'd'c'/b/)a | gabb | (c'>d' c'/b/a) | g2ga | (bc')(af) | (gab)d' | e'3d' | e'e'e'd' | (e'3d') | (bd')(c'b) | c'2c'2 | (b2a2) | g4 || b2a2 | b3b | (c'>d) c'/b/a | g2ab | c'd'c'/b/a | (g3a) | bc'af | gabd' | (e'3d') | e'e'e'd' | e'3d' | (bd')(c'b) | c'2c'c' | (b2a2) | g2g2 | a2b2 | (c'4 | d'2c'2)| b4 || b2| b4 || (c'4 | c'4 | b2a2) | g4 ||  b | (b2a)b | (c'>d' c'/b/)a | g2 (ab) | c'd'c'/b/a | (gab)b | c'>d' c'/b/a | (g3a) | (bc')(af) | (gab)d' | (e'3d' | e')e'e'd' |e'3d' | (bd'c'b) | (c'4 | b2)a2 | g2(g2 | a2)b2 | (c'4 | d'2)c'2 | b4 |]
+[V:4]e2e2 | a2(ag) | f2gd | B2d2 | e4 || ee | a2af | g4 || d>ddd | g2d2 | e4 || B | e2ed | c2cd | e2ed | c3d | eBed | (c3d) | e2dd | c2d2 | c3b | (a2c)d | eecB | (A2cd) | e2e2 | (AG)(F/G/A) | (B2d2) | e4 || e2B2 | e3d | c2cd | e2ed | cccd | (e2d2) | ccdd | eeeb | (a2cd) | eecB | (A2c)d | e2e2 | (AG)F/G/A | (B2d2) | e2e2 | e2(ed) | (c2B2 | A4) | e4 || B2| e4 || (A2G2 | F2GA | B2d2) | e4 || B| e3d | c3d | e2(ed) | cccd | (eBe)d | c>ccd | (e2d2) | c2d2 | e3b | (a2cd | e)ecB | (A2c)d | e4 | (AGF/G/A | B2)d2 | e2(e2 | e2)(ed) | (c2B2 | G2)G2 | !fermata! [e4E4] |]

@@ -1,0 +1,66 @@
+
+X:8
+T:Милость мира
+C:Царское гарм. П. Григорьева
+%%score [ (1 2) (3 4) ]
+L:1/4
+%%tempo { 40, 60, *80, 100, 120, 140 }
+M:4/4
+I:linebreak $
+K:Ab
+%%player_top
+V:1 treble nm="Soprano" snm="S."
+V:2 treble nm="Alto" snm="A."
+V:3 bass nm="Tenor" snm="T."
+V:4 bass nm="Bass" snm="B."
+[V:1]
+A G c A | B B/G/ A G | F2 z2 | A A B A/G/ | A2 z2 |$ B3/2 B/ B B | c3/2 A/ A  G |
+w: Ми- лость ми- ра,|жерт- ву хва- ле- ни-|я|И со ду- хом тво-|им|И- ма- мы ко|Гос- по- ду Дос-|
+(A B c) B/A/ | (G A B) A/G/ |$ A2 A B | c3/2 c/ c c | d c B3/2 B/ | A B c B | A2 B z |
+w: той- * * но и|пра- * * вед- но|есть по- кла-|ня- ти- ся От-|цу, и Сы- ну,|и Свя- то- му|Ду- ху| %break
+A3/2 A/ A A |$ B B c B | A2 G G | (F4 | F3 G | A2 G2) | F4 | A2 G2 |$ A2 z G | (A B c B) |
+w: Тро- и- це е-|ди- но- сущ- ней|и не- раз-|де-|||льней|Свят, Свят,|Свят Гос-|подь * * *|
+A G A A | (G A B c) | e3/2 d/ c B | c2 d3/2 d/ |$ c B c c | c2 c2 | (d2 c B) | c c A B |
+w: Са- ва- оф, ис-|полнь * * *|не- бо и зем-|ля сла- вы|Тво- е- я, о-|сан- на|в выш- *|них, бла- го- сло-|
+c3/2 c/ d e | f2 f d |$ (c2 B2) | c2 c2 | c2 f2 | (f2 =e2) | f4 | A2 A2 | (A2 =A2 |$
+w: вен Гря- дый во|И- мя Гос-|под- *|не, о-|сан- на|ввыш- *|них|А- минь|А- *|
+B2 c2 | d2 c B | A2 G2) |
+w:----%break
+F2 z G | A B c A | G A B A |$ G c c c | c c c2 | =B2 B2 |
+w: минь Те-|бе по- ем, Те-|бе бла- гос- ло-|вим, Те- бе бла-|го- да- рим,|Гос- по-|
+c2 z G | (A B) A G | A2 z B | (c d) c B |$ c (c B) A | G2 F3/2 F/ | (F3 A) | A2 G2 | F4 |]
+w: ди и|мо- * лим Ти|ся, и|мо- * лим Ти|ся, Бо- * же|наш, Бо- же|наш,- *|Бо- же|наш.|
+[V:2]
+F =E F F | F F/F/ F =E | F2 z2 | F F F F/=E/ | F2 z2 |$ G3/2 G/ G G | A3/2 E/ E  E |
+(F G A) G/F/ | (=E F2) F/E/ |$ F2 F G | A3/2 A/ A A | B A G3/2 G/ | A G A G | F2 =E z | %break
+F3/2 F/ F F |$ E E E =E | F2 =E E | (F4 | F4 | F2 =E2) | C4 | F2 =E2 |$ F2 z =E | (F G A G) |
+F =E F F | (=E F G A) | B3/2 B/ A G | A2 A3/2 A/ |$ A G A B | A2 A2 | (A3 G) | A A A G |
+A3/2 A/ A A | A2 A A |$ (A2 G2) | A2 B2 | A2 A2 | G4 | F4 | F2 F2 | (F4 |$ F4 | F4 |
+F2 =E2) %break
+| F2 z E | F F F F | F F =E F |$ =E G G G | F B A2 | A2 G2 | G2 z =E | F2 F =E |
+F2 z G | A2 A G |$ A (A G) F | =E2 F3/2 F/ | F4 | F2 =E2 | C4 |]
+[V:3]
+C C C C | D D/D/ C B, | A,2 z2 | C C D C/C/ | C2 z2 |$ E3/2 E/ E E | E3/2 C/ C  C |
+(C E2) E/C/ | (C2 D) C/C/ |$ C2 C E | E3/2 E/ E E | E E E3/2 E/ | E E E D | C2 C z | %break
+C3/2 C/ C C |$ E D C C | C2 C B, | (A,4 | D2 C D | C3 B,) | A,4 | C2 C2 |$ C2 z C |
+(C D/C/ C D) | C C C C | (C2 E2) | E3/2 E/ E E | E2 F3/2 F/ |$ E E E =E | F2 F2 | (F2 E2) |
+E E E E | E3/2 E/ D C | D2 D F |$ E4 | E2 =E2 | F2 C2 | (D2 C B,) | A,4 | C2 C2 | (C4 |$
+B,2 =A,2 | B,2 C D | C2 B,2) | %break
+A,2  z C | C C C C | D C C C |$ C =E E E | F =E F2 |
+F2 F2 | =E2 z C | (C D) C C | C2 z E | (E F) E E |$ F E2 C | C B, A,3/2 A,/ | (D2 C D) | C3 B, |
+A,4 |]
+[V:4]
+F, C, A, F, | B,, B,,/B,,/ C, C, | F,2 z2 | F, F, B,, C,/C,/ | F,2 z2 |$ E,3/2 E,/ E, E, |
+A,3/2 A,,/ A,,  C, | (F, E, A,) E,/F,/ | (C, F, B,,) C,/C,/ |$ F,2 F, E, |
+A,3/2 A,/ A, A, | G, A, E,3/2 D,/ | C, B,, A,, B,, | C,2 C, z | %break
+F,3/2 F,/ F, F, |$ G, G, A, G, |
+F,2 C, C, | (D,3 C, | B,,2 A,, B,, | C,4) | F,,4 | F,2 C,2 |$ F,2 z C, | (F, E, A,, B,,) |
+C, C, F, F, | (C, F, E, A,) | G,3/2 G,/ A, E, | A,,2 D,3/2 D,/ |$ E, E, A, G, | F,2 E,2 |
+(D,2 E,2) | A,, A,, C, E, | A,3/2 _G,/ F, E, | D,2 D, D, |$ E,4 | A,2 G,2 | F,2 F,2 | (B,,2 C,2) |
+F,4 | F,2 F,2 | (F,2 E,2 |$ D,2 C,2 | B,, G,, A,, B,, | C,4) | %break
+[F,,F,]2  z C, |
+E, F, G, E, | B, A, G, F, |$ C, C, C B, | A, G, F, E, | D,2 D,2 | C,2 z C, | (F, B,,) C, C, |
+F,2 z E, | (A, D,) E, E, |$ A,, (A, E,) F, | C,2 D,3/2 C,/ | (B,,2 A,, B,,) | C,2 C,2 |
+[F,,F,]4 |]
+
+

@@ -1,0 +1,74 @@
+X:1
+T:Тропари на повечерии
+C:Валаамский распев
+M:4/4
+L:1/4
+K:С
+V:1 clef=treble
+%%MIDI program 40
+V:2 clef=treble
+%%MIDI program 40
+%%score [(1 2)]
+%%player top
+%%tempo { 120, 160, *180, 200, 220, 240 }
+%%player_top
+[V:1]CDCCDCCD(ED)C(B,CD2) |
+[V:2]CDCCDCCD(ED)C(B,CD2) |
+w:По-ми-луй нас, Гос-по-ди, по-ми--луй нас**
+[V:1]E2FFFGA2GGFG(AG)FE2 |
+[V:2]C2DDDEF2EEDE(FE)DC2 |
+w:Вся-ка-го бо от-ве-та не-до-у-ме--ю-ще,
+[V:1]G_BAAAA AGF2E2 |
+[V:2]EGFFFF FED2C2 |
+w:си-ю Ти мо-лит-ву, я-ко Вла-ды-це,
+[V:1]GGGFG2AFF2E2D4 ||
+[V:2]EEEDE2FDD2A,2D4 ||
+w:греш-ни-и при-но-сим: по-ми-луй нас.
+[V:1]DDDDECCCDEDE2(CD4) ||
+[V:2]DDDDECCCDEDE2(CD4) ||
+w:Сла-ва От-цу и Сы-ну и Свя-то-му Ду-ху
+[V:1]CCCDEDC(B,CD2) GA2GGGF2E2 |
+[V:2]CCCDEDC(B,CD2) EF2EEED2C2 |
+w:Гос-по-ди, по-ми--луй нас:** на Тя бо у-по-ва-хом,
+[V:1]GFG2GAFF2E2F2 |
+[V:2]EDE2EFDD2C2D2 |
+w:не про-гне-вай-ся на ны зе-ло,
+[V:1]EEEEEEF(GF)E(D2E2)F2 |
+[V:2]CCCCCCD(ED)C(B,2C2)D2 |
+w:ни-же по-мя-ни без-за-ко--ний на--ших
+[V:1]GAAGF2E2F2FFFF(EFG2F2) |
+[V:2]EFFED2C2D2DDDD(CDE2)D2 |
+w:но приз-ри и ны-не, я-ко бла-го-ут-ро---бен
+[V:1]GGGFE2G(GA)(GF)E2 |
+[V:2]EEEDC2E(EF)(ED)C2 |
+w:и из-ба-ви ны от враг* на--ших
+[V:1]FFFG(AGF2)G2GGAGFFG2 |
+[V:2]DDDE(FED2)E2EEFEDDE2 |
+w:Ты бо е-си Бог** наш, и мы лю-ди-е Тво-и,
+[V:1]GGFGA2GF2E2GGGFG2AF(F2E2)D4 ||
+[V:2]EEDEF2ED2C2EEEDE2FD(D2A,2)D4 ||
+w:вси де-ла ру-ку Тво-е-ю, и и-мя Тво-е при-зы-ва--ем.
+[V:1]DDDDDDDCCCDE2C(CD2) ||
+[V:2]DDDDDDDCCCDE2C(CD2) ||
+w:И ны-не и прис-но и во ве-ки ве-ков. А-минь*
+[V:1]CCDCCDCD(ED)C(B,CD2) |
+[V:2]CCDCCDCD(ED)C(B,CD2) |
+w:Ми-ло-сер-ди-я две-ри от-вер--зи нам**
+[V:1]FFGA2GGFG(AG)FE2 |
+[V:2]DDEF2EEDE(FE)DC2 |
+w:Ми-ло-сер-ди-я две-ри от-вер--зи нам,**
+[V:1]FFGA2GGFG(AG)FE2 |
+[V:2]DDEF2EEDE(FE)DC2 |
+w:Бла-го-сло-вен-ная-я Бо-го-ро--ди-це,
+[V:1]G_BAAAAGF2FFF(EFG2)F2 |
+[V:2]EGFFFFED2DDD(CDE2)D2 |
+w:На-де-ю-щи-е-ся на Тя, да не по-гиб---нем,
+[V:1]GGGGFE2G(GA)GFE2 |
+[V:2]EEEEDC2E(EF)EDC2 |
+w:но да из-ба-вим-ся То-бо--ю от бед:
+[V:1]FFFFG(AGF)FG2 |
+[V:2]DDDDE(FED)DE2 |
+w:Ты бо е-си спа-се---ни-е
+[V:1]G2GAFF2E2D4 |]
+[V:2]E2EF | DD2A,2D4 |]
+w:ро-да хрис-ти-ан-ска-го.

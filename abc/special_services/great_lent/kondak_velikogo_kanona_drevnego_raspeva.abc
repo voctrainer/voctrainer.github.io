@@ -1,0 +1,31 @@
+X:1
+T: Кондак Великого канона
+C: Древнего распева
+M: 4/4
+L: 1/4
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%score [(1 2)]
+%%player_top
+[V:1](DE)FF EF(GF) E/F/E/D/ D4 |
+[V:2]D2DDDDC2C2D4 |
+w: Ду-ше мо-я, ду-ше мо-я
+[V:1]D((A2A/)G/A/B/)G2c2(B>AGF)G3 | FG2
+[V:2]DD4D2D2D4D3 | DD2
+w: во-ста-ни, что спи-ши? Ко-нец
+[V:1]FG(AG)(FE)D3 | DEDEF(GF)
+[V:2]DDC2C2D3 | DCB,B,B,C2
+w: при-бли-жа-ет-ся, и и-ма-ши сму-ти-
+[V:1]E/F/E/D/D2 | DDA2A/G/A/B/G2 |
+[V:2]C2D2 | DDD2D2D2 |
+w: ти-ся: вос-пря-ни у-бо,
+[V:1]GABcB(AB)(A/G/F)((G2G)FGAB2cBA2)A(d2cB)A2 |
+[V:2]DDDDDD2D2(D2(D4)(D4)D2)DD4D2 |
+w: да по-ща-дит тя Хрис=тос Бог, ****вез-де сый
+[V:1](GF)G2F2(EF)(GFEF)D4 |]
+[V:2]D2D2D2D2C4D4 |]
+w: и вся ис-пол-ня-яй.

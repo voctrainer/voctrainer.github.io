@@ -1,0 +1,250 @@
+X:1
+T: Ирмосы Великого канона
+C: Муз. Д. Бортнянский
+M: 4/4
+L: 1/4
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%tempo { 80, 100, *120, 140, 160, 180 }
+%%score [(1 2) (3 4)]
+%%player_top
+%%text Песнь 1
+[V:1]!p!E | F2FE | FGA2 | GzG2 | G2FF | 
+[V:2]^C | D2D^C | DEF2 | EzE2 | E2DD | 
+w: По-мощ-ник и По-кро-ви-тель бысть мне во спа-
+[V:3]A | A2AA | Acc2 | czc2 | c2AA | 
+[V:4]A | d2dA | dcf2 | czc2 | c2dd | 
+[V:1]E3E | Fz(A2 | A2)(BA) | G2GG | !>!A2AA | 
+[V:2]^C3C | Dz(F2 | F2)(GF) | E2EE | F2FF | 
+w: се-ни-е, Сей * мой* Бог, и про-слав-лю Е-
+[V:3]A3A | Az(c2 | c2)c2 | c2cc | c2cc | 
+[V:4]A3A | dz(f2 | f2)(ef) | c2cc | f2FA | 
+[V:1]GzGG | !>!A2AA | G2zG | AABA | 
+[V:2]EzEE | F2FF | E2zE | FFGF | 
+w: го, Бог От-ца мо-е-го, и воз-не-су Е-
+[V:3]czcc | c2cc | c2zc | cccc | 
+[V:4]czcc | f2FA | c2zc | ffef | 
+[V:1]Gz(G2 | G>)GGF | !>!E3E | F2!fermata!z2 |]
+[V:2]Ez(E2 | E>)EED | ^C3C | D2!fermata!z2 |]
+w: го, слав--но бо про-сла-ви-ся.
+[V:3]cz(c2 | c>)ccA | A3A | A2!fermata!z2 |]
+[V:4]cz(c2 | c>)ccd | A3A | d2!fermata!z2 |] 
+%%text Песнь 2
+[V:1]EE | F2FE | FGA2 | GzG2 | GG(F2 | F2)E2 | 
+[V:2]^CC | D2D^C | DEF2 | EzE2 | EE(D2 | D2)^C2 | 
+w: Вон-ми, не-бо, и воз-гла-го-лю, и вос-по-ю* Хрис-
+[V:3]AA | A2AA | Acc2 | czc2 | cc(A2 | A2)A2 | 
+[V:4]AA | d2dA | dcf2 | czc2 | cc(d2 | d2) A2 | 
+[V:1]F2 zG | A3A | G>GGF | E3E | F2!fermata!z2 |] 
+[V:2]D2zE | F3F | E>EED | ^C3C | D2!fermata!z2 |]
+w: та, от Де-вы про-ти-ю при-шед-ша-го.
+[V:3]A2zc | c3c | c>ccA | A3A | A2!fermata!z2 |]
+[V:4]d2zc | f3f | c>ccd | A3A | d2!fermata!z2 |] 
+%%text Песнь 2
+[V:1]G2GG/A/ | B>AG2 | G3G | A2G2 | Fz(G2 | 
+[V:2]E2EE/F/ | G>FE2 | E3E | F2E2 | Dz(E2 | 
+w:Ви-ди-те,* ви-ди-те, я-ко Аз есмь Бог, ман-
+[V:3]c2cc | c>cc2 | c3c | c2A2 | Az(c2 | 
+[V:4]c2cc | e>ec2 | c3c | f2^c2 | dz(c2 | 
+[V:1]G)>GGF | E4 | F2zA | A2GG | G2GG | 
+[V:2]E)>EED | ^C4 | D2zF | F2EE | E2EE | 
+w:-ну о-дож-ди-вый и во-ду из ка-ме-не
+[V:3]c)>ccA | A4 | A2zc | c2cc | c2cc | 
+[V:4]c)>ccd | A4 | d2zf | f2cc | c2cc | 
+[V:1]GG/A/(BA) | GGGG | (A2G)F | E2EE | F2zA | 
+[V:2]EE/F/(GF) | EEEE | (F2E)D | ^C2CC | D2zF | 
+w: ис-то--чи--вый древ-ле в~пус-ты--ни лю-дем Мо-им дес-
+[V:3]ccc2 | cccc | (c2A)A | A2AA | A2zc | 
+[V:4]cc(ef) | cccc | (f2^c)d | A2AA | d2zf | 
+[V:1]A>AAA | A3A | G2zG | A2GF | EE(FE) | F2!fermata!z2 |] 
+[V:2]F>FFF | F3F | E2zE | F2ED | ^CC(DC) | D2!fermata!z2 |]
+w: ни-це-ю е-ди-но-ю и кре-пос-ти-ю Мо-е--ю.
+[V:3]c>ccc | c3c | c2zc | c2AA | AAA2 | A2!fermata!z2 |]
+[V:4]f>fff | f3f | c2zc | f2^cd | AA(dA) | d2!fermata!z2 |]
+%%text Песнь 3
+[V:1]EE | F2FE | FGA2 | GGG2 | GFEE | 
+[V:2]^CC | D2 D^C | DE F2 | EE E2 | ED ^CC |
+w: На не-дви-жи-мом, Хрис-те ка-ме-ни за-по-ве-дей Тво-
+[V:3]AA | A2AA | Acc2 | ccc2 | cAAA | 
+[V:4]AA | d2dA | dcf2 | ccc2 | cdAA | 
+[V:1]FzFG | A4 | GAGF | E3E | F2!fermata!z2 |]
+[V:2]DzDE | F4 | EFED | ^C3C | D2!fermata!z2 |]
+w: их ут-вер-ди мо-е по-мыш-ле-ни-е.
+[V:3]AzAc | c4 | ccAA | A3A | A2!fermata!z2 |]
+[V:4]dzdc | f4 | cf^cd | A3A | d2!fermata!z2 |]
+%%text Песнь 3
+[V:1]GG(GA) | B>AGG | G2GG | A2GF | 
+[V:2]EE(EF) | G>FEE | E2EE | F2ED | 
+w: Ут-вер-ди,* Гос-по-ди, на ка-ме-ни за-по-ве-
+[V:3]ccc2 | c>ccc | c2cc | c2AA | 
+[V:4]ccc2 | e>fcc | c2cc | f2^cd | 
+[V:1]E2E2 | F2zA | A>AAA | A2AA | G2z2 | 
+[V:2]^C2C2 | D2zF | F>FFF | F2FF | E2z2 | 
+w: дей Тво-их под-виг-ше-е-ся серд-це мо-е,
+[V:3]A2A2 | A2zc | c>ccc | c2cc | c2z2 | 
+[V:4]A2A2 | d2zf | f>fff | f2ff | c2z2 | 
+[V:1]G2GG | A2GF | E2EE | F2 !fermata!z2 |]
+[V:2]E2EE | F2ED | ^C2CC | D2 !fermata!z2 |]
+w: я-ко Е-дин Свят е-си и Гос-подь.
+[V:3]c2cc | c2AA | A2AA | A2!fermata!z2 |]
+[V:4]c2cc | f2^cd | A2AA | d2!fermata!z2 |]
+%%text Песнь 4
+[V:1]E | F2EE | F2zG | G2GG | GGG>G | 
+[V:2]^C | D2^CC | D2zE | E2EE | EEE>E | 
+w: У-слы-ша про-рок при-шест-ви-е Тво-е Гос-по-
+[V:3]A | A2AA | A2zc | c2cc | ccc>c | 
+[V:4]A | d2AA | d2zc | c2cc | ccc>c | 
+[V:1]GGGF | (E2FG) | FzFG | A>GGG | 
+[V:2]EEED | (^C2DE) | DzDE | F>EEE | 
+w: ди, и у-бо-я---ся, я-ко хо-ще-ши от
+[V:3]cccA | A4 | AzAc | c>ccc | 
+[V:4]cccd | A4 | dzdc | f>ccc | 
+[V:1]G2GA | B3A | GGGG | G2GG | A2GF | 
+[V:2]E2EF | G3F | EEEE | E2EE | F2ED | 
+w: Де-вы ро-ди-ти-ся и че-ло-ве-ком я-ви-ти-ся,
+[V:3]c2cc | c3c | cccc | c2cc | c2AA | 
+[V:4]c2cf | e3f | cccc | c2cc | f2^cd | 
+[V:1]E2E2 | F3E | E2zA | A2A2 | A2G2 | zAAA | 
+[V:2]^C2C2 | D3^C | ^C2zF | F2F2 | F2E2 | zFFF | 
+w: и гла-го-ла-ше: у-слы-шах слух Твой и у-бо-
+[V:3]A2A2 | A3A | A2zc | c2c2 | c2c2 | zccc | 
+[V:4]A2A2 | d3A | A2zf | f2f2 | f2c2 | zfff | 
+[V:1]A2Gz | G3G | !>!A>AGF | E3E | F2 !fermata!z2 |]
+[V:2]F2Ez | E3E | F>FED | ^C3C | D2!fermata!z2 |]
+w: ях-ся; сла-ва си-ле Тво-ей, Гос-по-ди.
+[V:3]c2cz | c3c | c>cAA | A3A | A2!fermata!z2 |]
+[V:4]f2cz | c3c | f>f^cd | A3A | d2!fermata!z2 |]
+%%text Песнь 5
+[V:1]A | A3G | F>FFF | EzEE | FGA2 | 
+[V:2]F | F3E | D>DDD | ^CzCC | DEF2 | 
+w: От но-щи у-тре-ню-ю-ща, Че-ло-ве-ко-люб-
+[V:3]c | c3c | A>AAA | AzAA | Acc2 | 
+[V:4]f | f3c | d>ddd | AzAA | dcf2 | 
+[V:1]G2GA | BB(AG) | FzFG | A>AAA | 
+[V:2]E2EF | GG(FE) | DzDE | F>FFF | 
+w: че, про-све-ти, мо-лю--ся, и на-ста-ви и ме-
+[V:3]c2cc | dd(d^c) | AzAc | c>ccc | 
+[V:4]c2cA | GGA2 | dzdc | f>fff | 
+[V:1]G2GG | G(AG)F | EEF2 | zEEE | 
+[V:2]E2EE | E(FE)D | ^CCD2 | z^CCC | 
+w: не на по-ве-ле--ни-я Тво-я, и на-у-
+[V:3]c2cc | c(cA)A | AAA2 | zAAA | 
+[V:4]c2cc | c(f^c)d | AAd2 | zAAA | 
+[V:1]FGA2 | GGAG | F2EE | F2!fermata!z2 |]
+[V:2]DEF2 | EEFE | D2^CC | D2!fermata!z2 |]
+w: чи мя, Спа-се, тво-ри-ти во-лю Тво-ю.
+[V:3]Acc2 | cccB | A2AA | A2!fermata!z2 |]
+[V:4]dcf2 | ccfg | A2AA | d2!fermata!z2 |]
+%%text Песнь 6
+[V:1]EE | F3E | F2FG | A2!>!B2 | AAG2 | 
+[V:2]^CC | D3^C | D2DE | F2G2 | FFE2 | 
+w: Во-зо-пих всем серд-цем мо-им к~щед-ро-му Бо-
+[V:3]AA | A3A | A2Ac | c2d2 | ccB2 | 
+[V:4]AA | d3A | d2dc | f2B2 | ccc2 | 
+[V:1]FzAG | F3F | E2zE | F>FFG | A3A | 
+[V:2]FzFE | D3D | ^C2zC | D>DDE | F3F | 
+w: гу, и у-слы-ша мя от а-да пре-ис-под-ня-
+[V:3]Azcc | A3A | A2zA | A>AAc | c3c | 
+[V:4]fzfc | d3d | A2zA | d>ddc | f3f | 
+[V:1]GzG2 | FEF2 | zABG | (F2E2) | F2!fermata!z2 |]
+[V:2]EzE2 | D^CD2 | zFGE | (D2^C2) | D2!fermata!z2 |]
+w: го, и воз-ве-де от тли жи-вот * мой.
+[V:3]czc2 | AAA2 | zddB | A4 | A2!fermata!z2 |]
+[V:4]czc2 | dAd2 | zdGG | A4 | d2!fermata!z2 |]
+%%text Песнь 7
+[V:1]EE | F>FFG | A2AA | G2zG | G>GGG | 
+[V:2]^CC | D>DDE | F2FF | E2zE | E>EEE | 
+w: Со-гре-ши-хом, без-за-кон-но-ва-хом, не-прав-до-ва-хом
+[V:3]AA | A>AAc | c2cc | c2zc | c>ccc | 
+[V:4]AA | d>ddc | f2ff | c2zc | c>ccc | 
+[V:1]GFE2 | F2zE | F2FG | A2GG | (F>E)FG | 
+[V:2]ED^C2 | D2z^C | D2DE | F2EE | (D>^C)DE | 
+w: пред То-бо-ю, ни-же соб-лю-до-хом, ни-же* со-тво-
+[V:3]cAA2 | A2zA | A2Ac | c2cc | A2Ac | 
+[V:4]cdA2 | d2zA | d2dc | f2cc | d2dc | 
+[V:1]A2Gz | A>GFF | F(AG)F | EEF2 | 
+[V:2]F2Ez | F>EDD | D(D^C)D | ^CCD2 | 
+w: ри-хом, я-ко-же за-по-ве--дал е-си нам,
+[V:3]c2cz | c>AAA | AA2A | AAA2 | 
+[V:4]f2cz | f>^cdd | d(fe)d | AAd2 | 
+[V:1]zGGG | A3A | AAG2 | zFG2 | (F2E2) | F2!fermata!z2 |]
+[V:2]zEEE | F3F | FFE2 | zD(E>D) | (D2^C2) | D2!fermata!z2 |]
+w: но не пре-даждь нас до кон-ца, от-цев* Бо--же.
+[V:3]zccc | c3c | ccc2 | zAB2 | A4 | A2!fermata!z2 |]
+[V:4]zccc | f3f | ffc2 | zdG2 | A4 | d2!fermata!z2 |]
+%%text Песнь 8
+[V:1]E | F3E | F>FFG | A2AA | A2Gz | 
+[V:2]^C | D3^C | D>DDE | F2FF | F2Ez | 
+w: Е-го-же во-ин-ства Не-бес-на-я сла-вят,
+[V:3]A | A3A | A>AAc | c2cc | c2cz | 
+[V:4]A | d3A | d>ddc | f2ff | f2cz | 
+[V:1]GG(G2 | G)GGG/A/ | (BA)G2 | zGGF | 
+[V:2]EE(E2 | E)EEE/F/ | (GF)E2 | zEED | 
+w: и тре-пе--щут Хе-ру--ви--ми и Се-ра-
+[V:3]cc(c2 | c)ccc | c2c2 | zccA | 
+[V:4]cc(c2 | c)ccc | (ef)c2 | zccd | 
+[V:1]E4 | FzG2 | E2(GA) | B>BBA | GzA2 | 
+[V:2]^C4 | DzE2 | C2(EF) | G>GGF | EzF2 | 
+w: фи-ми, вся-ко ды--ха-ни-е и тварь, пой-
+[V:3]A4 | Azc2 | c2c2 | c>ccc | czc2 | 
+[V:4]A4 | dzc2 | c2c2 | e>eef | czf2 | 
+[V:1]G2F2 | EEF2 | EzE2 | F2FG | 
+[V:2]E2D2 | ^CCD2 | ^CzC2 | D2DE | 
+w: те, бла-го-сло-ви-те и пре-воз-но-
+[V:3]A2A2 | AAA2 | AzA2 | A2Ac | 
+[V:4]^c2 d2 | AAd2 | AzA2 | d2dc | 
+[V:1]A>AAd | ^c4 | d2!fermata!z2 |]
+[V:2]F>FFF | E4 | F2!fermata!z2 |] 
+w: си-те во вся ве-ки. 
+[V:3]c>cdA | A4 | A2!fermata!z2 |] 
+[V:4]f>fdd | A4 | d2!fermata!z2 |] 
+%%text упрощенный вариант окончания
+[V:1]A>AAA | G4 | F2!fermata!z2 |]
+[V:2]F>FFF | E4 | D2!fermata!z2 |]
+w:...си-те во вся ве-ки.
+[V:3]c>cdA | A4 | A2!fermata!z2 |]
+[V:4]f>fdd | A4 | d2!fermata!z2 |]
+%%text Песнь 9
+[V:1]G | A2AA | AGFE | DzFF | G2GG/A/ | 
+[V:2]E | F2FF | FED^C | DzDD | E2EE/F/ | 
+w: Без-се-мен-на-го за-ча-ти-я рож-дест-во не-ска--
+[V:3]c | c2cc | cBAG | FzAA | c2cc | 
+[V:4]c | f2ff | fcdA | dzdd | c2cc | 
+[V:1]B>AGz | G>GGF | E3E | FzG2 | 
+[V:2]G>FEz | E>EED | ^C3C | DzE2 | 
+w: зан-ное-е, Ма-те-ре без-муж-ны-я Не-
+[V:3]c>ccz | c>ccA | A3A | Azc2 | 
+[V:4]e>fcz | c>ccd | A3A | dzc2 | 
+[V:1]A3A | GzG2 | GGGG/A/ | BAGz | 
+[V:2]F3F | EzE2 | EEEE/F/ | GFEz | 
+w: тле-нен Плод, Бо-жи-е бо рож--де-ни-е
+[V:3]c3c | czc2 | cccc | cccz | 
+[V:4]f3f | czc2 | cccc | efcz | 
+[V:1]GGG>G | FGAz | G2GG | G2F2 | 
+[V:2]EEE>E | DEFz | E2EE | E2D2 | 
+w: об-нов-ля-ет ес-тест-ва. Тем-же Тя, вси-ро-
+[V:3]ccc>c | Accz | c2cc | c2A2 | 
+[V:4]ccc>c | dcfz | c2cc | c2d2 | 
+[V:1]EzEE | F2FG | A2AA | !>!(A3G) | GzGA | 
+[V:2]^CzCC | D2DE | F2FF | (F3E) | EzEF | 
+w: да, я-ко Бо-го-не-вест-ну-ю Ма--терь, пра-во-
+[V:3]AzAA | A2Ac | c2cc | c4 | czcc | 
+[V:4]AzAA | d2dc | f2ff | (f3c) | czcA | 
+[V:1]!>!B>BBB | (A2^c2) | !fermata!d4 |] 
+[V:2]G>GGG | (F2E2) | !fermata!F4 |]
+w: слав-но ве-ли-ча--ем 
+[V:3]d>ddd | (d2A2) | !fermata!A4 |]
+[V:4]G>GGG | A4 | !fermata!d4 |]
+%%text упрощенный вариант окончания
+[V:1](A2G2) | !fermata!F4 |]
+[V:2](F2E2) | !fermata!D4 |]
+w:...ча--ем.
+[V:3](d2A2) | !fermata!A4 |]
+[V:4] A4 | !fermata!d4 |]

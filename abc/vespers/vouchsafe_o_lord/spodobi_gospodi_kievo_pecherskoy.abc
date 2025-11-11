@@ -1,0 +1,32 @@
+X:1
+T:Сподоби, Господи, в вечер сей
+C:Напева Киево-Печерской лавры
+M:4/4
+L:1/4
+K:G
+V:1 clef=treble
+%%MIDI program 40
+V:2 clef=treble
+%%MIDI program 40
+V:3 clef=bass-8 octave=-1
+%%MIDI program 40
+V:4 clef=bass-8 octave=-2
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%player_top
+%%tempo { 40, 60, 80, 100, *120, 140 }
+[V:1]F | GFGG/ A/ | BB!fermata!AB/ B/ | B A/ A/ (A/G/) F/ F/ | G2 A A/ A/ (A/B/) A/ G/ F>F | (GA)B B/ B/ | B2A2 | B2 z B | A>G F>G | A G/ G/ F G/ A/ | (B/A/) (G/F/) G G/ G/ | F2GF | GG/ A/ B B/ B/ | (A/B/) (A/G/) F2 | G>A B B/ B/ | (AB)AA | B2 B B/ B/ | A G/ G/ F>F | (GA)B>B | AGFG |
+[V:2]^D | E^DEE/ F/ | GG!fermata!FG/ G/ | GF/ F/ (F/E/) ^D/ D/ | E2F F/ F/ | (F/G/) F/ E/ ^D>D | (EF)G G/ G/ | G2F2 | G2 z G | F>E ^D>E | F E/ E/ ^D E/ F/ | (G/F/) (E/^D/) E E/ E/ | ^D2 ED | E E/ F/ G G/ G/ (F/G/) (F/E/) ^D2 | E>F G G/ G/ | (FG)FF | G2 G G/ G/ | F E/ E/ ^D>D | (EF) G>G | FE^DE |
+w: Со-до-би, Гос-по-ди, в~ве-чер сей без гре-ха со-хра-ни--ти-ся нам. Бла-го-сло-вен* е-си Гос-по-ди* Бо-же о-тец на-ших, и хваль-но и про-слав-ле-но И-мя Тво-е* во* ве-ки, а-минь. Бу-ди Гос-по-ди, ми-лость Тво-я* на* нас, я-ко-же у-по-ва--хом на Тя. Бла-го-сло-вен е-си, Гос-по-ди,* на-у-чи мя о-прав-
+[V:3]B | BBB B/ d/ | dd!fermata!d d/ d/ | d d/ d/ B B/ B/ | B2 d d/ d/ d B/ B/ B>B | (Bd) d d/ d/ d2 d2 | d2 z d | d>B B>B | B B/ B/ B B/ B/ | BBB B/ B/ | B2 BB | B B/ d/ d d/ d/ | d B B2 | B>d d d/ d/ | d2 dd | d2 d d/ d/ | d B/ B/ B>B | (Bd) d>d | d BBB |
+[V:4]B | eBe e/ d/ | gg!fermata!d g/ g/ | g d/ d/ e B/ B/ | e2 d d/ d/ | d e/ e/ B>B | (ed)(g/d/) B/ d/ | g2 d2 | [g2G2] z g | d>e B>B | ^d e/ e/ B B/ B/ | BBe e/ e/ | B2 eB | e e/ d/ g g/ g/ | deB2 | e>d g g/ g/ | d2 dd | g2 g g/ g/ | d e/ e/ B>B (ed)g>g | deBe |
+[V:1]AGFF | G2 A A/ A/ | A/ A/ A/ A/ A2 | B2 B>B | AGFG | AGFF | G2 A A/ A/ | A/ A/ A/ A/ (AG/A/ | B2) B>B | AGFG | A/ A/ G/ G/ F2 | G2 A>A | B2 (B2 | c) c/ c/ B>B | c2 B B/ B/ | B/ B/ B/ B/ (AB/c/) | B2 z A | B B/ A/ (G/F/) G/ A/ | B2 AB | B/ A/ G/ F/ (G/B/A/) G/ |
+[V:2]FE^DD | E2F F/ F/ | F/ F/ F/ F/ F2 | G2 G>G | FE^DE | FE^DD | E2F F/ F/ | F/ F/ F/ F/ (FE/F/ | G2) G>G | FE^DE | F/ F/ E/ E/ ^D2 | E2 F>F | G2 (^G2 | A) A/ A/ ^G>G | A2 =G G/ G/ | G/ G/ G/ G/ (FG/A/) | G2 z F | G G/ F/ (E/^D/) E/ F/ | G2 F G | G/F/E/^D/ (E/G/F/) E/ |
+w: да-ни-ем Тво-им. Бла-го-сло-вен е-си, Вла-ды-ко, вра-зу-ми мя о-прав-да-ни-ем Тво-им. Бла-го-сло-вен е-си, Свя-тый*** про-све-ти мя о-прав-да-ни Тво-и-ми. Гос-по-ди, ми---лость Тво-я во век, дел ру-ку Тво-е-ю не пре---зри. Те-бе по-до-ба--ет хва-ла, Те-бе по-до-ба-ет пе---ни-
+[V:3]BBBB | B2d d/ d/ | d/ d/ d/ d/ d2 | d2 d>d | dBBB | BBBB | B2d d/ d/ | d/ d/ d/ d/ (d2 | d2) d>d | d BBB | B/ B/ B/ B/ B2 | B2 d>d | d2 (e2 | e) e/ e/ e>e | e2d d/ d/ | d/ d/ d/ d/ d2 | d2 z d | d d/ d/ B B/ d/ | d2 dd | d/ d/ B/ B/ B>B |
+[V:4]^deBB | e2d d/ d/ | d/ d/ d/ d/ (d/c/B/A/) | G2 g>g | deBe | ^deBB | e2d d/ d/ | d/ d/ d/ d/ (d/c/B/A/ | G2) g>g | deBe | ^d/ d/ e/ e/ B2 | e2 (d/c/B/) A/ | G2 (e2 | A/B/) c/ d/ e>e | [a2A2]g g/ g/ | g/ g/ g/ g/ d2 | g2 z d | g g/ d/ (e/B/) e/ d/ | g2 d g | g/ d/ e/ B/ (e^d/)e/ |
+[V:1]F2GA | B/ B/ B/ B/ (AB/c/) | B2 z B | B>BAG | FGAG | (FG/A/) (GA) | B B/ B/ (AB/c/) | B2cc | B B/ B/ c2 | (B/c/B/A/ GF) | !fermata!G4 |]
+[V:2]^D2EF | G/ G/ G/ G/ (FG/A/) | G2 z G | G>G FE | ^DEFE | (^DE/F/)(EF) | G G/ G/ (FG/A/) | G2AA | ^G G/ G/ A2 | (=G/A/G/F/ E ^D) | !fermata!E4 |]
+w: е, Те-бе сла-ва по-до-ба---ет От-цу и Сы-ну и Свя-то-му Ду---ху,* ны-не и при---сно и во ве-ки ве-ков. А------минь.
+[V:3]B2Bd | d/ d/ d/ d/ d2 | d2 z d | d>d dB | BBBB | B2 (Bd) | d d/ d/ d2 | d2 ee | e e/ e/ e2 | (eB3) | !fermata!B4 |]
+[V:4]B2ed | G/ d/ B/ G/ d2 | g2 z g | g>gde | Be^de | B2 (ed) | g g/ g/ (d/c/B/A/) | G2 (A/B/) (c/d/) | e e/ e/ a2 | (e>^deB) | !fermata!e4 |]

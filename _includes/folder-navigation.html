@@ -27,43 +27,88 @@ async function loadTreeNavigation() {
 }
 
 async function renderNavigation(currentPath) {
-    // Определяем уровень вложенности
-    const pathParts = currentPath.split('/').filter(part => part && part !== 'partitures');
-    const currentLevel = pathParts.length;
-    
     let html = '<div style="font-size: 13px; line-height: 1.3;">';
     
     // Всегда показываем корневую папку
     const isRoot = currentPath === '/partitures' || currentPath === '/partitures/';
     html += createFolderItem('Партитуры', '/partitures/', 0, isRoot, true);
     
-    // Загружаем данные для текущего уровня
-    const navData = await loadNavigationData(currentPath);
-    
-    if (navData) {
-        // Показываем папки и файлы текущего уровня
-        if (navData.folders && navData.folders.length > 0) {
-            navData.folders.forEach((folder, index) => {
-                const isActive = currentPath === folder.path.replace(/\/$/, '');
-                html += createFolderItem(folder.displayName, folder.path, 1, isActive, false);
+    // Если мы не в корне, показываем полный путь
+    if (!isRoot) {
+        await renderFullPath(currentPath, html);
+    } else {
+        // В корне показываем только папки верхнего уровня
+        const rootNavData = await loadNavigationData('/partitures');
+        if (rootNavData && rootNavData.folders) {
+            rootNavData.folders.forEach((folder) => {
+                html += createFolderItem(folder.displayName, folder.path, 1, false, false);
             });
-        }
-        
-        if (navData.files && navData.files.length > 0) {
-            navData.files.forEach((file, index) => {
-                const isActive = currentPath === file.path;
-                html += createFileItem(file.displayName, file.path, 1, isActive);
-            });
-        }
-        
-        // Если мы не в корне, показываем путь от корня до текущей папки
-        if (currentLevel > 0) {
-            await renderPathToCurrent(navData, currentPath, pathParts, html);
         }
     }
     
     html += '</div>';
     document.getElementById('tree-navigation').innerHTML = html;
+}
+
+async function renderFullPath(currentPath, html) {
+    const pathParts = currentPath.split('/').filter(part => part && part !== 'partitures');
+    let accumulatedPath = '/partitures';
+    
+    // Собираем данные для каждого уровня пути
+    const pathData = [];
+    
+    for (let i = 0; i < pathParts.length; i++) {
+        const segment = pathParts[i];
+        accumulatedPath += '/' + segment;
+        
+        const navData = await loadNavigationData(accumulatedPath);
+        const displayName = await getSegmentDisplayName(accumulatedPath, segment);
+        
+        pathData.push({
+            path: accumulatedPath,
+            displayName: displayName,
+            navData: navData,
+            level: i + 1,
+            isLast: i === pathParts.length - 1
+        });
+    }
+    
+    // Отображаем путь и содержимое каждого уровня
+    for (let i = 0; i < pathData.length; i++) {
+        const data = pathData[i];
+        
+        // Показываем папку пути
+        html += createFolderItem(data.displayName, data.path + '/', data.level, data.isLast, false);
+        
+        // Если это не последний уровень, показываем папки этого уровня
+        if (!data.isLast && data.navData && data.navData.folders) {
+            data.navData.folders.forEach((folder) => {
+                // Показываем только если это не следующая папка в пути
+                const nextSegment = i < pathParts.length - 1 ? pathParts[i + 1] : null;
+                if (!nextSegment || folder.name !== nextSegment) {
+                    html += createFolderItem(folder.displayName, folder.path, data.level + 1, false, false);
+                }
+            });
+        }
+        
+        // Если это последний уровень, показываем всё содержимое
+        if (data.isLast && data.navData) {
+            // Папки
+            if (data.navData.folders) {
+                data.navData.folders.forEach((folder) => {
+                    html += createFolderItem(folder.displayName, folder.path, data.level + 1, false, false);
+                });
+            }
+            
+            // Файлы
+            if (data.navData.files) {
+                data.navData.files.forEach((file) => {
+                    const isActive = currentPath === file.path;
+                    html += createFileItem(file.displayName, file.path, data.level + 1, isActive);
+                });
+            }
+        }
+    }
 }
 
 function createFolderItem(displayName, path, level, isActive, isRoot = false) {
@@ -101,52 +146,16 @@ function createFileItem(displayName, path, level, isActive) {
     `;
 }
 
-async function renderPathToCurrent(currentNavData, currentPath, pathParts, html) {
-    // Показываем путь от корня до текущей папки с содержимым текущей папки
-    let accumulatedPath = '/partitures';
-    
-    for (let i = 0; i < pathParts.length; i++) {
-        const segment = pathParts[i];
-        const isLast = i === pathParts.length - 1;
-        accumulatedPath += '/' + segment;
-        
-        // Получаем displayName для этого сегмента
-        const segmentDisplayName = await getSegmentDisplayName(accumulatedPath, segment);
-        
-        // Показываем папку пути
-        html += createFolderItem(segmentDisplayName, accumulatedPath + '/', i + 1, isLast, false);
-        
-        // Если это последний сегмент, показываем содержимое
-        if (isLast && currentNavData) {
-            // Папки внутри текущей папки
-            if (currentNavData.folders && currentNavData.folders.length > 0) {
-                currentNavData.folders.forEach((folder) => {
-                    const isActive = currentPath === folder.path.replace(/\/$/, '');
-                    html += createFolderItem(folder.displayName, folder.path, i + 2, isActive, false);
-                });
-            }
-            
-            // Файлы внутри текущей папки
-            if (currentNavData.files && currentNavData.files.length > 0) {
-                currentNavData.files.forEach((file) => {
-                    const isActive = currentPath === file.path;
-                    html += createFileItem(file.displayName, file.path, i + 2, isActive);
-                });
-            }
-        }
-    }
-}
-
-async function loadNavigationData(currentPath) {
+async function loadNavigationData(path) {
     const possiblePaths = [
-        './navigation.json',
-        currentPath + '/navigation.json',
+        path + '/navigation.json',
+        path + '../navigation.json',
         '/partitures/navigation.json'
     ];
     
-    for (const path of possiblePaths) {
+    for (const navPath of possiblePaths) {
         try {
-            const response = await fetch(path);
+            const response = await fetch(navPath);
             if (response.ok) {
                 return await response.json();
             }

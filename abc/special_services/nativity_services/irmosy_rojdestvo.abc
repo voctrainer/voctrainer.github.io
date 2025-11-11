@@ -1,0 +1,347 @@
+%abc-2.1
+
+X:1
+T:Ирмосы перваго канона
+T:Песнь 1
+C:Греческого распева
+M:4/4
+L:1/4
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]AABc2cdcB/A/G2 | EG2GAB/A/GA2|
+s: "Песнь 1"
+[V:2]FFGA2ABAG/F/E2 | CE2EFG/F/EF2 |
+w:Хрис-тос раж-да-ет-ся, сла-ви--те, Хрис-тосс Не-бес, сря--щи-те!
+[V:3]cccf2fffcc2 | cc2ccccc2 |
+[V:4]ffff2ffffc2 | cc2ccccf2 |
+[V:1]Ac2ABc2cdcB/A/G2 |
+[V:2]FA2FGA2ABAG/F/E2 |
+w:Хрис-тос на зем-ли воз-но-си-те--ся,
+[V:3]cf2ccf2fffcc2 |
+[V:4]ff2fff2ffffc2 |
+[V:1]EFGFEFG/A/BA2 |
+[V:2]^CDEDCDE/F/GF2 |
+w:Пой-те Гос-по-де-ви вся* зем-ля,
+[V:3]AAAAAAccc2 |
+[V:4]AAAAAdccf2 |
+[V:1]ABcccBcdcB/A/G2 |
+[V:2]FGAAAGABAG/F/E2 |
+w:и ве-се-ли-ем вос-пой-те лю-ди--у,
+[V:3]ccfffffffcc2 |
+[V:4]ffffffffffc2 |
+[V:1](BA)GAB2G2A4 |]
+[V:2](GF)EFG2E2F4 |]
+w:Я--ко про-сла-ви-ся
+[V:3]c2ccc2c2c4 |]
+[V:4]c2ccc2c2f4 |]
+X:2
+T:Песнь 3
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]ABc2ABcccccBcd(cB/A/)G2 |
+s: "Песнь 3"
+[V:2]FGA2FGAAAAAGAB(AG/F/)E2 |
+w:Преж-де век от От-ца рож-ден-но-му не-тлен-но Сы---ну
+[V:3]ccf2ccffffffff(fc)c2 |
+[V:4]fff2fffffffffff2c2 |
+[V:1]GABAGA(B/A/G)A2 |
+[V:2]EFGFEF(G/F/E)F2 |
+w:и впос-лед-ня-я от Де---вы
+[V:3]ccccccc2c2 |
+[V:4]ccccccc2f2 |
+[V:1]ABcccdcB/A/G2 |
+[V:2]FGAAABAG/F/E2 |
+w:Воп-ло-щен-но-му без-се-мен--но
+[V:3]ccfffffcc2 |
+[V:4]ffffffffc2 |
+[V:1]EF(GF)EFG/A/BA2 |
+[V:2]^CD(ED)CDE/F/GF2 |
+w:Хрис-ту Бо--гу во-зо--пи-им
+[V:3]AAA2AAccc2 |
+[V:4]AAA2Adccf2 |
+[V:1]AB(cd)(cB/A/)G2 | (BA)GAB2G2A4 |]
+[V:2]FG(AB)(AG/F/)E2 | (GF)EFG2E2F4 |]
+w:воз-не-сый * рог ** наш, Свят * е-си, Го-спо-ди.
+[V:3]ccf2(fc)c2 | c2ccc2c2c4 |]
+[V:4]fff2f2c2 | c2ccc2c2f2 |]
+X:3
+T:Песнь 4
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]ABc2ABcdcB/A/G2 |
+s: "Песнь 4"
+[V:2]FGA2FGABAG/F/E2 |
+w:Жезл из ко-ре-не И-ес-се-о--ва,
+[V:3]ccf2ccfffcc2 |
+[V:4]fff2ffffffc2 |
+[V:1]EG2EFG/A/BA2 | (AB)c2cdcB/A/G2 |
+[V:2]CE2CDE/F/GF2 | (FG)A2ABAG/F/E2 |
+w:и цвет от не-го * Хрис-те, от * Де-вы про-зябл е--си
+[V:3]cc2ccccc2 | c2f2fffcc2 |
+[V:4]cc2ccccf2 | f2f2ffffc2 |
+[V:1]EEF(G/A/B)A2 | AABc2cd(cB/A/)G2 |
+[V:2]^CCD(E/F/G)F2 | FFGA2AB(AG/F/)E2 |
+w:из Го-ры Хваль---ный, при-о-се-нен-ны-я ча---щи
+[V:3]AAAc2c2 | cccf2ff(fc)c2 |
+[V:4]AAdc2f2 | ffff2fff2c2 |
+[V:1]GBAGA(B/A/G)A2 | AAAABc2cc
+[V:2]EGFEF(G/F/E)F2 | FFFFGA2AA
+w:при-шел е-си, во-площ---ся от Не-ис-ку-со-муж-ны-я,
+[V:3]cccccc2c2 | cccccf2ff
+[V:4]cccccc2f2 | ffffff2ff
+[V:1]ABcccBA2B2 | BAGFGAB2G2A4 |]
+[V:2]FGAAAG^F2G2 | GFEDEFG2E2F4 |]
+w:Не-ве-щест-вен-ный и Бо-же, сла-ва си-ле Тво-ей, Го-спо-ди.
+[V:3]ccfffdd2d2 | ccccccc2c2c4 |]
+[V:4]fffffgd2g2 | ccccccc2c2f4 |]
+%%newpage
+X:4
+T:Песнь 5
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]ABc2cdcG/A/G2 | EGFEFGG
+s: "Песнь 5"
+[V:2]FGA2ABAG/F/E2 | CEDCDEE
+w:Бог сый ми-ра, О-тец щед-рот, ве-ли-ка-го со-ве-та
+[V:3]ccf2fffcc2 | ccccccc
+[V:4]fff2ffffc2 | ccccccc
+[V:1]GF(GA)BGA2 | c2ABccc
+[V:2]ED(EF)GEF2 | A2FGAAA
+w:Тво-е-го * Ан-ге-ла, мир по-да-ва-ю-ща
+[V:3]ccc2ccc2 | f2ccfff
+[V:4]ccc2ccf2 | f2fffff
+[V:1]B(cd)cB/A/G2 | EEEFG2FEF2G
+[V:2]G(AB)AG/F/E2 | ^CCCDE2DCD2E
+w:пос-лал е-си нам; тем, бо-го-ра-зу-ми-я ксве-ту
+[V:3]ff2fcc2 | AAAAA2AAA2c
+[V:4]ff2ffc2 | AAAAA2AAd2c
+[V:1]AB/A/GA2 | AcBA2AAAB2 |
+[V:2]FG/F/EF2 | FAG^F2FFFG2 |
+w:на-ставль--ше-ся, от но-щи ут-ре-ню-ю-ще
+[V:3]cccc2 | cfdd2dddd2 |
+[V:4]cccf2 | ffgd2dddg2 |
+[V:1]GABAG2GFGA(B2G2)A4 |]
+[V:2]EFGFE2EDEF(G2E2)F4 |]
+w:сла-во-сло-вим Тя, Че-ло-ве-ко-люб--че.
+[V:3]ccccc2ccccc4c4 |]
+[V:4]ccccc2ccccc4f4 |]
+%%newpage
+X:5
+T:Песнь 6
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]ABc2ABc2ABcccBcd(cB/A/)G2 |
+s: "Песнь 6"
+[V:2]FGA2FGA2FGAAAGAB(AG/F/)E2 |
+w:Из ут-ро-бы И-о-ну мла-ден-ца из-бле-ва морс-кий ** зверь
+[V:3]ccf2ccf2ccffffff(fc)c2 |
+[V:4]fff2fff2fffffffff2c2 |
+[V:1]EFG/A/BA2 | c2ABcccd(cB/A/)G2 |
+[V:2]CDE/F/GF2 | A2FGAAAB(AG/F/)E2 |
+w:я-ко-ва* при-ят. ВДе-ву же всель-ше-е-ся Сло---во
+[V:3]ccccc2 | f2ccffff(fc)c2 |
+[V:4]ccccf2 | f2fffffff2c2 |
+[V:1]EEFG2FEF2FGAAGA(B/A/G)A2 |
+[V:2]^CCDE2DCD2DEFFEF(G/F/E)F2 |
+w:и плоть при-ем-ше-е прой-де, со-хран-ше-е не-тлен---ну:
+[V:3]AAAA2AAA2Acccccc2c2 |
+[V:4]AAAA2AAd2dcffccc2f2 |
+[V:1]AcccBABcBA2A2B2 |
+[V:2]FAAAGFGAG^F2F2G2 |
+w:е-го же бо не по-стра-да ис-тле-ни-я
+[V:3]ccccccccdd2d2d2 |
+[V:4]ffffffffgd2d2g2 |
+[V:1]B2BAGAB2 | GA(B2G2)A4 |]
+[V:2]G2GFEFG2 | GF(G2E2)F4 |]
+w:Рожд-шу-ю со-хра-ни не-вреж-ден--ну.
+[V:3]c2ccccc2 |ccc4c4 |]
+[V:4]c2ccccc2ccc4f4 |]
+%%newpage
+X:6
+T:Песнь 7
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]c2ccABcccBcd(cB/A/)G2 |
+s: "Песнь 7"
+[V:2]A2AAFGAAAGAB(AG/F/)E2 |
+w:От-ро-цы бла-го-чес-ти-ю со-вос-пи-та---ни,
+[V:3]f2ffccffffff(fc)c2 |
+[V:4]f2fffffffffff2c2 |
+[V:1]EFGGGFGGGA(B/A/G)A2 |
+[V:2]CDEEEDEEEF(G/F/E)F2 |
+w:зло-чес-ти-ва-го ве-ле-ни-я не-брег---ше,
+[V:3]ccccccccccc2c2 |
+[V:4]ccccccccccc2f2 |
+[V:1]c2ccABcccBcdcB/A/G2 |
+[V:2]A2AAFGAAAGABAG/F/E2 |
+w:ог-нен-на-го пре-ще0ни-я не у-бо-я-ше-ся,
+[V:3]f2ffccfffffffcc2 |
+[V:4]f2ffffffffffffc2 |
+[V:1]EEEFGGFGA2GA(B/A/G)A2 |
+[V:2]^CCCDEEDEF2EF(G/F/E)F2 |
+w:но по-сре-де пла-ме-не сто-я-ще, по-я---ху:
+[V:3]AAAAAAAcc2ccc2c2 |
+[V:4]AAAAAAd"<""<(\u266e)"cf2ccc2f2 |
+[V:1](AB)(cB)A2B2 | G2GAB2G2A4 |]
+[V:2](FG)(AG)^F2G2 | E2EFG2E2F4 |]
+w:от--цев * Бо-же, Бла-го-сло-вен е-си.
+[V:3]c2(fd)d2d2 | c2ccc2c2c4 |]
+[V:4]f2(fg)d2g2 | c2ccc2c2f4 |]
+%%newpage
+X:7
+T:Песнь 8
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]AAAB(cd)cB/A/G2 | EFG2GGGFEG
+s: "Песнь 8"
+[V:2]FFFG(AB)AG/F/E2 | CDE2EEEDCD
+w:Чу-да пре-ес-тест--вен-на--го ро-со-да-тель-на-яи-зо-бра-
+[V:3]ccccf2fcc2 | ccc2cccccc
+[V:4]fffff2ffc2 | ccc2cccccc
+[V:1]GA(B/A/G)A2 | ABc2ABc2cdcB/A/G2 |
+[V:2]EF(G/F/E)F2 | FGA2FGA2ABAG/F/E2 |
+w:зи пещь об---раз; не бо, я-же при-ят, па-лит ю-ны--я,
+[V:3]c2c2c2 |ccf2ccf2fffcc2 |
+[V:4]c2c2f2 | fff2fff2ffffc2 |
+[V:1]EEEFGFGA(B/A/G)A2 | ABc2cd(cB/A/)G2 |
+[V:2]^CCCDEDEF(G/F/E)F2 | FGA2AB(AG/F/)E2 |
+w:я-ко ни-же огнь Бо-жест-ва Де---вы, вНю-же вни-де у-тро---бу.
+[V:3]AAAAAAAcc2c2 | ccf2ff(fc)c2 |
+[V:4]AAAAAAAcc2f2 | fff2fff2c2 |
+[V:1]G2GAB2BAG/A/BA2 | AGABc2
+[V:2]E2EFG2GFE/F/GF2 | FEFGA2
+w:Тем вос-пе-ва-ю-ще вос--по-им: да бла-го-сло-вит
+[V:3]c2ccc2ccccc2 | ccccf2
+[V:4]c2ccc2ccccf2 | fcfff2
+[V:1]cBA2A2B2 | GGABAGA(B2G2)A4 |]
+[V:2]AG^F2F2G2 | EEFGFEF(G2E2)F4 |]
+w:тварь вся Го-спо-да, и пре-воз-но-сит во вся ве--ки.
+[V:3]fdd2d2d2 | cccccccc4c4 |]
+[V:4]fgd2d2g2 | cccccccc4F4 |]
+%%newpage
+X:8
+T:Песнь 9
+M:4/4
+L:1/4
+Q:1/4=120
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]c2ABc2cBA2B2 | GAB/A/GA2 |
+s: "Песнь 9"
+[V:2]A2FGA2AG^F2G2 | EFG/F/EF2 |
+w:Та-ин-ство стран-но-е ви-жу и пре-слав--но-е:
+[V:3]f2ccf2fdd2d2 | ccccc2 |
+[V:4]f2fff2fgd2g2 | ccccf2 |
+[V:1](cd)c/B/AG2 | EG2EFGA(B/A/G)A2 |
+[V:2](AB)A/G/FE2 | CE2CDEF(G/F/E)F2 |
+w:Не--бо* вер-теп, пре-стол хе-ру-вим-ский Де---ву,
+[V:3]f2fcc2 | cc2ccccc2c2 |
+[V:4]f2ffc2 | cc2ccccc2f2 |
+[V:1]c2cdcB/A/G2 | BAGFG2EFG2GA(B/A/G)A2 |
+[V:2]A2ABAG/F/E2 | GFEDE2CDE2EF(G/F/E)F2 |
+w:яс-ли вмес-ти-ли--ще, вних же воз-ле-же не-вмес-ти-мый Хрис-тос** Бог;
+[V:3]f2fffcc2 | ccccc2ccc2ccc2c2 |
+[V:4]f2ffffc2 | ccccc2ccc2ccc2f2 |
+[V:1]AcccBA2A2B2 | GA(B2G2)A4 |]
+[V:2]FAAAG^F2F2G2 | EF(G2E2)F4 |]
+w:Е-го же вос-пе-ва-ю-ще, ве-ли-ча--ем.
+[V:3]cfffdd2d2d2 | ccc4c4 |]
+[V:4]ffffgd2d2g2 | ccc4f4 |]

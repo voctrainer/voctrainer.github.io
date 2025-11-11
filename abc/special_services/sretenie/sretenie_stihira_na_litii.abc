@@ -1,0 +1,22 @@
+X:1
+T:Сретение. Стихира на литии
+C:--
+M:4/4
+L:1/4
+K:C
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-2 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+%%player_top
+%%tempo { 40, 60, 80, 100, *120, 140 }
+[V:1](c2B)c(A2Bc)d2dd2dc(e2cdc)BA4 | cccd(edc)ed2ddd(dcB)(AB)c2 | AB(c2B)c(A2Bc)d2dddddc(e2cdc)BA2 | ccccccccd(edc)ed2dddd | ddd(dcBA/B/c2)AB(c2B)cA2(Bc)d2 | ce2(cdc)BA2cccd(ed)cd!fermata!e2 |deeee(d2c2B2)(cB)A2|]
+[V:2](E2D)E(C2DE)F2FF2FE(G2EFE)DC4 | EEEF(GFE)GF2FFF(FED)(CD)E2 | CD(E2D)E(C2DE)F2FFFFFE(G2EFE)DC2 | EEEEEEEEF(GFE)GF2FFFF | FFFF(EDC/D/E2)CD(E2D)EC2DEF2 | EG2(EFE)DC2EEEF(GF)EF!fermata!G2 |FGGGG(F2E2D2)(ED)C2|]
+w:Вет--хий день---ми мла-ден-ство-вав Пло----ти-ю ма-те-ри-ю Де---во-ю в~цер-ковь при-но---си--тся сво-е-го* за-ко---на ис-пол-ня-я о-бе-ща----ни-е Е-го-же Си-ме-он при-им, гла-го---ла-ше: ны-не от-пу-ща-е-ши с~Ми-----ром по гла-го--лу Тво-е--му ра-ба Тво---е-го: ви-де-ша бо о--чи мо-и спа-се-ни-е Тво-е** Свя--тый.
+[V:3]g3ge2gaa2bb2bg(c'2g3)ge4 | ggggc'3c'a2bbbg3g2g2 | egg3g(e2ga)a2bbbbbg(c'2g3)ge2 | gggggggggc'3c'a2bbbb | bbbg4g2egg3ge2(ga)a2 | gc'2g3ge2ggggc'2c'b!fermata!c'2 | bc'c'c'c'(a2a2^g2)g2e2|]
+[V:4](c2G)c(A2Gc)d2gg2gc(c2c3)GA4 | ccccc3cd2gggg3g2c2 |AG(c2G)c(A2Gc)d2gggggg*c2c3GA2 | cccccccccc3cd2gggg | gggg4c2AG(c2G)cA2(Ge)d2 | cc2c3GA2ccccc2cc!fermata!c2 |gcccc(d2e2e2)e2A2|]

@@ -1,0 +1,38 @@
+X:1
+T:Достойно есть
+C:Глас 5-й. Напев Оптиной пустыни. Изложение: архим. Матфей (Мормыль)
+%%score [ ( 1 2 ) ( 3 4 ) ]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+L:1/4
+Q:1/4=120
+M:14/4
+I:linebreak $
+K:F
+V:1 treble nm="Soprano"
+V:2 treble nm="Alt"
+V:3 bass nm="Tenor"
+V:4 bass nm="Bass"
+V:1
+A A2 A A A G A (F2 G) A B2 | A B2 B B B A (c2 A B) (A G) F2 | A A A A A A A A A B (c B A) c B2 | %3
+B B2 B B B (B A G) (F/G/) A2 | A A2 A A G A (F2 G A B2) | A B2 B B B B A c2 A B A G F2 | %6
+A A A A A A A A B (c B A) c B2 | B2 B B B B (B A G) F/G/ A2 | (A2 B2) A A (G2 A G) F4 || %9
+V:2
+F F2 F F F E F (D2 E) F G2 | ^F G2 G G G =F (A2 F G) (F E) D2 | F F F F F F F F F G (A G F) A G2 | %3
+w: До- стой- но есть я- ко во- ис- * ти- ну|бла- жи- ти Тя, Бо- го- ро- * * ди- * цу.|Прис- но- бла- жен- ну- ю и Пре- не- по- ро- * * чну- ю|
+G G2 G G G (G F E) (D/E/) F2 | F F2 F F E F (D2 E F G2) | ^F G2 G G G G =F A2 F G F E D2 | %6
+w: и Ма- терь Бо- га на- * * ше- * го.|Чест- ней- шу- ю Хе- ру- ви- * * им,|и слав- ней- шу- ю без срав- не- ни- я Се- ра- фим,|
+F F F F F F F F G (A G F) A G2 | G2 G G G G (G F E) D/E/ F2 | (F2 G2) F F (E2 F E) D4 || %9
+w: без ис- тле- ни- я Бо- га Сло- ва ро- * * ждшу- ю,|су- щу- ю Бо- го- ро- * * ди- * цу|Тя * ве- ли- ча- * * ем|
+V:3
+C, C,2 C, C, C, C, C, (D,2 C,) C, D,2 | D, D,2 D, D, C, C, (F,2 C,2) C,2 A,,2 | %2
+C, C, C, C, C, C, C, C, F, F, F,3 F, D,2 | C, C,2 C, C, C, C,3 C, C,2 | %4
+C, C,2 C, C, C, C, (D,2 C,2 D,2) | D, D,2 D, D, D, C, C, F,2 C, C, C, C, A,,2 | %6
+C, C, C, C, C, C, C, F, F, F,3 F, D,2 | C,2 C, C, C, C, C,3 C, C,2 | C,4 C, C, (C,2 A,,2) A,,4 || %9
+V:4
+F,, F,,2 F,, F,, F,, C, A,, (D,2 C,) A,, G,,2 | D, G,,2 G,, G,, C, F,, (F,,2 F,,2) A,,2 D,,2 | %2
+F,, F,, F,, F,, F,, F,, F,, F,, F,, F,, F,,3 F,, G,,2 | C, C,2 C, C, C, C,3 A,,/G,,/ F,,2 | %4
+F,, F,,2 F,, F,, C, A,, (D,,2 C, A,, G,,2) | %5
+D, G,,2 G,, G,, G,, C, F,, F,,2 F,, F,, A,, A,, D,,2 | %6
+F,, F,, F,, F,, F,, F,, F,, F,, F,, F,,3 F,, G,,2 | C,2 C, C, C, C, C,3 A,,/G,,/ F,,2 | %8
+(F,,2 E,,2) F,, A,, (C,2 A,,2) D,,4 || %9

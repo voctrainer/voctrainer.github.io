@@ -119,9 +119,10 @@ function renderNavigation(navData) {
         navData.folders.forEach(folder => {
             // Формируем корректный путь
             let folderPath = folder.path;
-            if (folderPath.startsWith('/partitures/')) {
-                folderPath = folderPath.substring('/partitures'.length);
-            }
+            // некорректное действие, которое вырезало /partitures и било ссылки в меню
+           // if (folderPath.startsWith('/partitures/')) {
+           //     folderPath = folderPath.substring('/partitures'.length);
+           // }
             if (!folderPath.endsWith('/')) folderPath += '/';
             
             html += `
@@ -153,9 +154,10 @@ function renderNavigation(navData) {
         navData.files.forEach(file => {
             // Формируем корректный путь
             let filePath = file.path;
-            if (filePath.startsWith('/partitures/')) {
-                filePath = filePath.substring('/partitures'.length);
-            }
+           // некорректное действие, которое вырезало /partitures 
+          //  if (filePath.startsWith('/partitures/')) {
+          //      filePath = filePath.substring('/partitures'.length);
+          //  }
             
             const isActive = window.location.pathname === filePath;
             const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';

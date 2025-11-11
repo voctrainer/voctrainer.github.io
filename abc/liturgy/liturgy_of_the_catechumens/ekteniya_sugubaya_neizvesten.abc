@@ -1,0 +1,28 @@
+%abc-2.1
+
+X:1
+T:Сугубая ектения
+C:Автор неизвестен
+L:1/4
+M:41/4
+%%tempo {60, *80, 100, 120, 140, 160}
+K:Em
+%%player_top
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass name="Tenor"
+%%MIDI program 40
+V:4 clef=bass name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+[V:1]
+G3/2F/2GBAG A3/2A/2AcBA/2B/2(G3/2F/2GAB3/2)B/2AG(FAGF)G4|]
+w: Гос-по-ди, по-ми-луй, Гос-по-ди, по-ми-луй,* Гос-----по-ди, по-ми----луй.
+[V:2]
+E3/2^D/2EGFE F3/2F/2FAG(F/2G/2)(E3/2^D/2EFG3/2)G/2FE(^DFE^D)E4|]
+[V:3]
+B,3/2B,/2B,B,B,B,D3/2D/2DDDD(B,3/2B,/2B,DD3/2)D/2DB,B,4B,4|]
+[V:4]
+E,3/2B,,/2E,E,^D,E,=D,3/2D,/2D,F,G,D,(E,3/2B,,/2E,D,G,3/2)G,/2D,E,B,,4E,4|]

@@ -1,0 +1,26 @@
+X:1
+T: Тропарь Пасхи
+C: Н.Н.Белов
+M: 3/4
+L: 1/4
+K:G
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%tempo { 80, 100, *120, 140, 160, 180 }
+%%score [(1 2) (3 4)]
+%%player_top
+[V:1]
+!f!z2 B | c2c | ddd | !>(! c2c!>)! | !<(!cc!<)!c | B2B | c2B | !<(! A>A A/ !<)! A/ | A2 A | (d2c | !>(! B) !p! B A | !fermata! !>)! G2 z |]
+w: Хри-стос во-скре-се из ме-ртвых, сме-рти-ю смерть по-прав, и су-щим во гро-бех жи-вот** да-ро-вав.
+[V:2]
+z2 G | G2 A | ^GGG | A2 A | AGF | G2 G | G2 G | G>G G/ G/ | F2 F | (G3 | G) EF | D2 Z|]
+[V:3]
+z2 d | e2 e | eee | e2e | ddd | d2 d | c2 d | e>e e/ e/ | d2 d | (dBe | d) cc | B2z |]
+[V:4]
+z2g | c'2 a | bbb | a2 g | fed | g2 =f | e2 d | c>c c/ c/ | d2 c | (B2c | d) d d | [g2 G2] |]

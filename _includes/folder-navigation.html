@@ -1,10 +1,10 @@
 <div class="folder-navigation">
-    <h3 style="margin: 0 0 15px 0; color: #2c3e50;">
+    <h3 style="margin: 0 0 15px 0; color: #2c3e50; font-size: 16px;">
         📁 Содержание
     </h3>
     
     <!-- Хлебные крошки -->
-    <div id="breadcrumbs" style="margin-bottom: 15px; padding: 8px 12px; background: #f8f9fa; border-radius: 5px; border: 1px solid #e9ecef; font-size: 14px;">
+    <div id="breadcrumbs" style="margin-bottom: 15px; padding: 8px 12px; background: #f8f9fa; border-radius: 5px; border: 1px solid #e9ecef; font-size: 13px;">
         <div style="color: #7f8c8d; font-style: italic;">
             Загрузка пути...
         </div>
@@ -27,27 +27,41 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadBreadcrumbs() {
     try {
         const currentPath = window.location.pathname;
-        console.log('Current path for breadcrumbs:', currentPath);
+        
+        // Пробуем загрузить navigation.json текущей папки для получения displayName
+        let currentFolderDisplayName = null;
+        try {
+            const navResponse = await fetch('./navigation.json');
+            if (navResponse.ok) {
+                const navData = await navResponse.json();
+                if (navData.currentFolder && navData.currentFolder.displayName) {
+                    currentFolderDisplayName = navData.currentFolder.displayName;
+                }
+            }
+        } catch (error) {
+            console.log('Navigation.json not available for breadcrumbs');
+        }
         
         // Разбираем путь на сегменты
         const pathSegments = currentPath.split('/').filter(segment => segment && segment !== 'partitures');
         
-        let breadcrumbsHtml = '<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
+        let breadcrumbsHtml = '<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 13px;">';
         breadcrumbsHtml += '<a href="/partitures/" style="color: #4051b5; text-decoration: none;">🏠 Главная</a>';
         
         let accumulatedPath = '/partitures';
         pathSegments.forEach((segment, index) => {
             accumulatedPath += '/' + segment;
             const isLast = index === pathSegments.length - 1;
+            const displayName = isLast && currentFolderDisplayName ? currentFolderDisplayName : decodeURIComponent(segment);
             
             if (isLast) {
                 // Текущая страница - не ссылка
                 breadcrumbsHtml += `<span style="color: #7f8c8d; margin: 0 8px;">▶</span>`;
-                breadcrumbsHtml += `<span style="color: #2c3e50; font-weight: bold;">${decodeURIComponent(segment)}</span>`;
+                breadcrumbsHtml += `<span style="color: #2c3e50; font-weight: bold;">${displayName}</span>`;
             } else {
                 // Промежуточные страницы - ссылки
                 breadcrumbsHtml += `<span style="color: #7f8c8d; margin: 0 8px;">▶</span>`;
-                breadcrumbsHtml += `<a href="${accumulatedPath}/" style="color: #4051b5; text-decoration: none;">${decodeURIComponent(segment)}</a>`;
+                breadcrumbsHtml += `<a href="${accumulatedPath}/" style="color: #4051b5; text-decoration: none;">${displayName}</a>`;
             }
         });
         
@@ -57,15 +71,14 @@ async function loadBreadcrumbs() {
     } catch (error) {
         console.error('Error loading breadcrumbs:', error);
         document.getElementById('breadcrumbs').innerHTML = 
-            '<span style="color: #e74c3c;">❌ Ошибка загрузки пути</span>';
+            '<span style="color: #e74c3c; font-size: 13px;">❌ Ошибка загрузки пути</span>';
     }
 }
 
-// Функция для загрузки навигации (остается такой же, но с улучшенной обработкой ошибок)
+// Функция для загрузки навигации
 async function loadNavigation() {
     try {
         const currentPath = window.location.pathname;
-        console.log('Current path for navigation:', currentPath);
         
         // Пробуем разные пути к navigation.json
         const possiblePaths = [
@@ -76,25 +89,21 @@ async function loadNavigation() {
         ];
         
         let navData = null;
-        let lastError = null;
         
         for (const path of possiblePaths) {
             try {
-                console.log('Trying navigation path:', path);
                 const response = await fetch(path);
                 if (response.ok) {
                     navData = await response.json();
-                    console.log('✅ Navigation loaded from:', path);
                     break;
                 }
             } catch (error) {
-                lastError = error;
-                console.log('❌ Failed to load from:', path, error.message);
+                continue;
             }
         }
         
         if (!navData) {
-            throw new Error(`Navigation file not found. Tried: ${possiblePaths.join(', ')}`);
+            throw new Error('Navigation file not found');
         }
         
         renderNavigation(navData);
@@ -102,14 +111,14 @@ async function loadNavigation() {
     } catch (error) {
         console.error('Error loading navigation:', error);
         document.getElementById('static-navigation').innerHTML = 
-            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center; border: 1px solid #e74c3c; border-radius: 5px; background: #fdf2f2;">' +
-            '❌ Навигация временно недоступна<br><small>' + error.message + '</small>' +
+            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center; border: 1px solid #e74c3c; border-radius: 5px; background: #fdf2f2; font-size: 13px;">' +
+            '❌ Навигация временно недоступна' +
             '</div>';
     }
 }
 
 function renderNavigation(navData) {
-    let html = '<ul style="list-style: none; padding-left: 0; margin: 0;">';
+    let html = '<ul style="list-style: none; padding-left: 0; margin: 0; font-size: 13px;">';
     
     let hasContent = false;
     
@@ -117,28 +126,24 @@ function renderNavigation(navData) {
     if (navData.folders && navData.folders.length > 0) {
         hasContent = true;
         navData.folders.forEach(folder => {
-            // Формируем корректный путь
             let folderPath = folder.path;
-            // некорректное действие, которое вырезало /partitures и било ссылки в меню
-           // if (folderPath.startsWith('/partitures/')) {
-           //     folderPath = folderPath.substring('/partitures'.length);
-           // }
             if (!folderPath.endsWith('/')) folderPath += '/';
             
             html += `
-                <li style="margin-bottom: 8px;">
+                <li style="margin-bottom: 6px;">
                     <a href="${folderPath}" style="
                         color: #e67e22;
                         text-decoration: none;
                         display: flex;
                         align-items: center;
                         gap: 8px;
-                        padding: 8px 12px;
+                        padding: 6px 10px;
                         background: white;
                         border-radius: 5px;
                         border: 1px solid #e9ecef;
                         font-weight: bold;
                         transition: all 0.2s;
+                        font-size: 13px;
                     " onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
                        onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
                         📁 ${folder.displayName}
@@ -152,29 +157,25 @@ function renderNavigation(navData) {
     if (navData.files && navData.files.length > 0) {
         hasContent = true;
         navData.files.forEach(file => {
-            // Формируем корректный путь
             let filePath = file.path;
-           // некорректное действие, которое вырезало /partitures 
-          //  if (filePath.startsWith('/partitures/')) {
-          //      filePath = filePath.substring('/partitures'.length);
-          //  }
             
             const isActive = window.location.pathname === filePath;
             const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';
             
             html += `
-                <li style="margin-bottom: 8px;">
+                <li style="margin-bottom: 6px;">
                     <a href="${filePath}" style="
                         color: #2c3e50;
                         text-decoration: none;
                         display: flex;
                         align-items: center;
                         gap: 8px;
-                        padding: 8px 12px;
+                        padding: 6px 10px;
                         background: white;
                         border-radius: 5px;
                         border: 1px solid #e9ecef;
                         transition: all 0.2s;
+                        font-size: 13px;
                         ${activeStyle}
                     " onmouseover="this.style.backgroundColor='${isActive ? '#4051b5' : '#f8f9fa'}'; this.style.borderColor='#4051b5';"
                        onmouseout="this.style.backgroundColor='${isActive ? '#4051b5' : 'white'}'; this.style.borderColor='${isActive ? '#4051b5' : '#e9ecef'}';">
@@ -191,39 +192,7 @@ function renderNavigation(navData) {
         document.getElementById('static-navigation').innerHTML = html;
     } else {
         document.getElementById('static-navigation').innerHTML = 
-            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">Папка пуста</div>';
+            '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center; font-size: 13px;">Папка пуста</div>';
     }
 }
-
-// Fallback для отладки
-setTimeout(() => {
-    const navElement = document.getElementById('static-navigation');
-    if (navElement && (navElement.innerHTML.includes('Загрузка навигации') || navElement.innerHTML.includes('недоступна'))) {
-        console.log('Trying to load navigation from known paths...');
-        
-        // Пробуем загрузить и показать простую навигацию вручную
-        const simpleNav = {
-            folders: [
-                {
-                    name: 'vespers',
-                    displayName: 'Вечерня',
-                    path: '/partitures/vespers'
-                },
-                {
-                    name: 'matins',
-                    displayName: 'Утреня', 
-                    path: '/partitures/matins'
-                },
-                {
-                    name: 'liturgy',
-                    displayName: 'Литургия',
-                    path: '/partitures/liturgy'
-                }
-            ],
-            files: []
-        };
-        
-        renderNavigation(simpleNav);
-    }
-}, 3000);
 </script>

@@ -24,10 +24,105 @@ class PartitureGenerator {
         // Сканируем и генерируем все файлы
         this.scanAndGenerate(this.abcDir, this.partituresDir);
         
-        // Генерируем навигационные данные для каждой папки (включая корневую)
+        // Генерируем навигационные данные для каждой папки
         this.generateNavigationData();
         
+        // Генерируем полное дерево партитур для главной страницы
+        this.generateFullTree();
+        
         console.log('✅ Generation completed!');
+    }
+
+    // Новый метод для генерации полного дерева партитур
+    generateFullTree() {
+        console.log('🌳 Generating full partiture tree...');
+        
+        const scanForTree = (dir, currentPath = '') => {
+            if (!fs.existsSync(dir)) return [];
+            
+            const items = fs.readdirSync(dir);
+            const tree = [];
+            
+            items.forEach(item => {
+                if (item === '.git' || item.startsWith('_') || item === 'navigation.json' || item === '.navigation-status.json') {
+                    return;
+                }
+                
+                const fullPath = path.join(dir, item);
+                const stat = fs.statSync(fullPath);
+                const relativePath = currentPath ? `${currentPath}/${item}` : item;
+                
+                if (stat.isDirectory()) {
+                    // Проверяем, должна ли папка показываться в навигации
+                    if (this.getFolderNavigationStatus(fullPath)) {
+                        const folderData = {
+                            type: 'folder',
+                            name: item,
+                            displayName: this.getFolderDisplayName(fullPath),
+                            path: `/partitures/${relativePath}/`,
+                            children: scanForTree(fullPath, relativePath)
+                        };
+                        
+                        // Добавляем папку только если у нее есть дети или она не пустая
+                        if (folderData.children.length > 0) {
+                            tree.push(folderData);
+                        }
+                    }
+                } else if (item.endsWith('.html')) {
+                    // Загружаем метаданные для файла
+                    const metadataPath = path.join(dir, 'metadata.json');
+                    let displayName = this.formatName(path.basename(item, '.html'));
+                    
+                    if (fs.existsSync(metadataPath)) {
+                        try {
+                            const metadata = JSON.parse(fs.readFileSync(metadataPath, 'utf8'));
+                            if (metadata[item] && metadata[item].displayName) {
+                                displayName = metadata[item].displayName;
+                            }
+                        } catch (e) {
+                            console.warn('⚠️ Could not read metadata for tree:', metadataPath, e.message);
+                        }
+                    }
+                    
+                    tree.push({
+                        type: 'file',
+                        name: item,
+                        displayName: displayName,
+                        path: `/partitures/${relativePath}`
+                    });
+                }
+            });
+            
+            // Сортируем: сначала папки, потом файлы
+            tree.sort((a, b) => {
+                if (a.type === b.type) {
+                    return a.displayName.localeCompare(b.displayName);
+                }
+                return a.type === 'folder' ? -1 : 1;
+            });
+            
+            return tree;
+        };
+        
+        const fullTree = scanForTree(this.partituresDir);
+        
+        // Сохраняем полное дерево в корне partitures
+        const treePath = path.join(this.partituresDir, 'full-tree.json');
+        fs.writeFileSync(treePath, JSON.stringify(fullTree, null, 2), 'utf8');
+        
+        console.log('✅ Full tree generated with', this.countTreeItems(fullTree), 'items');
+    }
+
+    // Вспомогательный метод для подсчета элементов в дереве
+    countTreeItems(tree) {
+        let count = 0;
+        tree.forEach(item => {
+            count++;
+            if (item.children) {
+                count += this.countTreeItems(item.children);
+            }
+        });
+        return count;
     }
 
     cleanPartituresDir() {
@@ -119,36 +214,79 @@ class PartitureGenerator {
         
         let title = this.formatName(path.basename(abcFolderPath));
         let content = '';
+        let showInNavigation = true; // значение по умолчанию
         
         if (fs.existsSync(folderIndexPath)) {
             const folderContent = fs.readFileSync(folderIndexPath, 'utf8').trim();
+            const lines = folderContent.split('\n');
+            let contentLines = [];
+            let inScript = false;
+            let scriptContent = [];
             
-            // Если файл начинается с заголовка Markdown, извлекаем его
-            if (folderContent.startsWith('# ')) {
-                const firstLineEnd = folderContent.indexOf('\n');
-                if (firstLineEnd !== -1) {
-                    title = folderContent.substring(2, firstLineEnd).trim();
-                    content = folderContent.substring(firstLineEnd + 1).trim();
-                } else {
-                    title = folderContent.substring(2).trim();
+            lines.forEach(line => {
+                // Извлекаем параметр showInNavigation
+                if (line.trim().startsWith('showInNavigation:')) {
+                    const value = line.split(':')[1].trim().toLowerCase();
+                    showInNavigation = value === 'true';
+                } 
+                // Извлекаем заголовок Markdown
+                else if (line.trim().startsWith('# ') && !inScript) {
+                    title = line.substring(2).trim();
                 }
-            } else {
-                content = folderContent;
+                // Обрабатываем script теги
+                else if (line.trim().startsWith('<script>')) {
+                    inScript = true;
+                    scriptContent.push(line);
+                }
+                else if (line.trim().startsWith('</script>')) {
+                    inScript = false;
+                    scriptContent.push(line);
+                    contentLines.push(scriptContent.join('\n'));
+                    scriptContent = [];
+                }
+                else if (inScript) {
+                    scriptContent.push(line);
+                }
+                // Игнорируем пустые строки в начале
+                else if (line.trim() === '' && contentLines.length === 0 && scriptContent.length === 0) {
+                    // пропускаем
+                }
+                // Все остальное - контент
+                else {
+                    contentLines.push(line);
+                }
+            });
+            
+            // Добавляем оставшийся script контент
+            if (scriptContent.length > 0) {
+                contentLines.push(scriptContent.join('\n'));
             }
-            console.log('📄 Generated folder index from folder.index:', outputIndexPath);
+            
+            content = contentLines.join('\n').trim();
+            console.log('📄 Generated folder index from folder.index:', outputIndexPath, 'showInNavigation:', showInNavigation);
         } else {
             content = `# ${title}\n\nСодержимое папки.`;
             console.log('📄 Generated default folder index:', outputIndexPath);
         }
         
         const frontMatter = `---
-layout: folder
-title: "${title}"
----
+    layout: folder
+    title: "${title}"
+    ---
 
-${content}`;
+    ${content}`;
         
         fs.writeFileSync(outputIndexPath, frontMatter, 'utf8');
+        
+        // Сохраняем статус навигации для использования при генерации navigation.json
+        this.saveFolderNavigationStatus(partituresFolderPath, showInNavigation);
+    }
+
+    // Новый метод для сохранения статуса навигации
+    saveFolderNavigationStatus(folderPath, showInNavigation) {
+        const statusPath = path.join(folderPath, '.navigation-status.json');
+        const status = { showInNavigation: showInNavigation };
+        fs.writeFileSync(statusPath, JSON.stringify(status, null, 2), 'utf8');
     }
 
     processAbcFile(abcFilePath, partituresPath) {
@@ -326,15 +464,24 @@ ${abcContent}
         return result;
     }
 
-    // Новый метод для проверки статуса навигации папки
+    // Обновленный метод для чтения статуса навигации
     getFolderNavigationStatus(folderPath) {
-        const indexPath = path.join(folderPath, 'folder.index');
+        // Сначала пробуем прочитать из .navigation-status.json
+        const statusPath = path.join(folderPath, '.navigation-status.json');
+        if (fs.existsSync(statusPath)) {
+            try {
+                const status = JSON.parse(fs.readFileSync(statusPath, 'utf8'));
+                return status.showInNavigation !== false; // по умолчанию true
+            } catch (e) {
+                console.warn('⚠️ Could not read navigation status:', statusPath, e.message);
+            }
+        }
         
+        // Fallback: читаем из folder.index
+        const indexPath = path.join(folderPath, 'folder.index');
         if (fs.existsSync(indexPath)) {
             try {
                 const content = fs.readFileSync(indexPath, 'utf8');
-                
-                // Ищем параметр showInNavigation в содержимом
                 const navigationMatch = content.match(/showInNavigation:\s*(true|false)/i);
                 if (navigationMatch) {
                     return navigationMatch[1].toLowerCase() === 'true';

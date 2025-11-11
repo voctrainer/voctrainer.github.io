@@ -3,6 +3,13 @@
         📁 Содержание
     </h3>
     
+    <!-- Хлебные крошки -->
+    <div id="breadcrumbs" style="margin-bottom: 15px; padding: 8px 12px; background: #f8f9fa; border-radius: 5px; border: 1px solid #e9ecef; font-size: 14px;">
+        <div style="color: #7f8c8d; font-style: italic;">
+            Загрузка пути...
+        </div>
+    </div>
+    
     <div id="static-navigation">
         <div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">
             Загрузка навигации...
@@ -12,22 +19,90 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    loadBreadcrumbs();
     loadNavigation();
 });
 
+// Функция для загрузки и отображения хлебных крошек
+async function loadBreadcrumbs() {
+    try {
+        const currentPath = window.location.pathname;
+        console.log('Current path for breadcrumbs:', currentPath);
+        
+        // Разбираем путь на сегменты
+        const pathSegments = currentPath.split('/').filter(segment => segment && segment !== 'partitures');
+        
+        let breadcrumbsHtml = '<span style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">';
+        breadcrumbsHtml += '<a href="/partitures/" style="color: #4051b5; text-decoration: none;">🏠 Главная</a>';
+        
+        let accumulatedPath = '/partitures';
+        pathSegments.forEach((segment, index) => {
+            accumulatedPath += '/' + segment;
+            const isLast = index === pathSegments.length - 1;
+            
+            if (isLast) {
+                // Текущая страница - не ссылка
+                breadcrumbsHtml += `<span style="color: #7f8c8d; margin: 0 8px;">▶</span>`;
+                breadcrumbsHtml += `<span style="color: #2c3e50; font-weight: bold;">${decodeURIComponent(segment)}</span>`;
+            } else {
+                // Промежуточные страницы - ссылки
+                breadcrumbsHtml += `<span style="color: #7f8c8d; margin: 0 8px;">▶</span>`;
+                breadcrumbsHtml += `<a href="${accumulatedPath}/" style="color: #4051b5; text-decoration: none;">${decodeURIComponent(segment)}</a>`;
+            }
+        });
+        
+        breadcrumbsHtml += '</span>';
+        document.getElementById('breadcrumbs').innerHTML = breadcrumbsHtml;
+        
+    } catch (error) {
+        console.error('Error loading breadcrumbs:', error);
+        document.getElementById('breadcrumbs').innerHTML = 
+            '<span style="color: #e74c3c;">❌ Ошибка загрузки пути</span>';
+    }
+}
+
+// Функция для загрузки навигации (остается такой же, но с улучшенной обработкой ошибок)
 async function loadNavigation() {
     try {
-        // Всегда загружаем из текущей директории
-        const response = await fetch('./navigation.json');
-        if (!response.ok) throw new Error('Navigation file not found');
+        const currentPath = window.location.pathname;
+        console.log('Current path for navigation:', currentPath);
         
-        const navData = await response.json();
+        // Пробуем разные пути к navigation.json
+        const possiblePaths = [
+            './navigation.json',
+            '/partitures/navigation.json',
+            '/voctrainer.github.io/partitures/navigation.json',
+            'navigation.json'
+        ];
+        
+        let navData = null;
+        let lastError = null;
+        
+        for (const path of possiblePaths) {
+            try {
+                console.log('Trying navigation path:', path);
+                const response = await fetch(path);
+                if (response.ok) {
+                    navData = await response.json();
+                    console.log('✅ Navigation loaded from:', path);
+                    break;
+                }
+            } catch (error) {
+                lastError = error;
+                console.log('❌ Failed to load from:', path, error.message);
+            }
+        }
+        
+        if (!navData) {
+            throw new Error(`Navigation file not found. Tried: ${possiblePaths.join(', ')}`);
+        }
+        
         renderNavigation(navData);
         
     } catch (error) {
         console.error('Error loading navigation:', error);
         document.getElementById('static-navigation').innerHTML = 
-            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center;">' +
+            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center; border: 1px solid #e74c3c; border-radius: 5px; background: #fdf2f2;">' +
             '❌ Навигация временно недоступна<br><small>' + error.message + '</small>' +
             '</div>';
     }
@@ -42,8 +117,11 @@ function renderNavigation(navData) {
     if (navData.folders && navData.folders.length > 0) {
         hasContent = true;
         navData.folders.forEach(folder => {
-            // ФИКС: используем путь как есть, без добавления /partitures/
+            // Формируем корректный путь
             let folderPath = folder.path;
+            if (folderPath.startsWith('/partitures/')) {
+                folderPath = folderPath.substring('/partitures'.length);
+            }
             if (!folderPath.endsWith('/')) folderPath += '/';
             
             html += `
@@ -73,9 +151,13 @@ function renderNavigation(navData) {
     if (navData.files && navData.files.length > 0) {
         hasContent = true;
         navData.files.forEach(file => {
-            // ФИКС: используем путь как есть, без добавления /partitures/
-            const filePath = file.path;
-            const isActive = window.location.pathname.endsWith(filePath);
+            // Формируем корректный путь
+            let filePath = file.path;
+            if (filePath.startsWith('/partitures/')) {
+                filePath = filePath.substring('/partitures'.length);
+            }
+            
+            const isActive = window.location.pathname === filePath;
             const activeStyle = isActive ? 'background-color: #4051b5!important; color: white!important; border-color: #4051b5!important;' : '';
             
             html += `
@@ -111,14 +193,35 @@ function renderNavigation(navData) {
     }
 }
 
-// Debug: выводим в консоль что загрузилось
+// Fallback для отладки
 setTimeout(() => {
-    fetch('./navigation.json')
-        .then(r => r.json())
-        .then(data => {
-            console.log('Navigation data:', data);
-            console.log('Current path:', window.location.pathname);
-        })
-        .catch(e => console.log('Cannot load navigation for debug'));
-}, 1000);
+    const navElement = document.getElementById('static-navigation');
+    if (navElement && (navElement.innerHTML.includes('Загрузка навигации') || navElement.innerHTML.includes('недоступна'))) {
+        console.log('Trying to load navigation from known paths...');
+        
+        // Пробуем загрузить и показать простую навигацию вручную
+        const simpleNav = {
+            folders: [
+                {
+                    name: 'vespers',
+                    displayName: 'Вечерня',
+                    path: '/partitures/vespers'
+                },
+                {
+                    name: 'matins',
+                    displayName: 'Утреня', 
+                    path: '/partitures/matins'
+                },
+                {
+                    name: 'liturgy',
+                    displayName: 'Литургия',
+                    path: '/partitures/liturgy'
+                }
+            ],
+            files: []
+        };
+        
+        renderNavigation(simpleNav);
+    }
+}, 3000);
 </script>

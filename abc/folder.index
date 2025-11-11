@@ -10,3 +10,81 @@ showInNavigation: true
 2. Откройте нужную партитуру  
 3. Используйте встроенный плеер для прослушивания
 4. Практикуйте пение с аккомпанементом
+
+## 📂 Полный каталог партитур
+
+<div id="full-partiture-tree">
+    <div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center;">
+        Загрузка полного каталога...
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    loadFullTree();
+});
+
+async function loadFullTree() {
+    try {
+        const response = await fetch('./full-tree.json');
+        if (!response.ok) throw new Error('Full tree file not found');
+        
+        const treeData = await response.json();
+        renderFullTree(treeData);
+        
+    } catch (error) {
+        console.error('Error loading full tree:', error);
+        document.getElementById('full-partiture-tree').innerHTML = 
+            '<div style="color: #e74c3c; font-style: italic; padding: 20px; text-align: center; border: 1px solid #e74c3c; border-radius: 5px; background: #fdf2f2;">' +
+            '❌ Полный каталог временно недоступен<br><small>' + error.message + '</small>' +
+            '</div>';
+    }
+}
+
+function renderFullTree(treeData, level = 0) {
+    if (!treeData || treeData.length === 0) {
+        return '<div style="color: #7f8c8d; font-style: italic; padding: 10px 20px;">Папка пуста</div>';
+    }
+    
+    let html = '<ul style="list-style: none; padding-left: ' + (level * 20) + 'px; margin: 0;">';
+    
+    treeData.forEach(item => {
+        const indent = level * 20;
+        const isFolder = item.type === 'folder';
+        const icon = isFolder ? '📁' : '📄';
+        const color = isFolder ? '#e67e22' : '#2c3e50';
+        const fontWeight = isFolder ? 'bold' : 'normal';
+        
+        html += `
+            <li style="margin-bottom: 4px;">
+                <a href="${item.path}" style="
+                    color: ${color};
+                    text-decoration: none;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    padding: 6px 12px;
+                    background: white;
+                    border-radius: 5px;
+                    border: 1px solid #e9ecef;
+                    font-weight: ${fontWeight};
+                    transition: all 0.2s;
+                    margin-left: ${indent}px;
+                " onmouseover="this.style.backgroundColor='${isFolder ? '#fff3e0' : '#f8f9fa'}'; this.style.borderColor='${isFolder ? '#e67e22' : '#4051b5'};"
+                   onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
+                    ${icon} ${item.displayName}
+                </a>
+        `;
+        
+        // Рекурсивно отображаем детей для папок
+        if (isFolder && item.children && item.children.length > 0) {
+            html += renderFullTree(item.children, level + 1);
+        }
+        
+        html += '</li>';
+    });
+    
+    html += '</ul>';
+    return html;
+}
+</script>

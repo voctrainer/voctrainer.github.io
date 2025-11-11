@@ -1,0 +1,43 @@
+%abc-2.1
+
+X:1
+T:Ектения на литии
+C:В трад. храма Архистратига Михаила в Заокском
+M:28/4
+L:1/4
+%%tempo { 40, 60, *80, 100, 120, 140 }
+K:C
+%%player_top
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass name="Tenor"
+%%MIDI program 40
+V:4 clef=bass name="Bass"
+%%MIDI program 40
+%%score [(1 2) (3 4)]
+[V:1]
+BBBBBBcccccdeedcB2 c4 ||
+w: Гос-по-ди, по-ми-луй, Гос-по-ди, по-ми-луй, Гос-по-ди, по-ми-луй,
+BBB|BBB|ccc|ccc|ddd|
+w: Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П.
+ddd|ccc|ccc|BBB|BBBB2B2||
+w:  Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.П. Г.по-ми-луй
+BBBcdd|dcBcd2(ed)|c3ccdB2c4|]
+w: Гос-по-ди, по-ми-луй, Гос-по-ди, по-ми-луй,* Гос-по-ди, по-ми-луй
+[V:2]
+^GGGGGGAAAAABccBA^G2 A4 ||
+^GGG|^GGG|AAA|AAA|BBB|
+BBB|AAA|AAA|^GGG|^GGGG2G2||
+^GGGABB|BA=GAB2(cB)| A3AAA^G2A4|]
+[V:3]
+EEEEEEEEEEEEEEEEE2E4 ||
+EEE|EEE|EEE|EEE|EEE|
+EEE|EEE|EEE|EEE|EEEE2E2||
+EEEE=GG|=GGGGG2G2|E3EEFE2E4|]
+[V:4]
+z22 ||
+E,E,E,|E,E,E,|A,A,A,|A,A,A,|^G,G,G,|
+^G,G,G,|A,A,A,|A,A,A,|E,E,E,| E,E,E,E,2E,2||
+E,E,E,A,G,G,|G,G,G,G,G,2E,2| A,3,A,A,D,E,2A,4|]

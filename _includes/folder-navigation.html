@@ -20,15 +20,8 @@ async function loadTreeNavigation() {
     try {
         const currentPath = window.location.pathname.replace(/\/+/g, '/').replace(/\/$/, '');
         
-        // Загружаем полное дерево
-        const fullTreeResponse = await fetch('https://voctrainer.github.io/partitures/full-tree.json');
-        if (!fullTreeResponse.ok) {
-            throw new Error('Failed to load full tree');
-        }
-        const fullTree = await fullTreeResponse.json();
-        
-        // Строим путь навигации
-        renderPathNavigation(fullTree, currentPath);
+        // Строим путь навигации используя navigation.json текущей папки
+        await renderPathNavigation(currentPath);
         
     } catch (error) {
         console.error('Error loading tree navigation:', error);
@@ -39,11 +32,11 @@ async function loadTreeNavigation() {
     }
 }
 
-function renderPathNavigation(tree, currentPath) {
-    // Находим путь к текущей папке/файлу
-    const pathParts = findPathInTree(tree, currentPath);
+async function renderPathNavigation(currentPath) {
+    // Получаем navigation.json для текущей папки
+    const navData = await loadNavigationData(currentPath);
     
-    if (!pathParts || pathParts.length === 0) {
+    if (!navData) {
         document.getElementById('tree-navigation').innerHTML = 
             '<div style="color: #7f8c8d; font-style: italic; padding: 20px; text-align: center; font-size: 13px;">Навигация не найдена</div>';
         return;
@@ -51,121 +44,157 @@ function renderPathNavigation(tree, currentPath) {
     
     let html = '<div class="tree-view" style="font-size: 13px; line-height: 1.4;">';
     
-    // Отображаем путь от корня до текущего элемента
-    pathParts.forEach((item, index) => {
-        const isLast = index === pathParts.length - 1;
-        const isFolder = item.type === 'folder';
-        const isCurrent = currentPath === item.path;
+    // Добавляем корневую папку "Партитуры"
+    html += `
+        <div style="display: flex; align-items: center; margin: 1px 0;">
+            <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">├─</span>
+            <a href="/partitures/" 
+               style="color: #e67e22; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s;"
+               onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+               onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='transparent';">
+                📁 Партитуры
+            </a>
+        </div>
+    `;
+    
+    // Строим путь на основе currentPath
+    const pathSegments = currentPath.split('/').filter(segment => segment && segment !== 'partitures');
+    let accumulatedPath = '/partitures';
+    
+    // Отображаем путь папок
+    for (let i = 0; i < pathSegments.length; i++) {
+        const segment = pathSegments[i];
+        const isLastSegment = i === pathSegments.length - 1;
+        accumulatedPath += '/' + segment;
         
-        // Определяем отступ
-        const indent = '  '.repeat(index);
+        // Получаем displayName для этой папки
+        const segmentDisplayName = await getFolderDisplayName(accumulatedPath, segment);
         
-        // Определяем иконку и стиль
-        let icon = '📄';
-        let style = 'color: #2c3e50;';
+        const indent = '  '.repeat(i + 1);
+        const connector = isLastSegment ? '└─' : '├─';
         
-        if (isFolder) {
-            icon = isLast ? '📂' : '📁';
-            style = 'color: #e67e22; font-weight: bold;';
+        html += `
+            <div style="display: flex; align-items: center; margin: 1px 0;">
+                <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${connector}</span>
+                <a href="${accumulatedPath}/" 
+                   style="color: #e67e22; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s;"
+                   onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+                   onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='transparent';">
+                    ${isLastSegment ? '📂' : '📁'} ${segmentDisplayName}
+                </a>
+            </div>
+        `;
+        
+        // Если это последний сегмент, показываем содержимое папки
+        if (isLastSegment) {
+            // Папки
+            if (navData.folders && navData.folders.length > 0) {
+                navData.folders.forEach((folder, folderIndex) => {
+                    const isLastFolder = folderIndex === navData.folders.length - 1 && (!navData.files || navData.files.length === 0);
+                    const indent = '  '.repeat(i + 2);
+                    const connector = isLastFolder ? '└─' : '├─';
+                    
+                    html += `
+                        <div style="display: flex; align-items: center; margin: 1px 0;">
+                            <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${connector}</span>
+                            <a href="${folder.path}${!folder.path.endsWith('/') ? '/' : ''}" 
+                               style="color: #e67e22; font-weight: bold; text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s;"
+                               onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
+                               onmouseout="this.style.backgroundColor='transparent'; this.style.borderColor='transparent';">
+                                📁 ${folder.displayName}
+                            </a>
+                        </div>
+                    `;
+                });
+            }
+            
+            // Файлы
+            if (navData.files && navData.files.length > 0) {
+                navData.files.forEach((file, fileIndex) => {
+                    const isLastFile = fileIndex === navData.files.length - 1;
+                    const isCurrentFile = currentPath === file.path;
+                    const indent = '  '.repeat(i + 2);
+                    const connector = isLastFile ? '└─' : '├─';
+                    const activeStyle = isCurrentFile ? 'background-color: #4051b5!important; color: white!important;' : '';
+                    
+                    html += `
+                        <div style="display: flex; align-items: center; margin: 1px 0;">
+                            <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${connector}</span>
+                            <a href="${file.path}" 
+                               style="color: #2c3e50; text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s; ${activeStyle}"
+                               onmouseover="this.style.backgroundColor='${isCurrentFile ? '#4051b5' : '#f8f9fa'}'; this.style.borderColor='#4051b5';"
+                               onmouseout="this.style.backgroundColor='${isCurrentFile ? '#4051b5' : 'transparent'}'; this.style.borderColor='transparent';">
+                                📄 ${file.displayName}
+                            </a>
+                        </div>
+                    `;
+                });
+            }
         }
-        
-        if (isCurrent) {
-            style += ' background-color: #4051b5!important; color: white!important;';
-        }
-        
-        // Для последнего элемента не делаем ссылку
-        if (isLast && !isFolder) {
-            html += `
-                <div style="display: flex; align-items: center; margin: 1px 0;">
-                    <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${isLast ? '└─' : '├─'}</span>
-                    <span style="${style} display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1;">
-                        ${icon} ${item.displayName}
-                    </span>
-                </div>
-            `;
-        } else {
-            // Для папок и неактивных элементов - ссылки
-            const href = isFolder ? item.path + '/' : item.path;
-            html += `
-                <div style="display: flex; align-items: center; margin: 1px 0;">
-                    <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${isLast ? '└─' : '├─'}</span>
-                    <a href="${href}" 
-                       style="${style} text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s;"
-                       onmouseover="this.style.backgroundColor='${isCurrent ? '#4051b5' : (isFolder ? '#fff3e0' : '#f8f9fa')}'; this.style.borderColor='${isFolder ? '#e67e22' : '#4051b5'};'"
-                       onmouseout="this.style.backgroundColor='${isCurrent ? '#4051b5' : 'transparent'}'; this.style.borderColor='transparent';">
-                        ${icon} ${item.displayName}
-                    </a>
-                </div>
-            `;
-        }
-        
-        // Если это папка и последняя в пути, показываем ее содержимое
-        if (isFolder && isLast && item.children) {
-            renderFolderContents(item.children, html, index + 1, currentPath);
-        }
-    });
+    }
     
     html += '</div>';
     document.getElementById('tree-navigation').innerHTML = html;
 }
 
-function renderFolderContents(children, html, level, currentPath) {
-    children.forEach((item, index) => {
-        const isLast = index === children.length - 1;
-        const isFolder = item.type === 'folder';
-        const isCurrent = currentPath === item.path;
-        
-        const indent = '  '.repeat(level);
-        let icon = isFolder ? '📁' : '📄';
-        let style = isFolder ? 'color: #e67e22; font-weight: bold;' : 'color: #2c3e50;';
-        
-        if (isCurrent) {
-            style += ' background-color: #4051b5!important; color: white!important;';
+async function loadNavigationData(currentPath) {
+    // Пробуем загрузить navigation.json из текущей папки
+    const possiblePaths = [
+        './navigation.json',
+        currentPath + '/navigation.json',
+        '/partitures/navigation.json'
+    ];
+    
+    for (const path of possiblePaths) {
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                return await response.json();
+            }
+        } catch (error) {
+            continue;
         }
-        
-        const href = isFolder ? item.path + '/' : item.path;
-        html += `
-            <div style="display: flex; align-items: center; margin: 1px 0;">
-                <span style="font-family: monospace; color: #7f8c8d; margin-right: 8px;">${indent}${isLast ? '└─' : '├─'}</span>
-                <a href="${href}" 
-                   style="${style} text-decoration: none; display: flex; align-items: center; gap: 6px; padding: 3px 8px; border-radius: 3px; flex: 1; border: 1px solid transparent; transition: all 0.2s;"
-                   onmouseover="this.style.backgroundColor='${isCurrent ? '#4051b5' : (isFolder ? '#fff3e0' : '#f8f9fa')}'; this.style.borderColor='${isFolder ? '#e67e22' : '#4051b5'};'"
-                   onmouseout="this.style.backgroundColor='${isCurrent ? '#4051b5' : 'transparent'}'; this.style.borderColor='transparent';">
-                    ${icon} ${item.displayName}
-                </a>
-            </div>
-        `;
-    });
+    }
+    return null;
 }
 
-// Функция для поиска пути в дереве
-function findPathInTree(tree, targetPath) {
-    function search(items, path) {
-        for (const item of items) {
-            const currentPath = path.concat([item]);
-            
-            if (item.path === targetPath) {
-                return currentPath;
+async function getFolderDisplayName(folderPath, fallbackName) {
+    // Пробуем получить displayName из navigation.json папки
+    const possiblePaths = [
+        folderPath + '/navigation.json',
+        folderPath + '../navigation.json'
+    ];
+    
+    for (const path of possiblePaths) {
+        try {
+            const response = await fetch(path);
+            if (response.ok) {
+                const navData = await response.json();
+                if (navData.currentFolder && navData.currentFolder.displayName) {
+                    return navData.currentFolder.displayName;
+                }
             }
-            
-            if (item.type === 'folder' && item.children) {
-                const found = search(item.children, currentPath);
-                if (found) return found;
-            }
+        } catch (error) {
+            continue;
         }
-        return null;
     }
     
-    return search(tree, []);
+    // Если не нашли, используем fallbackName (преобразуем в читаемый вид)
+    return fallbackName.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
 }
 
-// Исправляем ссылки в навигации - убираем лишние слеши
+// Исправляем ссылки - убираем лишние слеши
 function fixNavigationLinks() {
     document.addEventListener('click', function(e) {
-        if (e.target.closest('#tree-navigation a')) {
+        const link = e.target.closest('#tree-navigation a');
+        if (link) {
             e.preventDefault();
-            const href = e.target.closest('a').getAttribute('href').replace(/\/+/g, '/').replace(/\/$/, '');
-            window.location.href = href + (e.target.closest('a').getAttribute('href').endsWith('/') ? '/' : '');
+            let href = link.getAttribute('href').replace(/\/+/g, '/');
+            // Убираем слеш в конце для файлов
+            if (href.endsWith('.html/')) {
+                href = href.slice(0, -1);
+            }
+            window.location.href = href;
         }
     });
 }

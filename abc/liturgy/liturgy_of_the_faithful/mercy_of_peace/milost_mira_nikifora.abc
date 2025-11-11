@@ -1,0 +1,59 @@
+m
+X:8
+T:Милость мира
+C:и. Никифора
+%%score [ 1 2 3 4 ]
+%%player_top
+L:1/4
+%%tempo { 40, 60, *80, 100, 120, 140 }
+M:4/4
+I:linebreak $
+K:C
+V:1 treble nm="Soprano" snm="S."
+V:2 treble nm="Alt" snm="A."
+V:3 bass nm="Tenor" snm="T."
+V:4 bass nm="Bass" snm="B."
+V:1
+e e f f | e2 f e/d/ | e2 d2 | e4 | z z e e |[M:3/4] f f e/d/ |[M:4/4] c2 z2 | d d d e |
+f2 e d | e2 z e | g2 e d/e/ | f2 e d | e2 e e | d d e f | e3 e | d d d e |
+f e/d/ e2 | d2 e2 | g2 e d/e/ | f e d2 | e2 f2 | f e/d/ e2 | d2 c2 | z4 | g2 f2 | e3 e |
+d2 d c/d/ | e2 e e | f f f/e/ d | e2 e e | d d e f | e e f g | a2 g2 | g2 g f | e3/2 e/ e e |
+f2 e d | e2 f g | a2 g f | e2 d2 | e4 | z4 | z z z e | e4 | z4 | z2 z e | f2 e2 | z4 | z z z c |
+c2 d2 | e3 e | f e f f | e3 d | c c d c | d2 A B | c2 B2 | c2 z d | e2 e e | d3 d | e2 f f |
+e3 d | c d e f | e2 e d | c4 | d d A B | c2 B2 | c4 |]
+V:2
+c c B B | c2 c c | c2 B2 | c4 | z z c c |[M:3/4] c c c |[M:4/4] c2 z2 | B B B c | d2 c B |
+c2 z c | e2 c B/c/ | d2 c B | c2 c c | B B c B | c3 c | B B B c | c c c2 | B2 c2 |
+e2 c B/c/ | d c B2 | c2 c2 | c c c2 | B2 G2 | z4 | e2 d2 | c3 c | B2 B A/B/ | c2 c c | c c c c |
+c2 c c | B B c B | c c d e | f2 e2 | d c B B | c3/2 c/ c c | c2 c B | c2 d e | f2 e d | c2 B2 |
+c4 | z4 | z z z c | c4 | z4 | z z z c | B2 c2 | z4 | z z z A | A2 B2 | c3 c | c c d A/B/ | B3 B |
+A A ^G A | A4 | A2 ^G2 | A2 z B | c2 c c | B3 B | c2 B B | c2 B2 | A ^G A B | c2 ^G2 | c4 |
+A A A A | A2 ^G2 | A4 |]
+V:3
+!8va(! G G G G | G2 A A | G2 G2 | G4 | z z G G |[M:3/4] A A A |[M:4/4] G2 z2 | G G G G |
+w: Ми- лость ми- ра|жерт- ву хва-|ле- ни-|я|И со|ду- хом тво-|им|И- ма- мы ко|
+G2 G2 | G2  z G | G2 G G | G2 G G | G2 G G | G G G G | G3 G | G G G G | A A G2 | G2 G2 |
+w: Гос- по|ду Дос-|той- но и|пра- вед- но|есть по- кла-|ня- ти- ся От-|цу, и|Сы- ну, и Свя-|то- му Ду-|* ху,|
+G2 G G | G G G2 | G2 A2 | A A G2 | G F E2 | z4 | c2 B2 | G3 G | G2 G G | G2 G G | A A A A |
+w: Трой- це е-|ди- но- сущ-|ной и|не- раз- де-|* * льней||Свят, Свят,|Свят Гос-|подь Са- ва-|оф, ис- полнь|не- бо и зем-|
+G2 G G | G G G G | G c c c | c d c2 | B A G G | G3/2 G/ c _B | A2 G G | G2 G c | c2 c A | G2 G2 |
+w: ля сла- вы,|сла- вы Тво- е-|я, о- сан- на|в выш- них|бла- * гос- ло-|вен гря- дый во|и- мя Гос-|под- не, о-|сан- на *|в выш-|
+G4 | z4 | z z z G | G2 z2 | z4 | z z z G | G2 G2 | z4 | z z z E | E2 E2 | A3 A | A A A A | ^G3 G |
+w: них||А-|минь||А-|минь *||Те-|бе по-|ем Те-|бе бла- го- сло-|вим, те-|
+E E E E | F4 | E2 E2 | E2 z =G | G2 G G | G3 B | G2 G G | G2 ^G2 | E E E D | E2 E2 | F4 |
+w: бе бла- го- да-|рим,|Гос- по-|ди, и|мо- лим ти|ся и|мо- лим ти|ся *|мо- лим- ти ся|Бо- же|наш,|
+F F F F | E2 E2 | E4!8va)! |]
+w: мо- лим ти ся|Бо- же|наш|
+w: |3 *||
+V:4
+C, C, G,, G,, | C,2 F, F, | G,2 G,,2 | C4 | z2 C C |[M:3/4] F, F, F, |[M:4/4] E,2 z2 |
+G,, G,, G,, C, | B,,2 C, G,, | C,2 z C, | C,2 C, G,, | G,,2 G,, G,, | C,2 C, E, |
+G, F, E, D, | C,3 E, | G, G, G, C, | F, F, G,2 | G,,2 C,2 | C,2 C, G,, | G,, G,, G,,2 | C,2 F,2 |
+F, F, G,2 | G,,2 C,2 | z4 | C2 G,2 | C,3 E, | G,2 G, G,, | C,2 C, C, | F, F, F, F, | C,2 C, E, |
+G, F, E, D, | C, C A, G, | F,2 C,2 | G,2 G,, G,, | C,3/2 C,/ C, C, | F,2 G, G,, | C,2 C, C, |
+F,2 C, F, | G,2 G,2 | G,4 | z4 | z z z C, | C,2 z2 | z4 | z z z C, | D,2 C,2 | z4 | z z z A,, |
+A,,2 A,,2 | A,,2 A, G, | F, E, D, C,/D,/ | E,3 E, | A,, A,, B,, C, | D,4 | D,2 D,2 | D,2 z =G,, |
+C,2 C, E, | G,3 F, | E,2 E, E, | G,2 ^G,2 | E, E, E, D, | E,2 E,2 | F,4 | D, D, D, D, | E,2 E,2 |
+E,4 |]
+
+

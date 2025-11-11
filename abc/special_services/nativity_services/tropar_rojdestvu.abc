@@ -1,0 +1,54 @@
+%abc-2.1
+
+X:1
+T: Тропарь Рождеству Христову
+C: неизв. автор
+M: 3/4
+L: 1/4
+K:F
+V:1 clef=treble name="Soprano1"
+%%MIDI program 40
+V:2 clef=treble name="Soprano2"
+%%MIDI program 40
+V:3 clef=treble name="Alto"
+%%MIDI program 40
+V:4 clef=treble  name="Tenor1"
+%%MIDI program 40
+V:5 clef=treble name="Tenor2"
+%%MIDI program 40
+%%score [(1 2) 3 (4 5)]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+[V:1]
+z2 A/2 B/2 | c c c | B/2c/2 d c | B A2 | A/2 B/2 c c | c B/2c/2 d | c B A |
+w: Рож-дест-во Тво-е, Хри--сте Бо-же наш, воз-си-я ми-ро-ви* свет ра-зу-ма
+z B B | A/2B/2 c B | B A G | z A/2B/2 c | c d c | B A2 |
+w: Внем бо звез--дам слу-жа-щи-и звез--до-ю у-ча-ху-ся
+G/2 A/2 B B | B A/2B/2 c | B (B A) | G2 c/2 d/2 | e e/2d/2 c/2=B/2 | c c/2 d/2 e |
+w: Те-бе кла-ня-ти-ся* Солн-цу прав--ды, и Те-бе ве--де--ти свы-со-ты
+f e2 | c z (c | c) c d | c2 B | B A2 |]
+w: Вос-то-ка: Гос--по-ди, сла-ва Те-бе!
+[V:2]
+z2 A/2 B/2 | c c c | B/2c/2 d c | B A2 | A/2 B/2 c c | c B/2c/2 d | c B A |
+z B B | A/2B/2 c B | B A G | z A/2B/2 c | c d c | B A2 |
+G/2 A/2 B B | B A/2B/2 c | B (B A) | G2 c/2 d/2 | c c/2d/2 c/2=B/2 | c c/2 d/2 c |
+c c2 | c z (c | c) c d | c2 B | B A2 |]
+[V:3]
+z2 F/2 G/2 | A A A | G/2A/2 B A | G F2 | F/2 G/2 A A | A G/2A/2 B | A G F |
+w: Рож-дест-во Тво-е, Хри--сте Бо-же наш, воз-си-я ми-ро-ви* свет ра-зу-ма
+z G G | F/2G/2 A G | G F E | z F/2G/2 A | A B A | G F2 |
+w: Внем бо звез--дам слу-жа-щи-и звез--до-ю у-ча-ху-ся
+E/2 F/2 G G | G F/2G/2 A | G (G F) | E2 G/2 G/2 | G G G | G G/2 G/2 G |
+w: Те-бе кла-ня-ти-ся* Солн-цу прав--ды, и Те-бе ве-де-ти свы-со-ты
+A G2 | G z(A | A) A B | A2 G | G F2 |]
+w: Вос-то-ка: Гос--по-ди, сла-ва Те-бе!
+[V:4]
+z2 C/2 C/2 | F F F | F F F | E C2 | C/2 C/2 F F | FFF | FE C |
+zC C | C C C |   C C C | z C F | F FF | C C2 |
+C/2 C/2 C C | C C F | C C2 | C2 E/2 F/2 | G G/2F/2 E/2D/2 | E E/2 F/2 G |
+F C2 | C z (F | F) F F | F2 E | E C2 |]
+[V:5]
+z2 C/2 C/2 | F F F | F F F | E C2 | C/2 C/2 F F | FFF | FE C |
+zC C | C C C |   C C C | z C F | F FF | C C2 |
+C/2 C/2 C C | C C F | C C2 | C2 C/2 =B,/2 | C C C/2G,/2 | C C/2 =B,/2 C |
+F C2 | C z (F | F) F F | F2 E | E C2 |]

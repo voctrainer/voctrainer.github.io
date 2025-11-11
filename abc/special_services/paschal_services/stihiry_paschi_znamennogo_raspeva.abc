@@ -1,0 +1,179 @@
+X:1
+T: Стихиры Пасхи
+C: Знаменного распева
+M: 4/4
+L: 1/4
+K:G
+V:1 clef=treble name="Soprano"
+%%MIDI program 1
+V:2 clef=treble name="Alto"
+%%MIDI program 1
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 1
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 1
+%%tempo { 100, 120, *140, 160, 180 }
+%%score [(1 2) (3 4)]
+%%player_top
+%%text  
+[V:1]BBBAG2|BBcd2BB(c2BA)(BA)G2||
+[V:2]GGGFE2|GGAB2GG(A2GF)(GF)E2||
+w: Да вос-крес-нет Бог, и рас-то-чат-ся вра-зи--*  Е--го
+[V:3]ddddB2|dddd2ddd4d2B2||
+[V:4]gggde2|gggg2ggd4(gd)e2||
+%%text 
+[V:1]B2B2BBBBBc2BB(A2B2)c4|=GGGGA(B2AG)F2|
+[V:2]G2G2GGGGGA2GG(F2^G2)A4|EEEEF(G2FE)^D2|
+w:Пас-ха свя-щен-на-я нам~ днесь по-ка-за-*ся, Пас-ха но-ва, свя-та-*-я 
+[V:3]d2d2dddddd2dd(d2e2)e4|BBBBd(d3B)B2|
+[V:4]g2g2gggggf2gg(d2e2)a4|eeeed(g2de)B2|
+%%text
+[V:1]G2AB2BBBB2|B2BBcd4B4|
+[V:2]E2FG2GGG|G2G2GGAB4G4|
+w:Пас-ха та-инст-вен-на-я, Пас-ха все-чест-на-я,
+[V:3]B2dd2dddd2|d2dddd4d4|
+[V:4]e2dg2gggg2|g2gggg4g4||
+%%text 
+[V:1]B2BBc2B2A2B2c4|=GGGA(B2A)GF2|
+[V:2]G2GGA2G2F2^G2A4|EEEF(G2F)E^D2|
+w:Пас-ха Хрис-тос Из-ба-ви-тель, Пас-ха не-по-роч--на-я,
+[V:3]d2ddd2d2d2e2e4|BBBdd3BB2|
+[V:4]g2ggf2g2d2e2a4|eeed(g2d)eB2|
+%%text 
+[V:1]G2GAB3BB2|B2cd4B4|B2BBBBBBc2BBA2BBc2|
+[V:2]E2EFG3GG2|G2AB4G4|G2GGGGGGA2GGF2^GGA2|
+w:Пас-ха ве-ли-ка-я, Пас-ха вер-ных, Пас-ха две-ри райс-ки-я нам от-вер-за-ю-ща-я, 
+[V:3]B2Bdd3dd2|d2dd4d4|d2ddddddd2ddd2eee2|
+[V:4]e2edg3gg2|g2gg4g4|g2ggggggf2ggd2eea2|
+%%text 
+[V:1]B2BBBBc2ccc(B2A2)G4|BBBBBcd2|BB(c2BABA)G4|
+[V:2]G2GGGGA2AAA(G2F2)E4|GGGGGAB2|GG(A2GFGF)E4|
+w:Пас-ха всех ос-вя-ща-ю-ща-я вер--ных. Я-ко ис-че-за-ет дым, да ис-чез--*--нут.
+[V:3]d2dddde2eee(e2^d2)B4|ddddddd2|ddd2d4B4|
+[V:4]g2gggga2aaa(b2B2)e4|ggggggg2|gg(d4gd)e4|
+%%text 
+[V:1]BBB2B2BBBBBBc2BBA2B2c4|BBc2AB2B4|
+[V:2]GGG2G2GGGGGGA2GGF2^G2A4|^GGA2F=G2G4|
+w:При-и-ди-те-от ви-де-ни-я, же-ны бла-го-вест-ни-цы, и Си-о-ну рцы-те:
+[V:3]ddd2d2ddddddd2ddd2e2e4|eee2dd2d4|
+[V:4]ggg2g2ggggggf2ggd2e2a4|eea2dg2g4|
+%%text  
+[V:1]BBB2BBBBBBBBBBBBBc>cBB(A2B2)c4|
+[V:2]GGG2GGGGGGGGGGGGGA>AGG(F2^G2)A4|
+w:При-и-ми от нас ра-дос-ти бла-го-ве-ще-ни-я вос-кре-се-ни-я Хри-сто--ва:
+[V:3]ddd2dddddddddddddd>ddd(d2e2)e4|
+[V:4]ggg2gggggggggggggf>fgg(d2e2)a4|
+%%text  
+[V:1]Bc4cAB2BBBBBBBB(cBAB)c4|
+[V:2]^GA4AF=G2GGGGGGGG(AGFG)A4|
+w:кра-суй-ся, ли-куй и ра-дуй-ся, И-е-ру-са-ли----ме,
+[V:3]ee4ddd2ddddddddd4d4|
+[V:4]ea4adg2ggggggggd4d4|
+%%text 
+[V:1]B2B2BBBBBA2G4|BBBBc2ccc(B2A2)G4||
+[V:2]G2G2GGGGGF2E4|GGGGA2AAA(G2F2)E4||
+w:Ца-ря Хрис-та уз-рев из гро-ба, я-ко же-ни-ха про-ис-хо-дя--ща.
+[V:3]d2d2dddddd2B4|dddde2eee(e2^d2)B4||
+[V:4]g2g2gggggd2e4|gggga2aaa(b2B2)e4||
+%%text 
+[V:1]BBBBBBBBBBBABAG2|B2d4BBBBBBB(c2BABA)G4||
+[V:2]GGGGGGGGGGGFGFE2|G2B4GGGGGGG(A2GFGF)E4||
+w:Та-ко да по-гиб-нут греш-ни-цы от ли-ца Бо-жи-я, а пра-вед-ни-цы да воз-ве-се-лят--*--ся.
+[V:3]ddddddddddddddB2|d2d4dddddddd2d4B4||
+[V:4]gggggggggggdgde2|g2g4ggggggg(d4gd)e4||
+%%text 
+[V:1]BBc2ccAB2|c2ccAB2|Bc2Bc2ccAB2B2|
+[V:2]^GGA2AAF=G2|A2AAFG2|^GA2GA2AAF=G2G2|
+w:Ми-ро-но-си-цы же-ны ут-ру глу-бо-ку, пред-ста-вша гро-бу Жи-во-дав-ца,
+[V:3]eee2eedd2|e2eedd2|ee2ee2eedd2d2|
+[V:4]eea2aadg2|a2aadg2|ea2ea2aadg2g2|
+%%text  
+[V:1]BBB3AB2B2A3|AA3AAAG2G4|
+[V:2]GGG3FG2G2F3|FF3FFFE2E4|
+w:об-ре-то-ша Ан-ге-ла на ка-ме-ни-се-дя-ща.
+[V:3]ddd3dd2d2d3|d^d3dddB2B4|
+[V:4]ggg3dg2g2d3|dB3BBBe2e4|
+%%text  
+[V:1]B2B4B2(BA)(GAB2)A4|A4B2(BA)G2F2G4|
+[V:2]G2G4G2(GF)(EFG2)F4|F4G2(GF)E2^D2E4|
+w:И той про-ве--щав* *им, си-це гла--го-ла-ше:
+[V:3]d2d4d2d2(Bd3)d4|d4d2d2B2B2B4|
+[V:4]g2g4g2(gd)(edg2)d4|d4g2(gd)e2B2e4|
+%%text  
+[V:1]BBBBBBcd2BB2|BBBBBc2B2A2B2c4|
+[V:2]GGGGGGAB2GG2|GGGGGA2G2F2^G2A4|
+w:Что и-ще-те Жи-ва-го с~мерт-вы-ми? Что пла-че-те Не-тлен-на-го во тли?
+[V:3]dddddddd2dd2|dddddd2d2d2e2e4|
+[V:4]gggggggg2gg2|gggggf2g2d2e2a4|
+%%text  
+[V:1]B2BBBc2cccccB2A2G4||
+[V:2]G2GGGA2AAAAAG2F2E4||
+w:шед-ше про-по-ве-ди-те у-че-ни-ком Е-го.
+[V:3]d2ddde2eeeeee2^d2B4||
+[V:4]g2ggga2aaaaab2B2e4||
+%%text  
+[V:1]BBBBBBABAG2|B2d4BBBBBBB(c2BA)(BA)G4||
+[V:2]GGGGGGFGFE2|G2B4GGGGGGG(A2GF)(GF)E4||
+w:Сей день, е-го-же со-тво-ри Гос-подь, воз-ра-ду-ем-ся и воз-ве-се-лим---ся *в~онь.
+[V:3]dddddddddB2|d2d4dddddddd4d2B4||
+[V:4]ggggggdgde2|g2g4gggggggd4(gd)e4||
+%%text  
+[V:1]G2G2F4A4D4|B4B2B2B2(BA)(GAB2)A4|
+[V:2]E2E2(D2F2)A4D4|G4G2G2G2(GF)(EFG2)F4|
+w:Пас-ха кра--сна-я, Пас-ха, Гос-под-ня* Па---ха!
+[V:3]B2B2d4a4d4|d4d2d2d2d2(Bd3)d4|
+[V:4]e2e2d4a4d4|g4g2g2g2(gd)(edg2)d4|
+%%text  
+[V:1]A2A2B2(BA)(GAB2)A4|A4B2A2(G2FG)A4D4|
+[V:2]F2F2G2(GF)(EFB2)F4|F4G2F2(E2FG)A4D4|
+w:Пас-ха все-чест-на----я нам воз-си-я,* -Пас-ха!
+[V:3]d2d2d2d2(Bd3)d4|d4d2d2(e2fg)a4d4|
+[V:4]d2d2g2(gd)(edg2)d4|d4g2d2(e2fg)a4d4|
+%%text  
+[V:1]E2E2E2c4c4c4B2A2(B2A2)(G2A2)|(B2AB)A4D4|
+[V:2]E2E2E2A4A4A4G2F2(G2F2)(E2F2)|(G2FG)A4D4|
+w:Ра-дос-ти-ю друг дру-га о-бы--мем.* О**Пас-ха!
+[V:3]e2e2e2e4e4d4d2d2d4(B2d2)|(e2fg)a4d4|
+[V:4]e2e2e2a4a4d4d2d2(g2d2)(e2d2)|(e2fg)a4d4|
+%%text  
+[V:1]B2B2B4B2(BA)(GAB2)A4|A2A2A2(G2AB)A4D4|
+[V:2]G2G2G4G2(GF)(EFG2)F4|F2F2F2(E2FG)A4D4|
+w:Из-бав-ле-ни-е *скор---би, и-бо из-гро---ба днесь
+[V:3]d2d2d4d2d2(Bd3)d4|d2d2d2(e2fg)a4d4|
+[V:4]g2g2g4g2(gd)(edg2)d4|d2d2d2(e2fg)a4d4|
+%%text 
+[V:1]B2B2B2(BA)(GAB2)A4|A2A2(G2AB)A4D4|
+[V:2]G2G2G2(GF)(EFG2)F4|F2F2(E2FG)A4D4|
+w:я-ко от-чер--то---га воз-си-яв---Хрис-тос,
+[V:3]d2d2d2d2(Bd3)d4|d2d2(e2fg)a4d4|
+[V:4]g2g2g2(gd)(edg2)d4|d2d2(e2fg)a4d4|
+%%text  
+[V:1]B2B2B2B2B2B2B2B2(BA)(GAB2)A4|A2A2B2A2G2(FG)A4A4D4||
+[V:2]G2G2G2G2G2G2G2G2(GF)(EFG2)F4|F2F2G2F2E2(FG)A4A4D4||
+w:Же-ны ра-дос-ти ис-пол-ни, гла--го---ля: про-по-ве-ди-те А--пос-то-лом.
+[V:3]d2d2d2d2d2d2d2d2d2(Bd3)d4|d2d2d2d2e2(fg)a4a4d4|
+[V:4]g2g2g2g2g2g2g2g2(gd)(edg2)d4|d2d2g2d2e2(fg)a4a4d4||
+%%text  
+[V:1]BBBBBBBBBBBBBBBBBBBBcd2BB(c2BA)(BA)G4||
+[V:2]GGGGGGGGGGGGGGGGGGGGAB2GG(A2GF)(GF)E4||
+w:Сла-ва От-цу и Сы-ну и Свя-то-му Ду-ху и ны-не и прис-но и во ве-ки ве-ков.---А--минь.
+[V:3]dddddddddddddddddddddd2ddd4d2B4|||
+[V:4]gggggggggggggggggggggg2ggd4(gd)e4||
+%%text  
+[V:1]BBc4cAB4|BBBc2ccAB2|Bc2c2BAB2B4|
+[V:2]^GGA4AF=G4|^GGGA2AAF=G2|^GA2A2=GFG2G4|
+w:Вос-кре-се-ни-я день, и про-све-тим-ся тор-же-ством, и друг дру-га о-бы-мем.
+[V:3]eee4edd4|eeee2eedd2|ee2e2ddd2d4|
+[V:4]eea4adg4|eeea2aadg2|ea2a2ddg2g4|
+%%text  
+[V:1]Bc3AB4|BBcd2BBc4|cc2cBAG2GG4|Bc2ccBAB4|
+[V:2]^GA3F=G4|GGAB2GGA4|AA2AGFE2EE4|^GA2AA=GFG4|
+w:Рцем, ~бра-ти-е, и не-на-ви-дя-щим ~~нас про-стим вся вос-кре-се-ни-ем, и та-ко во-зо пи-им:
+[V:3]ee3dd4|dddd2ddd4|dd2d^ddB2BB4|ee2eeddd4|
+[V:4]ea3dg4|gggg2ggd4|dd2dBBe2ee4|ea2aaddg4|
+%%text  
+[V:1]Bc3Bc2c2c2c4B4|B2BBc2B2c4|BB2BBBc2B2A2BBc4|]
+[V:2]^GA3GA2A2A2A4=G4|G2GGA2^G2A4|GG2GGGA2G2F2^GGA4|]
+w:Хрис-тос вос-кре-се из мерт-вых, смер-ти-ю смерть по-прав, и су-щим ~~во гро-бех жи-вот да-ро-вав.
+[V:3]ee3ee2e2e2d4d4|d2dde2e2e4|dd2dddd2d2d2eee4|]
+[V:4]ea3ea2a2a2d4g4|g2gga2e2a4|gg2gggf2g2d2eea4|]

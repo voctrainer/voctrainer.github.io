@@ -1,0 +1,86 @@
+X:1
+T: Да молчит всякая плоть человеча
+C: Муз. протоиерей П.Турчанинов
+M: C
+L: 1/4
+K:Bb
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%tempo { 80, 100, *120, 140, 160, 180 }
+%%score [(1 2) | (3 4)]
+%%player_top
+[V:1]!f!(Bcd)!>!e | d3z | !f!(de)fd | c2BB | !>!(BA3) | G3z | 
+[V:2](GAB)G | ^F3z | (Bc)dB | A2GG | (G2^F2) | G3z | 
+w:Да** мо-лчит вся--ка-я плоть че-ло-ве--ча
+[V:3](dcB)c | A3z | =f2ff | (fe)dd | (dc3) | B3z | 
+[V:4]g3c | d3z | [b2B2][bB][bB] | f2gG | d4 | [g3G3]z | 
+[V:1]!f!d2G(G/A/) | !<(!A3A!<)!!f! | !>(!B2B>>A!>)!!p! | (AG2)[^FD] | [G3D3]z | (Bc)d2 | 
+[V:2]G2GG | ^F3=F | F2F>>E | D3C | B,3z | F2B2 | 
+w:и да сто-ит со стра-хом и тре-пе-том, и ни-
+[V:3](B=B)ce | d3e | d2d>>c | (cB/>A/B)A | B3z | (de)f2 | 
+[V:4](gf)ec | d3c | B2B>>c | d3d | G3z | [b2B2](B[dB]) | 
+[V:1]c2c2 | !p!dBFd | !>!(f/e/)edd | (c4 | BcB)A | !f!(GAB)c | 
+w:***************ет;
+[V:2]A2A2 | BFDB | ccBB | A4 | Fzz2 | G3G | 
+w:что-же зе-мно-е в~се-бе да по-мы-шля-ет; и ни-
+[V:3]f2f2 | fdBf | ffff | (f2e2 | ded)c | (Bcd)e | 
+w:***************ет
+[V:4]f2f2 | BBBb | aabB | [f4F4] |Bzz2 | g3c | 
+[V:1](BA)A2 | Bcdd | ccBc | (B2A2) | G3z |!f!d4 | c4 | 
+[V:2](G^F)F2 | GABB | AAG(G/A/) | (G2^F2) | D3z | B4 | A4 | 
+w:что--же зе-мно-е в~се-бе да по-мы--шля--ет; Царь бо
+[V:3]d2d2 | d=fff | fdde | (d3c) | B3z | [f4d4] | [f4e4c4] |
+[V:4]d2d2 | gfBd | f^fgc | d4 | g3z | [b4B4] | [f4F4] |
+[V:1]B2BA | A3z | (GAB)c | A4 | (Bc)d2 | c2B2 | A2AA | 
+[V:2]G2GG | ^F3z | G3G | ^F4 | (GA)B2 | A2G2 | (G^F)FF | 
+w:цар-ству-ю-щих и Гос-подь, и* Гос-подь гос-под--ству-ю-
+[V:3]d2de | d3z | (Bcd)e | d4 | (df)f2 | f2d2 | d2dc | 
+[V:4][g2G2]Bc | d3z | g3c | d4 | (gf)B2 | f2g2 | d2dd | 
+[V:1]G3c | !>!d2BB | A3A | (BcBA) | (GABc) | A>AA2 | (Bcd2) | 
+[V:2]D3A | B2FF | F3F | F2z2 | G4 | ^F>F(F=F) | F4 | 
+w:щих, при-хо-дит за-кла-ти-ся и да-ти-ся, и
+[V:3]B3f | ([fd]f)dB | c3c | (dedc) | (Bcde) | d>d(de) | (dcB2) | 
+[V:4][g3G3][fF] | B2Bd | f3f | B2z2 | (g3c) | d>d(dc) | B4 | 
+[V:1]c>cBA | A4 | !fermata!G4 || (A2B2) | !fermata!A4 || (GABc) | 
+[V:2]F>^FGG | (G^F3) | !fermata!D4 || (^F2G2) | !fermata!^F4 || G4 | 
+w:да-ти-ся в~снедь вер--ным. А--минь. Пред-
+[V:3]e>dde | (d2c2) | !fermata!B4 || d4 | !fermata!d4 || (Bcde) | 
+[V:4]A>ABc | d4 | !fermata![g4G4] || [d4D4] | !fermata![d4D4] || (g3c) | 
+[V:1]B>AAA | (Bc)dd | c2(BA) | A4 | G3z | !f!(GABc) | 
+[V:2]G>^FFF | (GA)BB | G2G2 | (G^F3) | G3z | G4 | 
+w:хо-дят же Се-му* ли-цы ан-гель-сти--и со
+[V:3]d>ddd | (df)ff | e3c | (d2c2) | B3z | (Bcde) | 
+[V:4]d>ddd | (gf)BB | c2g2 | d4 | g3z | (g3c) | 
+[V:1]A2!<(!A2!<)! | (Bc)d d/ d/ | c2BB | (AG2)^F | G3z | 
+[V:2]^F2(F=F) | F2B B/ B/ | (F^F)GG | E2D2 | D3z | 
+w:вся-ким,* со вся-ким на-ча--лом и вла-сти-ю,
+[V:3]d2(de) | (de)f f/ f/ | (fd)dd | c2A2 | B3z | 
+[V:4]d2(dc) | B2B B/ B/ | A2BB | c2d2 | [g3G3]z | 
+[V:1](de)fd | !>!c2cc | d2dd | !>!e e/ e/ dd | (c4 | 
+[V:2](Bc)dB | A2AA | B2BB | c c/ c/ BB | A4 | 
+w:мно--го-о-чи-ти-и, мно-го-о-чи-ти-и Хе-ру-ви-
+[V:3]f2ff | f2ff | f2ff | f f/ f/ ff | (f2e2 | 
+[V:4][b2B2][bB][bB] | f2ff | b2bb | a a/ a/ bB | f4 | 
+[V:1]BcB)A | GABc | (BA)AA | Bcdd | c(B/A/)G(G/A/) | 
+w:---ми
+[V:2]F2z2 | GGGG | (G^F)FF | GABB | A(G/^F/)G (G/A/)|
+w:ми и ше-сто-кри-ла--ти-и Се-ра-фи-ми, ли-ца* за-кры--
+[V:3]dedc) | Bcde | d2dd | d=fff | edBe | 
+w:---ми
+[V:4]B2z2 | gggc | d2dd | g=fBB | cdec | 
+[V:1](BA2)A | G3z | !f!d2dd | [e3c3][ec] | (dcBA) | (GA) (Bc) | 
+[V:2]G2^F2 | D3z | B2BB | A3A | (BAG^F) | G3G | 
+w:ва-ю-ще, и во-пи-ю-ще песнь:*** Ал-ли-
+[V:3]d2c2 | B3z | [f2d2][fd][fd] | [f3c3][fc] | ([fd]edc) | (Bc)(de) | 
+[V:4]d3d | [g3G3]z | [b2B2][bB][bB] | f3f | (Bcd2) | g3c | 
+[V:1]!<(!(BA2)!<)!A | (Bc)d2 | ccBB | !>!A4 | !fermata!G4 |]
+[V:2](G^F2)=F | F2(FB) | AAGG | !>(!(G2^F2) | !>)!!fermata![G4D4]
+w:лу--йа, ал-ли--лу-йа, ал-ли-лу-и-йа.
+[V:3]d3e | (de)f2 | ffdG | (e2dc) | !fermata!B4 |]
+[V:4]d3c | B2[b2B2] | ffge | (c2d2) | !fermata![g4G4] |]

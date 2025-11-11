@@ -1,0 +1,65 @@
+X:1
+T:Достойно есть
+T: на литургии архиерейского чина
+C:
+M:none
+L:1/4
+K:G
+V:1 clef=treble name="Soprano"
+%%MIDIprogram1
+V:2 clef=treble name="Alto"
+%%MIDI program1
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDIprogram1
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program1
+%%tempo {40,60,*80,100,120}
+%%score [(1 2) | (3 4)]
+%%player_top
+[V:1]GABBBBA/B/cB(B/A/B)|
+[V:2]GGGGGGGGGG2|
+w:Дос-той-но есть, я-ко во-ис-тин-ну,
+[V:3]Bcddddc/d/ed(d/c/d)|
+[V:4]gggggggc/e/g(g>=f)|
+%%text 2
+[V:1]cB c/d/ d/c/ Bc/d/ d/c/ B/A/B2|
+[V:2]GGGGGA/B/ B/A/ G/F/G2|
+w:бла-жи-ти Тя, Бо-го--ро--ди--цу,
+[V:3]c=fe/f/ f/e/ddddd2|
+[V:4]edc/B/ B/c/ggddg2|
+%%text 3
+[V:1]cBA/B/ c/d/ d/c/BG/ A/BA/B/ cB(B/A/B)|
+[V:2]GGGGGGG/ G/GGGGG2|
+w:При-сно-бла-жен-ну-ю и Пре-не-по-роч-ну-ю,
+[V:3]edc/d/ e/=f/ f/e/dB/ c/dc/d/ed(d/c/d)|
+[V:4]cggc/B/ B/c/gg/ g/ggc/e/g(g>=f)/|
+%%text 4
+[V:1]c(Bc/d/) d/c/Bc/d/ d/c/ B/A/B2|
+[V:2]GG2GGA/B/ B/A/ G/F/G2|
+w:и Ма-терь Бо-га* на--ше--го.
+[V:3]c(=fe/=f/) f/e/ddddd2|
+[V:4]e(dc/B/) B/c/ggddg2|
+%%text 5
+[V:1]GBA/B/cBB(B/A/B)|
+[V:2]GGGGGGG2|
+w:Чест-ней-шу-ю Хе-ру-вим
+[V:3]Bdc/d/edd(d/c/d)|
+[V:4]gggc/e/gg(g>=f)|
+%%text 6
+[V:1]c(Bc/d/) d/ c/  B G/ A/BA/B/cBB(B/A/B)|
+[V:2]GG2G/ G/GG/ G/GGGGGG2|
+w:и слав-ней-шу-ю без срав-не-ни-я Се-ра-фим,
+[V:3]c(=fe/f/) f/ e/dB/ c/d c/d/edd(d/c/d)|
+[V:4]e(dc/B/) B/ c/gg/ g/ggc/e/gg(g>f)|
+%%text 6
+[V:1]cBc/d/ d/c/BcB/A/ G/A/B/ A/B2A2G2|
+[V:2]GGGGGGG/F/G>GG2(GF)G2|
+w:без ис-тле-ни-я Бо-га*Сло-ва рожд-шу--ю
+[V:3]c=fe/=f/ f/e/ded/c/B>ed2c2B2|
+[V:4]edc/B/ B/c/gcde>cd2d2g2|
+%%text 7
+[V:1]BB/ B/BA/B/ c/d/ d/c/B BA/B/c(B2A2)G4|
+[V:2]GG/ G/GGGGG^GA/G/A(=G2>F2)G4|
+w:су-щу-ю Бо-го-ро-ди-цу Тя ве--ли ча--ем.
+[V:3]dd/ d/dc/d/ e/=f/ f/e/deee(d2c2)B4|
+[V:4]gg/ g/ggc/B/ B/c/ g/=f/ e/d/ c/B/ A/c/d4g4 |

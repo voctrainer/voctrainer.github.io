@@ -1,0 +1,23 @@
+X:4
+T:Тон деспотин
+C:(трио)
+%%score [ (1 2) 3 ]
+%%tempo { 40, 60, *80, 100, 120, 140 }
+%%player_top
+L:1/4
+I:linebreak $
+K:G
+V:1 treble nm="Soprano" snm="S."
+V:2 treble nm="Alto" snm="A."
+V:3 treble nm="Tenor" snm="T."
+[V:1]
+B2 A2 (B c/2d/2 c d/2e/2 d2 A B/2c/2) B2 | $
+w: Тон дес-по----------тин
+B B c B (c d/2e/2) d c B4 | d2 c d e3 c d4 | B4|
+w: ке ар-хи-е-ре---а и-мон. Ки-ри-е фи-лат-тэ. Ис
+[V:2]
+G2 F2 (G A/2B/2 A B/2c/2 B2 F G/2A/2) G2|
+^G G A G (A B/2c/2) B A ^G4| B2 A B c3 A B4 | =G4
+[V:3]
+G2 D2 (G2 D2 G2 D2 ) G2|
+E E A E A2 =F D E4| (G3/2 =F/2) E D (C3/2 D/2 E) ^F G4| D4

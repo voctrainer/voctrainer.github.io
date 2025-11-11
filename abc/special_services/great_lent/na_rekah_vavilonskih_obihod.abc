@@ -1,0 +1,115 @@
+
+
+X:1
+T: На реках Вавилонских
+C: Обиходный распев
+M: 4/4
+L: 1/4
+K:G
+V:1 clef=treble name="Soprano"
+%%MIDI program 40
+V:2 clef=treble name="Alto"
+%%MIDI program 40
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 40
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
+%%tempo { 80, 100, 120, 140, 160, *180 }
+%%score [(1 2) (3 4)]
+%%player_top
+[V:1]FF | G2GB | (AG)F2 | B2AA | G2GF | G2F2 |
+[V:2]^DD | E2EG | (FE)^D2 | E2^DD | E2EE | E2^D2 |
+w: На ре-ках Ва-ви-лон--ских та-мо се-до-хом и пла-ка-
+[V:3]BB | B2BB | B2B2 | B2BB | B2Bc | B2B2 |
+[V:4]BB | e2ee | (^de)([bB][aA]) | [G2g2][fF][fF] | [e2E2][eE]A | B2B2 |
+[V:1]G3A | (B>A)Bc | d>ddc | (B2A2) | B2AA | (G2F2) | E2zG |
+[V:2]E3F | (G>F)GA | B>BBA | (G2F2) | G2EE | (E2^D2) | E2zE |
+w: хом вне-гда * по-мя-ну-ти нам Си-о--на. Ал-ли-лу--йя. На
+[V:3]B3=d | d2dd | d>dde | d4 | d2cc | (B3A) | G2zB |
+[V:4]e3=d | ([Gg]>d)gg | g>ggc | d4 | G2AA | B4 | e2ze |
+[V:1](B2A)G | F2BA | G2F2 | G3A | B>ABc | d3c | (B2A2) |
+[V:2](G2F)E | ^D2EE | E2^D2 | E3F | G>FGA | B3A | (G2F2) |
+w: вер--би-их по-сре-де е-го о-бе-си-хом ор-га-ны на--
+[V:3]B3B | B2Bc | B2B2 | B3=d | d>ddd | d3e | d4 |
+[V:4](e2^d)e | (ba)ga | b2B2 | e3=d | g>dgg | (g2B)c | d4 |
+[V:1]B2AA | (G2F2) | E4 || (B2A)G | F2E2 | (c2B)A | ^G>GA2 |
+[V:2]G2EE | (E2^D2) | E4 || (G2F)E | ^D2E2 | E3E | E>EE2 |
+w: ша. Ал-ли-лу--йя. Я--ко та-мо во-про-си-ша ны
+[V:3]d2cc | (B3A) |G4 || B3B | A2G2 | (A2d)c | B>BA2 |
+[V:4]G2AA | B4 | e4 || (E2^D)E | B2e2 | (A2B)c | d>dc2 |
+[V:1]B2BB | A>AGF | G2F2 | G^GA2 | BBcA | G2F2 |
+[V:2]E2^DE | E>EEE | E2^D2 | EEE2 | EEEE | E2^D2 |
+w: плен-ши-и нас о сло-ве-сех пес-ней, и вед-ши-и нас о пе-ни-
+[V:3]G2FE | A>ABc | B2B2 | BBA2 | ^GGAc | B2B2 |
+[V:4]B2AG | c>cBA | B2B2 | edc2 | BBAA | B2B2 |
+[V:1]G3A | B>ABc | d2dc | (B2A2) | B2AA | (G2F2) | E4 ||
+[V:2]E3F | G>FGA | B2BA | (G2F2) | G2EE | (E2^D2) | E4 ||
+w: и: вос-пой-те нам от пе-сней Си-о--нских. Ал-ли-лу--йя.
+[V:3]B3=d | d>ddd | d2de | d4 | d2cc | (B3A) | G4 ||
+[V:4]e3=d | [gG]>d gg | g2gc | d4 | G2AA | B4 | e4 ||
+[V:1]GEFG | A2GF | (G2F2) | (GA)Bc | d3c | B2AA |
+[V:2]EEEE | E2EE | (E2^D2) | (EF)GA | B3A | G2EE |
+w: Ка-ко вос-по-ем песнь Гос-под--ню* на зем-ли чуж-дей. Ал-ли-
+[V:3]BGAB | c2 Bc | B4 | (B=d)dd | d3d | d2cc |
+[V:4]eeee | e2 eA | B4 | (e=d)gg | (g2B)d | G2AA |
+[V:1](G2F2) | E4 || B2GA | B2AG | F4 | BAGF | (G2F2) | G3A |
+[V:2](E2^D2) | E4 || G2EF | G2FE | ^D4 | E^DEE | (E2^D2) | E3F |
+w:лу--йя. А-ще за-бу-ду те-бе, И-е-ру-са-ли--ме, заб-
+[V:3](B3A) | G4 || B2BB | B2BB | B4 | BBBc | B4 | B3=d |
+[V:4]B4 | e4 | e2ee | e2^de | (B2A2) | gfeA | B4 | E3=d |
+[V:1](B>A)(Bc) | d2dc | B2AA | B2AA | (G2F2) | E2zF |
+[V:2](G>F)(GA) | B2BA | G2FF | G2EE | (E2^D2) | E2z^D |
+w: ве--на* бу-ди дес-ни-ца мо-я. Ал-ли-лу--йя. Приль-
+[V:3]d2d2 | d2de | d2dd | d2cc | (B3A) | G2zB |
+[V:4](g>d)g2 | g2gc | d2dd | G2AA | B4 | e2zB |
+[V:1]G>G(AG) | FFBA | G2F2 | G2A2 | AA^GA |
+[V:2]E>E(FE) | ^DDEE | E2^D2 | E2E2 | EEEE |
+w: пни я-зык* мой гор-та-ни мо-е-му, а-ще не по-мя-
+[V:3]B>BB2 | BBBc | B2B2 | B2A2 | AABc |
+[V:4]e>e(^de) | baga | b2B2 | e2c2 | ccBA |
+[V:1]B^GA2 | c2cc | BA^G2 | AA=GF | G2F2 |
+[V:2]EEE2 | E2EE | EEE2 | EEEE | E2^D2 |
+w: ну те-бе, а-ще не пред-ло-жу И-е-ру-са-ли-ма
+[V:3]dBc2 | A2AA | dcB2 | AABc | B2B2 |
+[V:4]eeA2 | a2aa | ^ga(ed) | ccBA | B2B2 |
+[V:1]G2GA | (B>A)Bc | d2dc | B2A2 | B2AA | (G2F2) | E4 ||
+[V:2]E2EF | (G>F)GA | B2BA | G2F2 | G2EE | (E2^D2) | E4 ||
+w: я-ко в~на-ча--ле ве-се-ли-я мо-е-го. Ал-ли-луй--я.
+[V:3]B2B=d | d2dd | d2de | d2d2 | d2cc | (B3A) | G4 ||
+[V:4]e2e=d | (e>d)gg | g2gc | d2d2 | G2AA | B4 | e4 ||
+[V:1]^DD(EF) | G2FG | A2GF | (G2F)E | ^D2zF |
+[V:2]B,B,B,2 | E2EE | E2EE | (E2^D)E | B,2z^D |
+w: По-мя-ни,* Гос-по-ди, сы-ны Е-дом--ски-я в~день
+[V:3]FF(GA) | B2AB | c2Bc | (B2A)G | F2zB |
+[V:4]BBe2 | e2ee | e2eA | B3B | B2zB |
+[V:1]G^GAB | c2A2 | G2FF | G2FF | G2F2 |
+[V:2]EEEE | E2E2 | =D2DD | D2^DD | E2^D2 |
+w: И-е-ру-са-лимль гла-го-лю-щи-я: ис-то-щай-те,
+[V:3]BBA^G | A2A2 | B2AA | B2BB | B2B2 |
+[V:4]edcB | A2c2 | d2dd | G2BB | e2B2 |
+[V:1]GAB2 | AABc | (d3c | B2)AA | B2AA | (G2F2) | E4 ||
+[V:2]EFG2 | FFGA | (B3A | G2)FF | G2EE | (E2^D2) | E4 ||
+w: ис-то-щай-те до ос-но-ва---ний е-го. Ал-ли-лу--йя.
+[V:3]B=dd2 | dddd | (d3e | d2)dd | d2cc | (B3A) | G4 ||
+[V:4]e=dg2 | ddgg | (g3c) | d2dd | G2AA | B4 | e4 ||
+[V:1]B2AG | F2E2 | (c2B)A | ^G3G | AAB2 | ^A2=AA | G2F2 |
+[V:2]G2FE | ^D2E2 | E3E | E3E | EEE2 | E2FF | E2^D2 |
+w:Дщи Ва-ви-ло-ня о-ка-ян-на-я, бла-жен и-же воз-даст те-
+[V:3]B2BB | A2G2 | (A2d)c | B3B | AA=G2 | F2BB | B2B2 |
+[V:4]e2^de | B2e2 | (A2B)c | d3d | ccB2 | ^c2^dd | e2B2 ||
+[V:1](G^G)AB | (c2B)A | G2F2 | (G3A) | B>ABc | d3c | (B2A2) |
+[V:2]E2EE | E3E | E2^D2 | (E3F) | G>FGA | B3A | (G2F2) ||
+w: бе воз-да-я-ни-е тво-е, е-же воз-да-ла е-си
+[V:3]B2A^G | (A2=G)A | B2B2 | (B3=d) | d>ddd | d3e | d4 |
+[V:4](e=d)cB | (A2B)c | B2B2 | (e3=d) | g>dgg | (g3c) | d4 |
+[V:1]B2AA | (B2F2) | E2zG | B2AG | F2GG | FFGA |
+[V:2]G2EE | (E2^D2) | E2zE | G2FE | ^D2EE | ^DDEF |
+w: нам. Ал-ли-лу--йя. Бла-жен, и-же и-мет и раз-би-ет мла-
+[V:3]d2cc | (B3A) | G2zB | B2BB | B2BB | BBB=d |
+[V:4]G2AA | B4 | e2ze | e2^de | B2ee | BBe=d |
+[V:1](B>A)Bc | d3c | (B2A2 | G^GAB) | c2A2 | (A2G2 | F4) | E4 |]
+[V:2](G>F)GA | B3A | (G2F2 | E3)E | E2E2 | (^D2E2 | E2^D2) | B,4 |]
+w: ден--цы тво-я о ка---мень. Ал-ли-лу----йя
+[V:3]d2dd | d3e | (d2(B2 | B2)A^G) | A2c2 | ((B4 | B3)A) | G4 |]
+[V:4](g>d)gg | g3c | (d2^d2 | e=dcB) | A2A2 | (B4 | B4) | G4 |]
+

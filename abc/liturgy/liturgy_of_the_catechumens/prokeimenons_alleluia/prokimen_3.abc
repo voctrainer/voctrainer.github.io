@@ -1,0 +1,20 @@
+X:1
+T:Прокимен воскресный 
+C: 3 гласа
+L:1/4
+K:F
+%%player_top
+%%score [(1 2) (3 4)]
+V:1 clef=treble name="Soprano"
+V:2 clef=treble name="Alt"
+V:3 clef=bass name="Tenor"
+V:4 clef=bass name="Bass"
+[V:1]
+cccccccd2c2|d2ccB3c(dc)B A(B2A2)B4|]
+w: Пой-те Бо-гу на-ше-му, пой-те, пой-те Ца-ре-ви на--ше-му,  пой--те. 
+[V:2]
+AAAAAAAB2A2|B2AAG3A(BA)G^F(G2^F2)G4|]
+[V:3]
+FFFFFFFF2F2|F2FFD3FF2DDD4D4|]
+[V:4]
+F,F,F,F,F,F,F,B,2F,2|B,2F,F,G,3F,(B,F,)G,D,(G,2D,2)G,4|] 

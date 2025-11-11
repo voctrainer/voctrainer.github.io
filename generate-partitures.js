@@ -270,11 +270,11 @@ class PartitureGenerator {
         }
         
         const frontMatter = `---
-    layout: folder
-    title: "${title}"
-    ---
+layout: folder
+title: "${title}"
+---
 
-    ${content}`;
+${content}`;
         
         fs.writeFileSync(outputIndexPath, frontMatter, 'utf8');
         

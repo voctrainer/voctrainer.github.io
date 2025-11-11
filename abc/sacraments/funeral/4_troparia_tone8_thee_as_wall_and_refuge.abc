@@ -1,0 +1,35 @@
+X:1
+T:Тропарь глас 8 "Тебе и стену и пристанище..."
+C: Обиход
+M:4/4
+M: 
+L: 1/4
+K:F
+V:1 clef=treble name="Soprano"
+%%MIDI program 1
+V:2 clef=treble name="Alto"
+%%MIDI program 1
+V:3 clef=bass octave=-1 name="Tenor"
+%%MIDI program 1
+V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 1
+%%tempo { 100, 120, *140, 160, 180 }
+%%score [(1 2) (3 4)]
+%%player_top
+[V:1]cBcddcccccBBA2|
+[V:2]AGABBAAAAAGGF2|
+w: Те-бе и сте-ну и прис-та-ни-ще и-ма-мы 
+[V:3]ffffffffffeec2|
+[V:4]fffBBfffffccf2|
+%%text 2
+[V:1]cBcddcccccccB2A2|
+[V:2]AGABBAAAAAAAG2F2|
+w: и мо-лит-вен-ни-цу бла-гоп-ри-ят-ну к Бо-гу
+[V:3]ffffffffffffe2c2|
+[V:4]fffBBfffffffc2f2|
+%%text 3
+[V:1]cBcddccccccccccccccccB2B2A4||
+[V:2]AGABBAAAAAAAAAAAAAAAAG2G2F4||
+w: Е-го-же ро-ди-ла е-си Бо-го-ро-ди-це Без-не-вест-на-я вер-ных спа-се-ни-е.
+[V:3]fffffffffffffffffffffe2e2c4||
+[V:4]fffBBffffffffffffffffc2c2f4|

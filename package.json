@@ -5,15 +5,13 @@
   "main": "convert-abc.js",
   "scripts": {
     "build": "node convert-abc.js",
-    "start": "jekyll serve --watch"
+    "start": "jekyll serve --watch" // Эта команда может быть полезна для локальной разработки, но не для npm install
   },
   "dependencies": {
     "abcjs": "^6.2.5",
     "fs-extra": "^11.2.0",
     "glob": "^10.3.10",
     "path": "^0.12.7"
-  },
-  "devDependencies": {
-    "jekyll": "^4.0.0"
   }
+  // Убрана секция devDependencies с jekyll
 }

@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
+    <!-- Проверьте путь к CSS jsTree -->
     <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
-    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
@@ -25,6 +25,13 @@
       </main>
     </div>
 
+    <!-- Подключаем jQuery ПЕРЕД jstree -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Или подключите локальную копию jQuery, если предпочитаете -->
+    <!-- <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script> -->
+
+    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
+
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Инициализация дерева навигации
@@ -41,7 +48,7 @@
           'plugins': ['wholerow']
         });
 
-        // Инициализация полного дерева на главной странице
+        // Инициализация полного дерева на главной странице каталога
         if (document.getElementById('full-tree')) {
           $('#full-tree').jstree({
             'core': {

@@ -8,8 +8,6 @@
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/music.min.css' | relative_url }}" />
-    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
@@ -31,6 +29,13 @@
     </div>
 
     <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
+    <!-- Подключаем jQuery ПЕРЕД jstree и abcjs-ui -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!-- Или подключите локальную копию jQuery -->
+    <!-- <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script> -->
+
+    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Инициализация дерева навигации

@@ -1,100 +1,94 @@
 # .github/workflows/build-and-deploy.yml
-name: Build and Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
-  # Запускать workflow при пуше в основную ветку (обычно main или master)
   push:
-    branches: [ main ]
-  # Также можно запускать вручную из Actions в GitHub
+    branches: ["main"]
   workflow_dispatch:
 
-# Разрешения, необходимые для деплоя
 permissions:
   contents: read
   pages: write
   id-token: write
 
-# Условие: не запускать для PR, только для push в ветку
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  # Задача для подготовки файлов из ABC
-  prepare:
+  build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v4
-      with:
-        node-version: '20' # Укажите желаемую версию Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20' # Обновим до версии, используемой в convert-abc.js
 
-    # Устанавливаем зависимости Node.js, указанные в package.json
-    # Путь к package.json должен быть в корне репозитория
-    - name: Install Node.js dependencies
-      run: npm install
+      # Устанавливаем зависимости Node.js, указанные в package.json
+      - name: Install Node.js dependencies
+        run: npm install
 
-    # Запускаем скрипт для генерации файлов Jekyll из ABC
-    - name: Prepare Jekyll content from ABC files
-      run: node convert-abc.js
+      # Запускаем ваш скрипт convert-abc.js
+      # Он должен генерировать файлы в _site или в папку partitures, которую Jekyll будет обрабатывать
+      - name: Generate partitures from ABC files using convert-abc.js
+        run: |
+          echo "🚀 Starting regeneration from ABC files using convert-abc.js"
+          echo "=== ABC source structure ==="
+          find abc -name "*.abc" -o -name "folder.index" | sort
+          node convert-abc.js
+          echo "✅ Regeneration using convert-abc.js completed"
+          echo "=== Generated files structure in _site/partitures ==="
+          find _site/partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
+          echo "=== File counts in _site/partitures ==="
+          echo "Generated HTML/MD files: $(find _site/partitures -name '*.html' -o -name '*.md' | wc -l)"
+          echo "Generated JSON files: $(find _site/partitures -name '*.json' | wc -l)"
 
-    # Сохраняем результат подготовки (папка _site с подготовленными .md/.html файлами)
-    # для передачи следующей задаче
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: _site # Путь к папке, содержащей подготовленный контент для Jekyll
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1' # Сохраняем версию из рабочего файла
 
-  # Задача для сборки Jekyll сайта и деплоя
+      # Устанавливаем Jekyll и плагин для relative links, если они используются
+      - name: Install Jekyll
+        run: gem install jekyll jekyll-relative-links
+
+      # Запускаем сборку Jekyll. Он возьмет файлы из корня и _includes/_layouts и сгенерирует в _site
+      # Так как convert-abc.js уже положил файлы в _site/partitures, Jekyll их тоже обработает/скопирует
+      - name: Build with Jekyll
+        run: jekyll build --trace # --trace для получения более подробных логов в случае ошибки
+        env:
+          JEKYLL_ENV: production
+
+      - name: Verify build
+        run: |
+          echo "✅ Jekyll build successful!"
+          echo "=== Final site structure in _site ==="
+          find _site -name "*.html" | sort
+          echo "=== Key files verification ==="
+          [ -f "_site/partitures/index.html" ] && echo "✅ _site/partitures/index.html exists" || echo "❌ _site/partitures/index.html missing"
+          [ -f "_site/index.html" ] && echo "✅ _site/index.html exists" || echo "❌ _site/index.html missing"
+          # Проверьте, существуют ли другие ожидаемые файлы
+          # [ -f "_site/partitures/.../index.html" ] && echo "✅ ... exists" || echo "❌ ... missing"
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      # Загружаем финальную папку _site, созданную Jekyll
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./_site # Jekyll создает финальный сайт в _site
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: prepare # Деплой запускается только после успешного выполнения задачи prepare
+    needs: build
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-
-    # Загружаем артефакт, созданный задачей prepare
-    - name: Download artifact
-      uses: actions/download-artifact@v4
-      with:
-        name: github-pages
-        path: _site
-
-    # Убедимся, что файлы из abc/ не попали в _site, если Jekyll их не исключит сам
-    # (Это делается на всякий случай, так как _config.yml должен их исключать)
-    - name: Remove abc source files (if any)
-      run: |
-        if [ -d "_site/abc" ]; then
-          echo "Removing _site/abc directory"
-          rm -rf _site/abc
-        fi
-
-    - name: Setup Ruby
-      uses: ruby/setup-ruby@v1
-      with:
-        ruby-version: '3.0' # Укажите желаемую версию Ruby
-        bundler-cache: true # Установит зависимости из Gemfile, если он есть
-
-    - name: Setup Pages
-      uses: actions/configure-pages@v5
-
-    # Устанавливаем Jekyll через gem
-    - name: Install Jekyll
-      run: gem install jekyll
-
-    # Запускаем сборку Jekyll
-    - name: Build with Jekyll
-      run: |
-        jekyll build --baseurl "${{ steps.deployment.outputs.base_path }}" # Используем baseurl, если задан
-      env:
-        JEKYLL_ENV: production
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

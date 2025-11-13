@@ -1,5 +1,5 @@
 ---
-layout: home # Используем шаблон home
+layout: home
 title: Вокальный тренажер
 ---
 

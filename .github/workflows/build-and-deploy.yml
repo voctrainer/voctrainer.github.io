@@ -33,6 +33,7 @@ jobs:
         node-version: '20' # Укажите желаемую версию Node.js
 
     # Устанавливаем зависимости Node.js, указанные в package.json
+    # Путь к package.json должен быть в корне репозитория
     - name: Install Node.js dependencies
       run: npm install
 

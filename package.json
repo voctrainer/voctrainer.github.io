@@ -1,0 +1,16 @@
+{
+  "name": "vocal-trainer",
+  "version": "1.0.0",
+  "description": "Нотная библиотека и вокальный тренажер",
+  "main": "convert-abc.js",
+  "scripts": {
+    "build": "node convert-abc.js",
+    "start": "jekyll serve --watch"
+  },
+  "dependencies": {
+    "abcjs": "^6.2.5",
+    "fs-extra": "^11.2.0",
+    "glob": "^10.3.10",
+    "path": "^0.12.7"
+  }
+}

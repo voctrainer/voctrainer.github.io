@@ -1,0 +1,37 @@
+{% assign tree = site.data.full-tree %}
+
+<div class="full-catalog-tree">
+  <h2>Полный каталог партитур</h2>
+  <div class="tree-container">
+    {% include navigation-tree-item.html item=tree level=0 %}
+  </div>
+</div>
+
+{% comment %} Рекурсивный шаблон для элемента дерева {% endcomment %}
+{% assign item = include.item %}
+{% assign level = include.level %}
+
+<li class="tree-item level-{{ level }}">
+  {% if item.type == 'folder' %}
+    <div class="tree-folder">
+      <span class="folder-name">
+        <i class="folder-icon">📁</i>
+        <a href="{{ item.path }}">{{ item.displayName }}</a>
+      </span>
+      {% if item.children %}
+        <ul class="tree-children">
+          {% for child in item.children %}
+            {% include navigation-tree-item.html item=child level=level | plus:1 %}
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+  {% else %}
+    <div class="tree-file">
+      <span class="file-name">
+        <i class="file-icon">🎵</i>
+        <a href="{{ item.path }}">{{ item.displayName }}</a>
+      </span>
+    </div>
+  {% endif %}
+</li>

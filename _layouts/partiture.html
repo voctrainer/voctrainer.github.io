@@ -1,0 +1,18 @@
+---
+layout: default
+---
+
+<div class="partiture-page">
+  <div class="partiture-header">
+    <h1>{{ page.title }}</h1>
+    <div class="partiture-navigation">
+      <a href="{{ page.parent_path }}" class="back-link">← Назад к папке</a>
+      <a href="/partitures/" class="catalog-link">Каталог</a>
+      <a href="/" class="home-link">Главная</a>
+    </div>
+  </div>
+
+  <div class="partiture-content">
+    {{ content }}
+  </div>
+</div>

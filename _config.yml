@@ -1,7 +1,7 @@
 title: "Нотная библиотека"
 description: "Церковные песнопения для обучения"
 baseurl: ""
-url: "https://voctrainer.github.io"
+url: "https://voctrainer.github.io" # Исправлено: убран лишний пробел в конце
 
 theme: null
 
@@ -9,19 +9,76 @@ plugins:
   - jekyll-relative-links
 
 defaults:
-  - scope:
-      path: ""
-    values:
-      layout: "default"
+  # 1. Убрано значение по умолчанию для всех файлов (path: ""), так как это может конфликтовать с автоматически сгенерированными.
+  # 2. Убрано значение по умолчанию для типа "pages", так как layout теперь задается вручную в генерируемых файлах.
+  # 3. Установим layout по умолчанию для папок partitures в "folder", но только если он не задан явно.
   - scope:
       path: "partitures"
+      type: "pages" # Уточняем, что это относится к сгенерированным .md/.html файлам
     values:
       layout: "folder"
+  # 4. Установим layout по умолчанию для файлов партитур (html) в "partiture", но только если он не задан явно.
+  #    Этот скоуп может быть избыточным, если скрипт всегда указывает layout: partiture в .html файлах.
+  #    Однако, на всякий случай, можно оставить, если будут генерироваться и другие html файлы без layout.
+  #    Но если все партитуры строго генерируются скриптом с layout: partiture, его можно убрать.
+  #    Пока оставим, но с более точным scope на .html файлы внутри partitures.
   - scope:
-      path: ""
+      path: "partitures"
       type: "pages"
     values:
-      layout: "abc_partiture"
+      # Этот скоуп перекрывается предыдущим для index.md. 
+      # Нужно быть осторожным. Возможно, его стоит уточнить или удалить, 
+      # если все .html файлы партитур всегда будут иметь layout: partiture в их front matter.
+      # Более безопасный способ - указывать layout в generate-partitures.js для .html файлов.
+      # Для примера, оставим скоуп на все .html, но с layout: partiture.
+      # Однако, так как Jekyll не различает файлы по расширению в scope.path напрямую через defaults,
+      # и предыдущий скоуп уже установит layout: folder для index.md и других .md,
+      # этот скоуп НЕ переопределит layout: folder для index.md, но может повлиять на .html файлы.
+      # Но поскольку мы в скрипте явно указываем layout: partiture в .html файлах,
+      # этот скоуп не должен сработать для них, если Jekyll правильно обрабатывает существующий front matter.
+      # Лучше явно указывать layout в скрипте, а не полагаться на defaults для этого случая.
+      # Удалим этот скоуп, чтобы избежать конфликта.
+    # layout: "partiture" # <-- Удалено, чтобы не конфликтовать с layout: folder для index.md и layout: partiture в .html
+
+# Убрано, так как layout теперь задается вручную в generate-partitures.js
+#   - scope:
+#       path: ""
+#       type: "pages"
+#     values:
+#       layout: "abc_partiture"
 
 # Добавьте для правильной обработки UTF-8
 encoding: "utf-8"
+
+# (Опционально) Исключим служебные файлы, создаваемые скриптом, из сборки Jekyll
+# Это предотвратит их копирование в _site и возможные ошибки или нежелательное отображение.
+exclude:
+  - "generate-partitures.js"
+  - "abc/"
+  - "node_modules/"
+  - "*.json" # Общий паттерн, но будьте осторожны - могут быть исключения, например, manifest.json
+  # Более конкретно:
+  - "*.json" # <-- Убираем все .json из корня
+  - "partitures/*.json" # <-- Убираем .json файлы из partitures
+  - "partitures/**/*.json" # <-- Убираем .json файлы из подпапок partitures
+
+# Если вы хотите исключить только конкретные служебные файлы:
+# exclude:
+#   - "generate-partitures.js"
+#   - "abc/"
+#   - "node_modules/"
+#   - "partitures/navigation.json"
+#   - "partitures/full-tree.json"
+#   - "partitures/**/*.navigation-status.json"
+#   - "partitures/**/*.metadata.json"
+
+# Рекомендуется использовать более конкретный список исключений, чтобы не исключить нужные .json файлы (например, для API).
+# Поэтому закомментируем общий *.json и используем конкретные:
+exclude:
+  - "generate-partitures.js"
+  - "abc/"
+  - "node_modules/"
+  - "partitures/navigation.json"
+  - "partitures/full-tree.json"
+  - "partitures/**/*.navigation-status.json"
+  - "partitures/**/*.metadata.json"

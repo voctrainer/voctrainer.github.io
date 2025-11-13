@@ -1,47 +1,58 @@
-{% comment %} Рекурсивный компонент для отображения дерева навигации {% endcomment %}
-{% for folder in include.navigation.folders %}
-<li style="margin-bottom: 8px;">
-    <a href="{{ folder.path | relative_url }}" style="
-        color: #e67e22;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        background: white;
-        border-radius: 5px;
-        border: 1px solid #e9ecef;
-        font-weight: bold;
-        transition: all 0.2s;
-    " onmouseover="this.style.backgroundColor='#fff3e0'; this.style.borderColor='#e67e22';"
-       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
-        📁 {{ folder.displayName }}
-    </a>
-    
-    {% if folder.children %}
-        <ul style="list-style: none; padding-left: 20px; margin: 8px 0 0 0;">
-            {% include navigation-tree.html navigation=folder.children current_path=include.current_path %}
-        </ul>
-    {% endif %}
-</li>
-{% endfor %}
+{% assign current_path = include.current_path %}
+{% assign tree = include.tree %}
 
-{% for file in include.navigation.files %}
-<li style="margin-bottom: 8px;">
-    <a href="{{ file.path | relative_url }}" style="
-        color: #2c3e50;
-        text-decoration: none;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 8px 12px;
-        background: white;
-        border-radius: 5px;
-        border: 1px solid #e9ecef;
-        transition: all 0.2s;
-    " onmouseover="this.style.backgroundColor='#f8f9fa'; this.style.borderColor='#4051b5';"
-       onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef';">
-        📄 {{ file.displayName }}
-    </a>
-</li>
-{% endfor %}
+<ul class="navigation-tree-list">
+  {% comment %} Выводим вышестоящие папки {% endcomment %}
+  {% if tree.parent_folders %}
+    {% for folder in tree.parent_folders %}
+      <li class="navigation-item navigation-parent-folder">
+        <a href="{{ folder.path }}" class="navigation-link navigation-parent-link">
+          <span class="folder-indent" style="margin-left: {{ folder.level | times: 20 }}px">
+            <i class="folder-icon">📁</i>
+            {{ folder.displayName }}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+
+  {% comment %} Выводим текущую папку {% endcomment %}
+  {% if tree.current_folder %}
+    <li class="navigation-item navigation-current-folder">
+      <span class="current-folder-display">
+        <span class="folder-indent" style="margin-left: {{ tree.current_folder.level | times: 20 }}px">
+          <i class="folder-icon">📂</i>
+          {{ tree.current_folder.displayName }}
+        </span>
+      </span>
+    </li>
+  {% endif %}
+
+  {% comment %} Выводим вложенные папки {% endcomment %}
+  {% if tree.child_folders %}
+    {% for folder in tree.child_folders %}
+      <li class="navigation-item navigation-child-folder">
+        <a href="{{ folder.path }}" class="navigation-link">
+          <span class="folder-indent" style="margin-left: {{ folder.level | times: 20 }}px">
+            <i class="folder-icon">📁</i>
+            {{ folder.displayName }}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+
+  {% comment %} Выводим файлы текущей папки {% endcomment %}
+  {% if tree.files %}
+    {% for file in tree.files %}
+      <li class="navigation-item navigation-file">
+        <a href="{{ file.path }}" class="navigation-link navigation-file-link">
+          <span class="file-indent" style="margin-left: {{ file.level | times: 20 }}px">
+            <i class="file-icon">🎵</i>
+            {{ file.displayName }}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+  {% endif %}
+</ul>

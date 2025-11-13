@@ -1,44 +1,28 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        header {
-            background: #4051b5;
-            color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-        }
-        nav a {
-            color: white;
-            margin-right: 15px;
-            text-decoration: none;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% if page.title %}{{ page.title }} - {% endif %}Нотная библиотека</title>
+  <link rel="stylesheet" href="/assets/css/partiture-navigation.css">
+  {% if page.layout == "partiture" %}
+    <!-- Стили для ABC-нотации, если используются -->
+    <link rel="stylesheet" href="https://abcjs.net/abcjs-audio.css">
+  {% endif %}
 </head>
 <body>
-    <header>
-        <h1>Нотная библиотека и тренажер</h1>
-        <nav>
-            <a href="/">Главная</a>
-            <a href="/partitures/">Партитуры</a>
-        </nav>
-    </header>
-    
-    <main>
-        {{ content }}
-    </main>
+  <main>
+    {{ content }}
+  </main>
+  
+  <script src="/assets/js/navigation.js"></script>
+  {% if page.layout == "partiture" %}
+    <!-- Скрипты для ABC-нотации, если используются -->
+    <script src="https://abcjs.net/abcjs-basic-min.js"></script>
+    <script>
+      // Инициализация ABC-нотации
+      ABCJS.renderAbc("abc-container", document.querySelector('.abc-notation').textContent);
+    </script>
+  {% endif %}
 </body>
 </html>

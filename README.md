@@ -9,53 +9,43 @@
 ## Структура проекта:
 
 ```text
-.github/
-└── workflows/
-    └── deploy.yml
+your-repo/
+├── .github/
+│   └── workflows/          # (необходимо создать для GitHub Actions)
+│       └── build-and-deploy.yml
+├── abc/                    # Исходные ABC файлы (ручное управление)
+│   ├── folder.index        # Описание главной страницы каталога
+│   ├── folder1/
+│   │   ├── folder.index    # Описание папки
+│   │   ├── file1.abc       # ABC файл партитуры
+│   │   └── ...
+│   └── ...
+├── _layouts/
+│   ├── home.html           # Шаблон главной страницы
+│   ├── partiture_folder.html # Шаблон страницы папки
+│   └── partiture.html      # Шаблон страницы партитуры
+├── _includes/
+│   └── header.html         # Включаемый фрагмент шапки
+├── assets/
+│   ├── css/
+│   │   ├── main.css        # Основные стили
+│   │   └── music.min.css   # Стили для нот
+│   └── js/
+│       ├── jstree/         # Папка с jsTree
+│       │   └── jstree.min.js
+│       ├── abc-ui-1.0.0.min.js
+│       └── acoustic_grand_piano-mp3.js
+├── assets/images/
+│   └── favicon.ico         # Фавикон
+├── _config.yml             # Конфигурация Jekyll
+├── index.md                # Главная страница (исходник для Jekyll)
+├── convert-abc.js          # Скрипт для подготовки файлов
+├── package.json
+├── LICENSE
+├── package-lock.json
+├── README.md
+└── ...
 
-abc/  ✅ (ваши исходные ABC файлы)
-├── folder.index
-├── heruvimskaya_spasskaya.abc
-├── heruvimskaya_bogomolov.abc
-└── cherubic/
-    ├── folder.index
-    ├── heruvimskaya_preobrajenskoe.abc
-    └── heruvimskaya_staro_bolgarskaya.abc
-
-_includes/
-├── folder-navigation.html
-└── navigation.html
-
-_layouts/
-├── default.html
-├── folder.html
-└── abc_partiture.html
-
-partitures/  ✅ (автогенерация - НЕ добавляйте файлы вручную!)
-├── filelist.json (автогенерация)
-├── index.md (автогенерация)
-├── heruvimskaya_spasskaya.html (автогенерация)
-├── heruvimskaya_bogomolov.html (автогенерация)
-└── cherubic/
-    ├── index.md (автогенерация)
-    ├── heruvimskaya_preobrajenskoe.html (автогенерация)
-    └── heruvimskaya_staro_bolgarskaya.html (автогенерация)
-
-assets/
-└── js/
-    └── abc-loader.js
-
-generate-partitures.js  ✅ (ЗДЕСЬ - в корне!)
-
-_config.yml
-abc-ui-1.0.0.min.js
-acoustic_grand_piano-mp3.js
-favicon.png
-index.html
-LICENSE
-main.css
-music.min.css
-README.md
 ```
 
 ### Подробное описание расположения:

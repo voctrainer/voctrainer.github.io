@@ -4,33 +4,27 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
+    <title>{{ page.title | default: site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
-    <link rel="stylesheet" href="{{ '/assets/css/music.min.css' | relative_url }}" />
     <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
     {% include header.html %}
     <div class="container">
       <aside class="sidebar">
-        <h3>{{ page.parent_folder_title }}</h3>
+        <h3>Навигация</h3>
         <div id="folder-tree"></div>
       </aside>
       <main class="content">
-        <h2>{{ page.title }}</h2>
-        <div class="abc-container">
-          <div id="abc-display"></div>
-          <div class="abc-source" style="display: none;">
-            {{ page.abc_content }}
-          </div>
-        </div>
+        {% if page.full_tree %}
+          <div id="full-tree"></div>
+        {% endif %}
+        {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
       </main>
     </div>
 
-    <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
         // Инициализация дерева навигации
@@ -47,20 +41,18 @@
           'plugins': ['wholerow']
         });
 
-        // Рендер ABC нотации
-        const abcSource = document.querySelector('.abc-source').textContent.trim();
-        ABCJS.renderAbc('abc-display', abcSource, {
-            responsive: "resize",
-            generateIds: true,
-            displayLily: true,
-            displayControls: true,
-            midiControl: {
-                showPiano: true,
-                showTempo: true
-            }
-        });
-        $ABC_UI.init();
-        $ABC_UTIL.addHtmlVievers({"bMacro":true,"bDeco":true,"bEditors":false});
+        // Инициализация полного дерева на главной странице
+        if (document.getElementById('full-tree')) {
+          $('#full-tree').jstree({
+            'core': {
+              'data': {
+                 // Оборачиваем путь в кавычки
+                'url': "{{ '/partitures/full-tree.json' | relative_url }}"
+              }
+            },
+            'plugins': ['wholerow']
+          });
+        }
       });
     </script>
   </body>

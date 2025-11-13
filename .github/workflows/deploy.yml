@@ -1,71 +1,93 @@
-name: Build and Deploy to GitHub Pages
+# .github/workflows/build-and-deploy.yml
+name: Build and Deploy
 
 on:
+  # Запускать workflow при пуше в основную ветку (обычно main или master)
   push:
-    branches: ["main"]
+    branches: [ main ]
+  # Также можно запускать вручную из Actions в GitHub
   workflow_dispatch:
 
+# Разрешения, необходимые для деплоя
 permissions:
   contents: read
   pages: write
   id-token: write
 
+# Условие: не запускать для PR, только для push в ветку
 concurrency:
   group: "pages"
   cancel-in-progress: false
 
 jobs:
-  build:
+  # Задача для подготовки файлов из ABC
+  prepare:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-        
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-          
-      - name: Generate partitures from ABC files
-        run: |
-          echo "🚀 Starting ABC to HTML conversion"
-          echo "=== Source ABC files ==="
-          find abc -name "*.abc" | wc -l
-          node generate-partitures.js
-          echo "✅ Conversion completed"
-          
-      - name: Setup Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.1'
-          
-      - name: Install Jekyll
-        run: gem install jekyll jekyll-relative-links
-          
-      - name: Build with Jekyll
-        run: jekyll build --trace
-        
-      - name: Verify build
-        run: |
-          echo "✅ Build successful!"
-          echo "=== Generated pages ==="
-          find _site -name "*.html" | grep -E "(cherubic|partitures)" | sort
-          
-      - name: Setup Pages
-        uses: actions/configure-pages@v4
-        
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./_site
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '20' # Укажите желаемую версию Node.js
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Prepare Jekyll content from ABC files
+      run: node convert-abc.js
+
+    # Сохраняем результат подготовки (папка _site с подготовленными .md/.html файлами)
+    # для передачи следующей задаче
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        path: _site # Путь к папке, содержащей подготовленный контент для Jekyll
+
+  # Задача для сборки Jekyll сайта и деплоя
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: prepare # Деплой запускается только после успешного выполнения задачи prepare
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    # Загружаем артефакт, созданный задачей prepare
+    - name: Download artifact
+      uses: actions/download-artifact@v4
+      with:
+        name: github-pages
+        path: _site
+
+    # Убедимся, что файлы из abc/ не попали в _site, если Jekyll их не исключит сам
+    # (Это делается на всякий случай, так как _config.yml должен их исключать)
+    - name: Remove abc source files (if any)
+      run: |
+        if [ -d "_site/abc" ]; then
+          echo "Removing _site/abc directory"
+          rm -rf _site/abc
+        fi
+
+    - name: Setup Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: '3.0' # Укажите желаемую версию Ruby
+        bundler-cache: true # Установит зависимости из Gemfile, если он есть
+
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+
+    - name: Build with Jekyll
+      run: |
+        gem install jekyll
+        bundle exec jekyll build --baseurl "${{ steps.deployment.outputs.base_path }}" # Используем baseurl, если задан
+      env:
+        JEKYLL_ENV: production
+
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v4

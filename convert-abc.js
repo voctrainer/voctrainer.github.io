@@ -4,7 +4,7 @@ const glob = require('glob');
 
 // Пути
 const ABC_DIR = './abc';
-const OUTPUT_DIR = './_site/partitures'; // Или './partitures' если используем Jekyll напрямую в _site
+const OUTPUT_DIR = './partitures'; // Изменить на './partitures' в корне репо
 const LAYOUTS_DIR = './_layouts';
 const INCLUDES_DIR = './_includes';
 const ASSETS_DIR = './assets';

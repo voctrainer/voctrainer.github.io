@@ -12,28 +12,27 @@
   </head>
   <body>
     {% include header.html %}
-    <div class="container">
-      <aside class="sidebar">
-        <h3>{{ page.parent_folder_title }}</h3>
-        <div id="folder-tree"></div>
-      </aside>
-      <main class="content">
-        <h2>{{ page.title }}</h2>
-        <div class="abc-container">
-          <div id="abc-display"></div>
-          <div class="abc-source" style="display: none;">
-            {{ page.abc_content }}
+    <div class="grid-container">
+      <div class="grid-row">
+        <aside class="sidebar-grid">
+          <h3>{{ page.parent_folder_title }}</h3>
+          <div id="folder-tree"></div>
+        </aside>
+        <main class="content-grid">
+          <h2>{{ page.title }}</h2>
+          <div class="abc-container">
+            <div id="abc-display"></div>
+            <div class="abc-source" style="display: none;">
+              {{ page.abc_content }}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
 
     <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
     <!-- Подключаем jQuery ПЕРЕД jstree и abcjs-ui -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
-    <!-- Или подключите локальную копию jQuery -->
-    <!-- <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script> -->
-
+    <script src="https://code.jquery.com/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <script>

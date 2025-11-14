@@ -8,6 +8,14 @@
   --white-color: #ffffff;
   --text-color: #333333;
   --border-color: #e0e0e0;
+
+  /* Параметры сетки */
+  --grid-columns: 12;
+  --grid-gutter: 24px;
+  --grid-margin: 24px;
+  --grid-container-margin: calc(var(--grid-margin) + var(--grid-gutter) / 2); /* 36px */
+  --grid-container-width: calc(1200px - 2 * var(--grid-container-margin)); /* 1128px */
+  --grid-column-width: calc((var(--grid-container-width) - (var(--grid-columns) - 1) * var(--grid-gutter)) / var(--grid-columns)); /* 72px */
 }
 
 * {
@@ -21,7 +29,62 @@ body {
   background-color: var(--white-color);
   color: var(--text-color);
   line-height: 1.6;
+  /* Ограничиваем ширину body и центрируем */
+  max-width: 1440px;
+  margin: 0 auto;
+  overflow-x: auto; /* На случай, если внутренний контент шире */
 }
+
+/* Контейнер сетки */
+.grid-container {
+  max-width: var(--grid-container-width);
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--grid-container-margin);
+  /* Убираем padding на брейкпоинте */
+  /* @media (max-width: 1200px) {
+    padding: 0 var(--grid-margin);
+  } */
+}
+
+/* Адаптив для брейкпоинта */
+@media (max-width: 1200px) {
+  .grid-container {
+    padding: 0 var(--grid-margin);
+  }
+  /* Также можно изменить max-width body */
+  body {
+    max-width: none; /* Или 1200px, если нужно ограничить */
+  }
+}
+
+/* Строка сетки */
+.grid-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 calc(-1 * var(--grid-gutter) / 2); /* Компенсация отступов колонок */
+}
+
+/* Колонка сетки */
+.grid-col {
+  flex: 0 0 auto;
+  padding: 0 calc(var(--grid-gutter) / 2); /* Внутренние отступы для компенсации */
+}
+
+/* Генерация классов для ширины колонок (col-1 до col-12) */
+/* Можно генерировать через препроцессор, но для простоты напишем вручную */
+.grid-col-1 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 1); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 1); }
+.grid-col-2 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 2); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 2); }
+.grid-col-3 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 3); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 3); }
+.grid-col-4 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 4); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 4); }
+.grid-col-5 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 5); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 5); }
+.grid-col-6 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 6); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 6); }
+.grid-col-7 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 7); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 7); }
+.grid-col-8 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 8); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 8); }
+.grid-col-9 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 9); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 9); }
+.grid-col-10 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 10); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 10); }
+.grid-col-11 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 11); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 11); }
+.grid-col-12 { flex: 0 0 calc((var(--grid-column-width) + var(--grid-gutter)) * 12); max-width: calc((var(--grid-column-width) + var(--grid-gutter)) * 12); }
 
 /* Стили для шапки */
 .header {
@@ -29,15 +92,21 @@ body {
   color: white;
   /* Убираем padding, который растягивал бы ширину */
   /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
-  /* Добавляем отдельный контейнер для шапки, чтобы ширина соответствовала контенту */
+  /* Шапка теперь тоже использует сетку */
 }
 
 .header .header-content {
-  max-width: 1200px; /* Максимальная ширина */
-  width: 100%;
-  margin: 0 auto; /* Центрирует контейнер */
-  padding: 1rem 1rem; /* Отступы внутри центрального контейнера */
-  /* Убираем text-align: center */
+  /* max-width: var(--grid-container-width); Уже задано в .grid-container */
+  /* width: 100%; Уже задано в .grid-container */
+  /* margin: 0 auto; Уже задано в .grid-container */
+  padding: 1rem var(--grid-container-margin); /* Отступы внутри центрального контейнера */
+  /* Адаптив для брейкпоинта */
+}
+
+@media (max-width: 1200px) {
+  .header .header-content {
+    padding: 1rem var(--grid-margin); /* Отступы внутри центрального контейнера */
+  }
 }
 
 .header h1 {
@@ -67,50 +136,30 @@ body {
   background-color: var(--light-color);
 }
 
-/* Центральный контейнер для основного контента */
-.main-container {
-  max-width: 1200px; /* Максимальная ширина */
-  width: 100%; /* Занимает всю ширину, но не больше max-width */
-  margin: 0 auto; /* Центрирует контейнер */
-  padding: 0 1rem; /* Отступы по бокам */
-}
-
 /* Стили для страницы каталога (partiture_folder) */
-.container {
+/* Убираем старый .container */
+/* .container {
   display: flex;
   min-height: calc(100vh - 120px);
-  max-width: 1200px; /* Максимальная ширина */
+  max-width: 1200px; / * Максимальная ширина * /
   width: 100%;
-  margin: 0 auto; /* Центрирует контейнер */
-  padding: 0 1rem; /* Отступы по бокам */
-}
-
-.sidebar {
-  width: 300px;
-  background-color: #f8f9fa;
-  padding: 1rem;
-  border-right: 1px solid var(--border-color);
-  overflow-y: auto;
-}
-
-.sidebar h3 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
-  font-size: 1.2rem;
-}
-
-.content {
-  flex: 1;
-  padding: 2rem;
-  overflow-y: auto;
-}
+  margin: 0 auto; / * Центрирует контейнер * /
+  padding: 0 1rem; / * Отступы по бокам * /
+} */
 
 /* Стили для главной страницы (home) */
 .main-content {
-  max-width: 1200px; /* Максимальная ширина */
-  width: 100%;
-  margin: 0 auto; /* Центрирует контейнер */
-  padding: 2rem 1rem; /* Отступы сверху/снизу и по бокам */
+  /* max-width: var(--grid-container-width); Уже задано в .grid-container */
+  /* width: 100%; Уже задано в .grid-container */
+  /* margin: 0 auto; Уже задано в .grid-container */
+  padding: 2rem var(--grid-container-margin); /* Отступы сверху/снизу и по бокам */
+  /* Адаптив для брейкпоинта */
+}
+
+@media (max-width: 1200px) {
+  .main-content {
+    padding: 2rem var(--grid-margin); /* Отступы сверху/снизу и по бокам */
+  }
 }
 
 .center-button {
@@ -200,8 +249,8 @@ li {
   color: white;
 }
 
-/* Адаптивный дизайн */
-@media (max-width: 768px) {
+/* Адаптивный дизайн - убираем старые стили для .container */
+/* @media (max-width: 768px) {
   .container {
     flex-direction: column;
   }
@@ -218,13 +267,13 @@ li {
 
   .main-nav a {
     display: inline-block;
-    margin: 0.25rem 0.5rem; /* Делаем отступы меньше на мобильных */
+    margin: 0.25rem 0.5rem; / * Делаем отступы меньше на мобильных * /
   }
 
-  .header .header-content {
-    padding: 1rem; /* Уменьшаем паддинги шапки на мобильных */
+  .header {
+    padding: 1rem; / * Уменьшаем паддинги шапки на мобильных * /
   }
-}
+} */
 
 /* Стили для нотного отображения */
 .abcjs-inline {
@@ -236,4 +285,33 @@ li {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Стили для страницы каталога (partiture_folder) с использованием сетки */
+.sidebar-grid {
+  width: 300px; /* Или используйте grid-col-N */
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-right: 1px solid var(--border-color);
+  overflow-y: auto;
+  flex-shrink: 0; /* Не сжимается */
+}
+
+.content-grid {
+  flex: 1; /* Занимает оставшееся место */
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* Адаптив для страницы каталога */
+@media (max-width: 768px) {
+  .sidebar-grid {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+
+  .content-grid {
+    padding: 1rem;
+  }
 }

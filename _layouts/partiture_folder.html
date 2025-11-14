@@ -6,27 +6,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
-    <!-- Проверьте путь к CSS jsTree -->
     <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
     {% include header.html %}
-    <div class="container">
-      <aside class="sidebar">
-        <h3>Навигация</h3>
-        <div id="folder-tree"></div>
-      </aside>
-      <main class="content">
-        {% if page.full_tree %}
-          <div id="full-tree"></div>
-        {% endif %}
-        {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
-      </main>
+    <div class="grid-container">
+      <div class="grid-row">
+        <aside class="sidebar-grid">
+          <h3>Навигация</h3>
+          <div id="folder-tree"></div>
+        </aside>
+        <main class="content-grid">
+          {% if page.full_tree %}
+            <div id="full-tree"></div>
+          {% endif %}
+          {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
+        </main>
+      </div>
     </div>
 
     <!-- Подключаем jQuery ПЕРЕД jstree -->
-    <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script> 
+    <script src="https://code.jquery.com/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
 
     <script>

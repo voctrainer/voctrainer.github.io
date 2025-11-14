@@ -1,3 +1,4 @@
+<!-- _layouts/partiture_folder.html -->
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -17,25 +18,23 @@
         </div>
       </div>
       <div class="grid-row">
-        <main class="main-content">
-          <aside class="sidebar-grid grid-col-3">
-            <h3>Навигация</h3>
-            <div id="folder-tree"></div>
-          </aside>
-          <div class="grid-col-9">
-            {% if page.full_tree %}
-              <div id="full-tree"></div>
-            {% endif %}
-            <div class="content-grid">
-              {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
-            </div>
+        <aside class="sidebar-grid grid-col-3">
+          <h3>Навигация</h3>
+          <div id="folder-tree"></div>
+        </aside>
+        <main class="main-content grid-col-9">
+          {% if page.full_tree %}
+            <div id="full-tree"></div>
+          {% endif %}
+          <div class="content-grid">
+            {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
           </div>
         </main>
       </div>
     </div>
 
     <!-- Подключаем jQuery ПЕРЕД jstree -->
-    <script src="{{ '/assets/js/jquery.min.js'  }}"></script>
+    <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script>
     <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
 
     <script>
@@ -44,9 +43,9 @@
         $('#folder-tree').jstree({
           'core': {
             'data': {
-              // Оборачиваем путь в кавычки
               'url': "{{ '/partitures/full-tree.json' | relative_url }}",
               'data': function(node) {
+                // Убедимся, что URL возвращает корректный JSON с полями text, icon, children
                 return { 'id': node.id };
               }
             }
@@ -59,8 +58,8 @@
           $('#full-tree').jstree({
             'core': {
               'data': {
-                 // Оборачиваем путь в кавычки
                 'url': "{{ '/partitures/full-tree.json' | relative_url }}"
+                // Опять же, убедимся, что JSON корректен
               }
             },
             'plugins': ['wholerow']

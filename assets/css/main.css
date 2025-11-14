@@ -102,6 +102,8 @@ body {
   font-size: 1.8rem;
   /* Выравнивание по левому краю */
   text-align: left;
+  /* Цвет текста ЗАГОЛОВКА в шапке - белый */
+  color: white; /* Добавляем эту строку */
   /* Добавляем отступ слева к заголовку */
   padding-left: var(--content-padding-left);
   /* padding-right: var(--content-padding-left); */ /* Опционально */

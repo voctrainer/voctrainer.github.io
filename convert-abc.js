@@ -144,39 +144,44 @@ async function buildTreeStructure(currentPath, relativePath = '') {
     const itemPath = path.join(currentPath, item);
     const stats = await fs.stat(itemPath);
 
-    if (item === 'folder.index') continue;
+    if (item === 'folder.index') continue; // Пропускаем файл описания
 
     if (stats.isDirectory()) {
       const folderIndexPath = path.join(itemPath, 'folder.index');
-      let folderTitle = item;
+      let folderTitle = item; // Название по умолчанию - имя папки
       let showInNavigation = true;
 
       if (await fs.pathExists(folderIndexPath)) {
         const folderIndexContent = readUtf8File(folderIndexPath);
-        const { showInNavigation: navSetting } = generateFolderMarkdown(folderIndexContent, itemPath);
-        showInNavigation = navSetting;
-        folderTitle = getTitleFromMarkdown(folderIndexContent);
+        // Извлечение showInNavigation и заголовка из folder.index
+        const navigationMatch = folderIndexContent.match(/showInNavigation:\s*(true|false)/);
+        showInNavigation = navigationMatch ? navigationMatch[1] === 'true' : true;
+        if (showInNavigation) {
+          folderTitle = getTitleFromMarkdown(folderIndexContent) || item; // Берём заголовок из markdown
+        }
       }
 
       if (showInNavigation) {
         const children = await buildTreeStructure(itemPath, relativePath + item + '/');
+        // jsTree и renderFullTree ожидают: { text: "отображаемое имя", id: "путь/до/папки", children: [...] }
         tree.push({
-          id: relativePath + item,
-          text: folderTitle,
-          icon: 'jstree-folder',
+          text: folderTitle, // <-- Используем извлеченное имя
+          id: relativePath + item, // <-- Путь к папке
+          icon: 'jstree-folder', // <-- Иконка (опционально, jsTree может использовать по умолчанию)
           children: children
         });
       }
     } else if (item.endsWith('.abc')) {
       const abcContent = readUtf8File(itemPath);
       const { title, composer } = extractTitle(abcContent);
-      const fullTitle = `${title} ${composer}`.trim();
+      const fullTitle = `${title} ${composer}`.trim() || path.basename(item, '.abc'); // Название по умолчанию - имя файла без .abc
       const fileName = path.basename(item, '.abc');
 
+      // jsTree и renderFullTree ожидают: { text: "отображаемое имя", id: "путь/до/файла.html" }
       tree.push({
-        id: relativePath + fileName + '.html', // Предполагаем, что Jekyll сгенерирует .html
-        text: fullTitle,
-        icon: 'jstree-file'
+        text: fullTitle, // <-- Используем извлечённое имя (название + композитор)
+        id: relativePath + fileName + '.html', // <-- Путь к HTML файлу
+        icon: 'jstree-file' // <-- Иконка (опционально)
       });
     }
   }
@@ -188,7 +193,6 @@ async function buildTreeStructure(currentPath, relativePath = '') {
 async function convertAbcToJekyll() {
   console.log('Начинаю подготовку ABC файлов для Jekyll...');
 
-  // Убедимся, что папки существуют
   await ensureDir(LAYOUTS_DIR);
   await ensureDir(INCLUDES_DIR);
   await ensureDir(ASSETS_DIR);
@@ -198,10 +202,20 @@ async function convertAbcToJekyll() {
   // Собираем структуру дерева
   const treeStructure = await buildTreeStructure(ABC_DIR);
 
+  // --- НОВОЕ: Добавляем корневой узел "Партитуры" ---
+  const fullTreeWithRoot = [
+    {
+      text: "Партитуры", // Отображаемое имя корня
+      id: "", // Идентификатор корня (может быть пустой строкой или 'partitures')
+      icon: 'jstree-root', // Опциональная иконка
+      children: treeStructure
+    }
+  ];
+
   // Сохраняем структуру дерева в корень каталога (путь относительно _site)
   const treeOutputPath = path.join(OUTPUT_DIR, 'full-tree.json');
   await ensureDir(path.dirname(treeOutputPath)); // Убедимся, что папка partitures существует
-  await fs.writeJson(treeOutputPath, treeStructure, { spaces: 2 });
+  await fs.writeJson(treeOutputPath, fullTreeWithRoot, { spaces: 2 }); // Используем fullTreeWithRoot
   console.log(`Создан файл структуры дерева: ${treeOutputPath}`);
 
   // Обработка ABC файлов и folder.index

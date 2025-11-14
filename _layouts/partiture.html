@@ -1,3 +1,4 @@
+<!-- _layouts/partiture.html -->
 <!DOCTYPE html>
 <html lang="ru">
   <head>
@@ -18,6 +19,7 @@
         </div>
       </div>
       <div class="grid-row">
+        <!-- Страница партитуры: боковая панель НЕ нужна -->
         <main class="main-content grid-col-12">
           <nav class="breadcrumb">
             <a href="{{ '/' | relative_url }}">Главная</a> >
@@ -39,25 +41,12 @@
 
     <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
     <!-- Подключаем jQuery ПЕРЕД jstree и abcjs-ui -->
-    <script src="{{ '/assets/js/jquery.min.js'  }}"></script>
-    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script>
+    <!-- jsTree подключаем, если нужна навигация по папкам на странице партитуры (например, в боковой панели) -->
+    <!-- <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script> -->
     <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
-        // Инициализация дерева навигации
-        $('#folder-tree').jstree({
-          'core': {
-            'data': {
-              // Оборачиваем путь в кавычки
-              'url': "{{ '/partitures/full-tree.json' | relative_url }}",
-              'data': function(node) {
-                return { 'id': node.id };
-              }
-            }
-          },
-          'plugins': ['wholerow']
-        });
-
         // Рендер ABC нотации
         const abcSource = document.querySelector('.abc-source').textContent.trim();
         ABCJS.renderAbc('abc-display', abcSource, {

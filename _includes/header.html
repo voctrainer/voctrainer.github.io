@@ -1,10 +1,12 @@
 <header class="header">
+    <div class="header-content"></div>
     <h1>{{ site.title }}</h1>
-    <nav class="main-nav">
-        <a href="{{ '/' | relative_url }}">Главная</a>
-        <a href="{{ '/partitures/' | relative_url }}">Партитуры</a>
-        {% if page.parent_folder_path %}
-            <a href="{{ page.parent_folder_path | relative_url }}">{{ page.parent_folder_title }}</a>
-        {% endif %}
-    </nav>
+        <nav class="main-nav">
+            <a href="{{ '/' | relative_url }}">Главная</a>
+            <a href="{{ '/partitures/' | relative_url }}">Партитуры</a>
+            {% if page.parent_folder_path %}
+                <a href="{{ page.parent_folder_path | relative_url }}">{{ page.parent_folder_title }}</a>
+            {% endif %}
+        </nav>
+    </div>
 </header>

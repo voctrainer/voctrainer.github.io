@@ -23,23 +23,34 @@ body {
   line-height: 1.6;
 }
 
+/* Стили для шапки */
 .header {
   background-color: var(--primary-color);
   color: white;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  /* Убираем display: flex или width: 100% от растягивания */
-  /* Добавляем центрирование содержимого */
-  text-align: center; /* Центрируем текст/элементы внутри шапки */
+  /* Убираем padding, который растягивал бы ширину */
+  /* box-shadow: 0 2px 5px rgba(0,0,0,0.1); */
+  /* Добавляем отдельный контейнер для шапки, чтобы ширина соответствовала контенту */
+}
+
+.header .header-content {
+  max-width: 1200px; /* Максимальная ширина */
+  width: 100%;
+  margin: 0 auto; /* Центрирует контейнер */
+  padding: 1rem 1rem; /* Отступы внутри центрального контейнера */
+  /* Убираем text-align: center */
 }
 
 .header h1 {
   margin: 0;
   font-size: 1.8rem;
+  /* Выравнивание по левому краю */
+  text-align: left;
 }
 
 .main-nav {
   margin-top: 0.5rem;
+  /* Выравнивание по левому краю */
+  text-align: left;
 }
 
 .main-nav a {
@@ -210,7 +221,7 @@ li {
     margin: 0.25rem 0.5rem; /* Делаем отступы меньше на мобильных */
   }
 
-  .header {
+  .header .header-content {
     padding: 1rem; /* Уменьшаем паддинги шапки на мобильных */
   }
 }

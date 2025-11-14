@@ -28,6 +28,9 @@ body {
   color: white;
   padding: 1rem 2rem;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  /* Убираем display: flex или width: 100% от растягивания */
+  /* Добавляем центрирование содержимого */
+  text-align: center; /* Центрируем текст/элементы внутри шапки */
 }
 
 .header h1 {
@@ -42,21 +45,33 @@ body {
 .main-nav a {
   color: white;
   text-decoration: none;
-  margin-right: 1.5rem;
+  margin: 0 0.75rem; /* Уменьшаем отступы по бокам */
   padding: 0.5rem 1rem;
   border-radius: 4px;
   transition: background-color 0.3s ease;
+  display: inline-block; /* Делаем ссылки блочными элементами в строке */
 }
 
 .main-nav a:hover {
   background-color: var(--light-color);
 }
 
+/* Центральный контейнер для основного контента */
+.main-container {
+  max-width: 1200px; /* Максимальная ширина */
+  width: 100%; /* Занимает всю ширину, но не больше max-width */
+  margin: 0 auto; /* Центрирует контейнер */
+  padding: 0 1rem; /* Отступы по бокам */
+}
+
+/* Стили для страницы каталога (partiture_folder) */
 .container {
   display: flex;
   min-height: calc(100vh - 120px);
-  max-width: 1200px;
-  margin: 0 auto;
+  max-width: 1200px; /* Максимальная ширина */
+  width: 100%;
+  margin: 0 auto; /* Центрирует контейнер */
+  padding: 0 1rem; /* Отступы по бокам */
 }
 
 .sidebar {
@@ -79,10 +94,12 @@ body {
   overflow-y: auto;
 }
 
+/* Стили для главной страницы (home) */
 .main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem;
+  max-width: 1200px; /* Максимальная ширина */
+  width: 100%;
+  margin: 0 auto; /* Центрирует контейнер */
+  padding: 2rem 1rem; /* Отступы сверху/снизу и по бокам */
 }
 
 .center-button {
@@ -190,7 +207,11 @@ li {
 
   .main-nav a {
     display: inline-block;
-    margin-bottom: 0.5rem;
+    margin: 0.25rem 0.5rem; /* Делаем отступы меньше на мобильных */
+  }
+
+  .header {
+    padding: 1rem; /* Уменьшаем паддинги шапки на мобильных */
   }
 }
 

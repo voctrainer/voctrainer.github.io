@@ -11,8 +11,10 @@
   <body>
     <div class="grid-container">
       {% include header.html %}
-      <main class="main-content">
-        {{ content }} <!-- Содержимое из index.md вставляется сюда -->
+      <main class="main-content grid-row">
+        <div class="grid-col-12">
+          {{ content }} <!-- Содержимое из index.md вставляется сюда -->
+        </div>
       </main>
     </div>
   </body>

@@ -9,13 +9,19 @@
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
-    <div class="grid-container">
-      {% include header.html %}
-      <main class="main-content grid-row">
+     <div class="grid-container">
+      <div class="grid-row">
         <div class="grid-col-12">
-          {{ content }} <!-- Содержимое из index.md вставляется сюда -->
+          {% include header.html %}
         </div>
-      </main>
+      </div>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          <main class="main-content">
+            {{ content }} <!-- Содержимое из index.md вставляется сюда -->
+          </main>
+        </div>
+      </div>
     </div>
   </body>
 </html>

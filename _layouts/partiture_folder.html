@@ -11,21 +11,27 @@
   </head>
   <body>
     <div class="grid-container">
-      {% include header.html %}
-      <main class="main-content grid-row">
-        <aside class="sidebar-grid grid-col-3">
-          <h3>Навигация</h3>
-          <div id="folder-tree"></div>
-        </aside>
-        <div class="grid-col-9">
-          {% if page.full_tree %}
-            <div id="full-tree"></div>
-          {% endif %}
-          <div class="content-grid">
-            {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
-          </div>
+      <div class="grid-row">
+        <div class="grid-col-12">
+          {% include header.html %}
         </div>
-      </main>
+      </div>
+      <div class="grid-row">
+        <main class="main-content">
+          <aside class="sidebar-grid grid-col-3">
+            <h3>Навигация</h3>
+            <div id="folder-tree"></div>
+          </aside>
+          <div class="grid-col-9">
+            {% if page.full_tree %}
+              <div id="full-tree"></div>
+            {% endif %}
+            <div class="content-grid">
+              {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
+            </div>
+          </div>
+        </main>
+      </div>
     </div>
 
     <!-- Подключаем jQuery ПЕРЕД jstree -->

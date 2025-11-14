@@ -62,7 +62,8 @@ body {
 .grid-row {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 calc(-1 * var(--grid-gutter) / 2); /* Компенсация отступов колонок */
+  /* Убираем отрицательные отступы, так как теперь header и main оба внутри grid-row и grid-col */
+  /* margin: 0 calc(-1 * var(--grid-gutter) / 2); */
 }
 
 /* Колонка сетки */
@@ -89,9 +90,9 @@ body {
 .header {
   background-color: var(--primary-color);
   color: white;
-  /* padding убирается, так как шапка внутри .grid-container */
-  /* Добавляем padding, чтобы компенсировать padding у колонок в .grid-row */
-  padding: 1rem 0;
+  /* padding убирается, так как шапка теперь внутри .grid-col */
+  /* padding: 1rem 0; */
+  /* padding убираем, внутренние отступы теперь от сетки */
 }
 
 .header h1 {
@@ -99,18 +100,16 @@ body {
   font-size: 1.8rem;
   /* Выравнивание по левому краю */
   text-align: left;
-  /* Добавляем отступ слева, чтобы выровнять с текстом ссылок в nav */
-  /* padding-left должен быть равен calc(var(--grid-gutter) / 2) */
-  padding-left: calc(var(--grid-gutter) / 2);
+  /* padding-left убираем, внутренние отступы теперь от сетки */
+  /* padding-left: calc(var(--grid-gutter) / 2); */
 }
 
 .main-nav {
   margin-top: 0.5rem;
   /* Выравнивание по левому краю */
   text-align: left;
-  /* Добавляем отступ слева, чтобы выровнять с h1 */
-  /* padding-left должен быть равен calc(var(--grid-gutter) / 2) */
-  padding-left: calc(var(--grid-gutter) / 2);
+  /* padding-left убираем, внутренние отступы теперь от сетки */
+  /* padding-left: calc(var(--grid-gutter) / 2); */
 }
 
 .main-nav a {
@@ -129,7 +128,8 @@ body {
 
 /* Стили для основного контента */
 .main-content {
-  padding: 2rem 0; /* Отступы сверху/снизу, боковые убираем */
+  /* padding убираем, так как теперь основной контент внутри .grid-col */
+  /* padding: 2rem 0; */
 }
 
 .center-button {
@@ -264,12 +264,16 @@ li {
   border-right: 1px solid var(--border-color);
   overflow-y: auto;
   /* flex-shrink: 0; Убираем, чтобы колонка следовала сетке */
+  /* flex: 0 0 auto; уже задано в .grid-col-3 */
+  /* padding: 0 calc(var(--grid-gutter) / 2); уже задано в .grid-col */
 }
 
 .content-grid {
   padding: 2rem;
   overflow-y: auto;
   /* flex: 1; Убираем, чтобы колонка следовала сетке */
+  /* flex: 0 0 auto; уже задано в .grid-col-9 */
+  /* padding: 0 calc(var(--grid-gutter) / 2); уже задано в .grid-col */
 }
 
 /* Адаптив для страницы каталога */

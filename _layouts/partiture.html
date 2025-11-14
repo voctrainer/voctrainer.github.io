@@ -12,9 +12,13 @@
   </head>
   <body>
     <div class="grid-container">
-      {% include header.html %}
-      <main class="main-content grid-row">
+      <div class="grid-row">
         <div class="grid-col-12">
+          {% include header.html %}
+        </div>
+      </div>
+      <div class="grid-row">
+        <main class="main-content grid-col-12">
           <nav class="breadcrumb">
             <a href="{{ '/' | relative_url }}">Главная</a> >
             <a href="{{ '/partitures/' | relative_url }}">Партитуры</a> >
@@ -29,8 +33,8 @@
               {{ page.abc_content }}
             </div>
           </div>
-        </div>
-      </main>
+        </main>
+      </div>
     </div>
 
     <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>

@@ -65,7 +65,7 @@ function generateFrontMatter(layout, title, parentFolderTitle = '', parentFolder
   return frontMatter;
 }
 
-// Генерация HTML из ABC (теперь создает Jekyll-совместимый markdown с front matter)
+// Генерация Markdown из ABC (теперь создает Jekyll-совместимый markdown с front matter)
 function generateAbcMarkdown(abcContent, fileName, parentFolder, folderTitle) {
   const { title, composer } = extractTitle(abcContent);
   const fullTitle = `${title} ${composer}`.trim();
@@ -74,21 +74,24 @@ function generateAbcMarkdown(abcContent, fileName, parentFolder, folderTitle) {
   const parentFolderPath = path.relative(ABC_DIR, parentFolder).replace(/\\/g, '/'); // Убедимся в слэше
   const relativeParentPath = parentFolderPath ? `partitures/${parentFolderPath}/` : 'partitures/';
 
+  // --- ИСПРАВЛЕНО: Убрана попытка экранировать для YAML, содержимое ABC будет в теле документа ---
+  // const escapedAbcContent = abcContent.replace(/"/g, '\\"').replace(/\n/g, '\n    ');
+
   const frontMatter = generateFrontMatter(
     'partiture',
-    fullTitle,
+    fullTitle, // <-- ИСПРАВЛЕНО: Используем извлечённый заголовок для page.title
     folderTitle,
     `/${relativeParentPath}`
   );
 
-  // Экранируем ABC контент для YAML
-  const escapedAbcContent = abcContent.replace(/"/g, '\\"').replace(/\n/g, '\n    '); // Добавляем отступ для многострочного значения
-
+  // --- ИСПРАВЛЕНО: Помещаем ABC контент в переменную front matter ---
+  // В шаблоне будет использоваться page.abc_content
   return `${frontMatter}
 abc_content: |
-    ${escapedAbcContent}
+  ${abcContent.replace(/\n/g, '\n  ')} # Добавляем отступ для многострочного значения в YAML
 `;
 }
+
 
 // Генерация Markdown из folder.index (теперь создает Jekyll-совместимый markdown с front matter)
 function generateFolderMarkdown(content, folderPath, relativePath = '') {

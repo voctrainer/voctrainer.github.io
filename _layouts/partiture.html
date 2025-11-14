@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ page.title }}</title>
+    <title>{{ page.title }}</title> <!-- ИСПРАВЛЕНО: Теперь использует page.title -->
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
     <link rel="stylesheet" href="{{ '/assets/css/music.min.css' | relative_url }}" />
@@ -31,37 +31,23 @@
           </nav>
           <div class="abc-container">
             <div id="abc-display"></div>
+            <!-- ИСПРАВЛЕНО: Теперь использует page.abc_content -->
             <div class="abc-source" style="display: none;">
-              {{ page.abc_content }}
+{{ page.abc_content }}
             </div>
           </div>
         </main>
       </div>
     </div>
 
+    <!-- ИСПРАВЛЕНО: Подключаем нужную библиотеку и её зависимости -->
     <script src="{{ '/assets/js/acoustic_grand_piano-mp3.js' | relative_url }}"></script>
-    <!-- Подключаем jQuery ПЕРЕД jstree и abcjs-ui -->
-    <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script>
-    <!-- jsTree подключаем, если нужна навигация по папкам на странице партитуры (например, в боковой панели) -->
-    <!-- <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script> -->
     <script src="{{ '/assets/js/abc-ui-1.0.0.min.js' | relative_url }}"></script>
     <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Рендер ABC нотации
-        const abcSource = document.querySelector('.abc-source').textContent.trim();
-        ABCJS.renderAbc('abc-display', abcSource, {
-            responsive: "resize",
-            generateIds: true,
-            displayLily: true,
-            displayControls: true,
-            midiControl: {
-                showPiano: true,
-                showTempo: true
-            }
-        });
+      
+        // Затем инициализируем UI библиотеку (abc-ui)
         $ABC_UI.init();
         $ABC_UTIL.addHtmlVievers({"bMacro":true,"bDeco":true,"bEditors":false});
-      });
     </script>
   </body>
 </html>

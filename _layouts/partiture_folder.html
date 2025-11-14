@@ -45,7 +45,6 @@
             'data': {
               'url': "{{ '/partitures/full-tree.json' | relative_url }}",
               'data': function(node) {
-                // Убедимся, что URL возвращает корректный JSON с полями text, icon, children
                 return { 'id': node.id };
               }
             }
@@ -53,13 +52,32 @@
           'plugins': ['wholerow']
         });
 
+        // --- НОВОЕ: Обработчик клика по узлу jsTree ---
+        $('#folder-tree').on('select_node.jstree', function (e, data) {
+          // Получаем ID узла (который соответствует пути)
+          let nodeId = data.node.id;
+
+          // Формируем URL для перехода
+          // Если id заканчивается на .html, это файл
+          if (nodeId.endsWith('.html')) {
+             // nodeId = 'path/to/file.html'
+             // URL = /partitures/path/to/file.html
+             window.location.href = '/partitures/' + nodeId;
+          } else {
+             // Если не заканчивается на .html, это папка
+             // nodeId = 'path/to/folder'
+             // URL = /partitures/path/to/folder/ (Jekyll создаст index.html)
+             window.location.href = '/partitures/' + nodeId + '/';
+          }
+        });
+        // --- КОНЕЦ НОВОГО ---
+
         // Инициализация полного дерева на главной странице каталога
         if (document.getElementById('full-tree')) {
           $('#full-tree').jstree({
             'core': {
               'data': {
                 'url': "{{ '/partitures/full-tree.json' | relative_url }}"
-                // Опять же, убедимся, что JSON корректен
               }
             },
             'plugins': ['wholerow']

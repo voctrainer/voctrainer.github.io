@@ -25,7 +25,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadFullTree() {
     try {
-        const response = await fetch('./full-tree.json'); // <-- Вот тут проблема!
+        // --- ИСПРАВЛЕНО: Путь к full-tree.json ---
+        // fetch('./full-tree.json'); // Было - относительно текущей страницы (partitures/index.html)
+        // fetch('../full-tree.json'); // Попробуем на уровень выше, если бы это был файл в подпапке
+        // fetch('/partitures/full-tree.json'); // Лучше использовать абсолютный путь от корня сайта
+        const response = await fetch('/partitures/full-tree.json');
         if (!response.ok) throw new Error('Full tree file not found');
 
         const treeData = await response.json();
@@ -50,38 +54,19 @@ function renderFullTree(treeData) {
 
     function renderItems(items, level = 0) {
         items.forEach(item => {
-            // ПРОБЛЕМА: Скрипт ожидает поля item.path и item.displayName
-            // convert-abc.js генерирует JSON с полями id, text, icon, children
-            const path = item.path; // <-- undefined
-            const displayName = item.displayName; // <-- undefined
-            const type = item.type; // <-- undefined
-
-            // Вместо этого нужно использовать:
+            // Используем поля из full-tree.json (text, id)
             const id = item.id; // Это может быть относительный путь
             const text = item.text; // Это заголовок
             const children = item.children;
 
-            // Предположим, id - это относительный путь от /partitures/
-            // Тогда для ссылки нужно сформировать правильный URL
-            // Для файлов: /partitures/.../filename.html
-            // Для папок: /partitures/.../ (или /partitures/.../index.html, что Jekyll делает автоматически)
             let linkPath = id;
             if (!linkPath.endsWith('.html')) {
-                // Если это папка, Jekyll создаст /partitures/.../index.html -> /partitures/.../
-                // Но fetch идёт за /partitures/full-tree.json, который лежит в корне partitures/
-                // Поэтому, если id = 'liturgy', ссылка должна быть '/partitures/liturgy/'
-                // Если id = 'liturgy/liturgy_of_the_faithful', ссылка '/partitures/liturgy/liturgy_of_the_faithful/'
-                // Итак, если id НЕ заканчивается на .html, это папка, и путь для ссылки - '/partitures/' + id + '/'
                 linkPath = '/partitures/' + id + '/';
             } else {
-                // Если заканчивается на .html, это файл, путь '/partitures/' + id
-                // Но id в JSON может быть 'liturgy/liturgy_of_the_faithful/some_file.html'
-                // Нужно относительный путь от корня сайта к файлу html
                 linkPath = '/partitures/' + id;
             }
 
             const indent = level * 20;
-            // Определяем тип по наличию children или по id (если заканчивается на .html)
             const isFolder = !id.endsWith('.html');
             const icon = isFolder ? '📁' : '📄';
             const color = isFolder ? '#e67e22' : '#2c3e50';
@@ -104,7 +89,7 @@ function renderFullTree(treeData) {
                         margin-left: ${indent}px;
                     " onmouseover="this.style.backgroundColor='${isFolder ? '#fff3e0' : '#f8f9fa'}'; this.style.borderColor='${isFolder ? '#e67e22' : '#4051b5'}'"
                        onmouseout="this.style.backgroundColor='white'; this.style.borderColor='#e9ecef'">
-                        ${icon} ${text} <!-- Используем text вместо displayName -->
+                        ${icon} ${text} <!-- Используем text -->
                     </a>
             `;
 

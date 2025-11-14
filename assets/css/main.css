@@ -90,6 +90,8 @@ body {
   background-color: var(--primary-color);
   color: white;
   /* padding убирается, так как шапка внутри .grid-container */
+  /* Добавляем padding, чтобы компенсировать padding у колонок в .grid-row */
+  padding: 1rem 0;
 }
 
 .header h1 {
@@ -97,12 +99,18 @@ body {
   font-size: 1.8rem;
   /* Выравнивание по левому краю */
   text-align: left;
+  /* Добавляем отступ слева, чтобы выровнять с текстом ссылок в nav */
+  /* padding-left должен быть равен calc(var(--grid-gutter) / 2) */
+  padding-left: calc(var(--grid-gutter) / 2);
 }
 
 .main-nav {
   margin-top: 0.5rem;
   /* Выравнивание по левому краю */
   text-align: left;
+  /* Добавляем отступ слева, чтобы выровнять с h1 */
+  /* padding-left должен быть равен calc(var(--grid-gutter) / 2) */
+  padding-left: calc(var(--grid-gutter) / 2);
 }
 
 .main-nav a {

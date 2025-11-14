@@ -11,11 +11,14 @@
 
   /* Параметры сетки */
   --grid-columns: 12;
-  --grid-gutter: 24px;
+  --grid-gutter: 24px; /* Оставляем как есть */
   --grid-margin: 24px;
   --grid-container-margin: calc(var(--grid-margin) + var(--grid-gutter) / 2); /* 36px */
   --grid-container-width: calc(1200px - 2 * var(--grid-container-margin)); /* 1128px */
   --grid-column-width: calc((var(--grid-container-width) - (var(--grid-columns) - 1) * var(--grid-gutter)) / var(--grid-columns)); /* 72px */
+
+  /* Новый параметр для внутреннего отступа содержимого */
+  --content-padding-left: 20px; /* Можно изменить значение по вкусу */
 }
 
 * {
@@ -90,9 +93,15 @@ body {
 .header {
   background-color: var(--primary-color);
   color: white;
-  /* padding убирается, так как шапка теперь внутри .grid-col */
+  /* padding убираем, так как шапка теперь внутри .grid-col */
   /* padding: 1rem 0; */
   /* padding убираем, внутренние отступы теперь от сетки */
+}
+
+/* Добавляем отступ слева к содержимому колонки с хедером */
+.grid-col-12 .header {
+  padding-left: var(--content-padding-left);
+  padding-right: var(--content-padding-left); /* Опционально, для симметрии */
 }
 
 .header h1 {
@@ -100,16 +109,22 @@ body {
   font-size: 1.8rem;
   /* Выравнивание по левому краю */
   text-align: left;
-  /* padding-left убираем, внутренние отступы теперь от сетки */
+  /* padding-left убираем, внутренние отступы теперь от сетки и переменной */
   /* padding-left: calc(var(--grid-gutter) / 2); */
+  /* Добавляем отступ слева к самому заголовку */
+  padding-left: var(--content-padding-left);
+  /* padding-right: var(--content-padding-left); */ /* Опционально */
 }
 
 .main-nav {
   margin-top: 0.5rem;
   /* Выравнивание по левому краю */
   text-align: left;
-  /* padding-left убираем, внутренние отступы теперь от сетки */
+  /* padding-left убираем, внутренние отступы теперь от сетки и переменной */
   /* padding-left: calc(var(--grid-gutter) / 2); */
+  /* Добавляем отступ слева к самой навигации */
+  padding-left: var(--content-padding-left);
+  /* padding-right: var(--content-padding-left); */ /* Опционально */
 }
 
 .main-nav a {
@@ -130,6 +145,15 @@ body {
 .main-content {
   /* padding убираем, так как теперь основной контент внутри .grid-col */
   /* padding: 2rem 0; */
+}
+
+/* Добавляем отступ слева к содержимому колонки с основным контентом */
+/* Это повлирует на все дочерние элементы main, sidebar, content-grid */
+.main-content > *,
+.sidebar-grid,
+.content-grid {
+  padding-left: var(--content-padding-left);
+  /* padding-right: var(--content-padding-left); */ /* Опционально */
 }
 
 .center-button {
@@ -171,11 +195,14 @@ h3 {
 
 p {
   margin-bottom: 1rem;
+  /* Добавляем отступ слева к абзацам */
+  /* padding-left: var(--content-padding-left); */ /* Можно добавить, если нужно, но лучше управлять через родителя */
 }
 
 ul, ol {
   margin-left: 2rem;
   margin-bottom: 1rem;
+  /* padding-left: var(--content-padding-left); */ /* Можно добавить, если нужно */
 }
 
 li {
@@ -260,7 +287,7 @@ li {
 /* Стили для страницы каталога (partiture_folder) */
 .sidebar-grid {
   background-color: #f8f9fa;
-  padding: 1rem;
+  padding: 1rem; /* Этот padding теперь внутрь от нового padding-left */
   border-right: 1px solid var(--border-color);
   overflow-y: auto;
   /* flex-shrink: 0; Убираем, чтобы колонка следовала сетке */
@@ -269,7 +296,7 @@ li {
 }
 
 .content-grid {
-  padding: 2rem;
+  padding: 2rem; /* Этот padding теперь внутрь от нового padding-left */
   overflow-y: auto;
   /* flex: 1; Убираем, чтобы колонка следовала сетке */
   /* flex: 0 0 auto; уже задано в .grid-col-9 */
@@ -295,6 +322,7 @@ li {
   color: var(--secondary-color);
   border-bottom: 1px solid var(--border-color);
   margin-bottom: 1rem;
+  /* padding-left: var(--content-padding-left); */ /* Уже управляется через .main-content > * */
 }
 
 .breadcrumb a {

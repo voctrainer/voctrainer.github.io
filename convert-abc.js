@@ -323,8 +323,9 @@ async function convertAbcToJekyll() {
   console.log('Начинаю подготовку ABC файлов для Jekyll...');
 
   // Путь для генерации файлов Jekyll (до сборки)
-  const OUTPUT_DIR = './partitures'; // Поменяли на './partitures' в корне репо
-  const TREE_OUTPUT_DIR = './_site/partitures'; // Путь для full-tree.json, который нужен в _site
+  const OUTPUT_DIR_MD = './partitures'; // Путь для .md файлов коллекции
+  // Путь для генерации файлов, которые должны быть доступны веб-серверу (HTML, JSON)
+  const OUTPUT_DIR_WEB = './_site/partitures';
 
   await ensureDir(LAYOUTS_DIR);
   await ensureDir(INCLUDES_DIR);
@@ -346,8 +347,8 @@ async function convertAbcToJekyll() {
   ];
 
   // Сохраняем структуру дерева в корень каталога (путь относительно _site)
-  // full-tree.json должен быть доступен из _site для jsTree
-  const treeOutputPath = path.join(TREE_OUTPUT_DIR, 'full-tree.json');
+  // full-tree.json должен быть доступен из _site для jsTree и renderFullTree
+  const treeOutputPath = path.join(OUTPUT_DIR_WEB, 'full-tree.json'); // Используем OUTPUT_DIR_WEB
   await ensureDir(path.dirname(treeOutputPath)); // Убедимся, что папка _site/partitures существует
   await fs.writeJson(treeOutputPath, fullTreeWithRoot, { spaces: 2 });
   console.log(`Создан файл структуры дерева: ${treeOutputPath}`);
@@ -360,8 +361,8 @@ async function convertAbcToJekyll() {
   for (const folderIndexFile of folderIndexFiles) {
     // Путь относительно ABC_DIR
     const relativePath = path.relative(ABC_DIR, folderIndexFile);
-    // Путь для вывода относительно корня репо (OUTPUT_DIR)
-    const outputDir = path.join(OUTPUT_DIR, path.dirname(relativePath)); // Путь в ./partitures/...
+    // Путь для вывода относительно корня репо (OUTPUT_DIR_MD)
+    const outputDir = path.join(OUTPUT_DIR_MD, path.dirname(relativePath)); // Путь в ./partitures/...
     const outputFilePath = path.join(outputDir, 'index.md'); // Создаем .md файл для Jekyll
 
     await ensureDir(outputDir);
@@ -375,11 +376,11 @@ async function convertAbcToJekyll() {
     }
   }
 
-  // --- ИСПРАВЛЕНО: Обработка ABC файлов (генерация .html напрямую в _site) ---
+  // --- ИСПРАВЛЕНО: Обработка ABC файлов (генерация .html напрямую в OUTPUT_DIR_WEB) ---
   for (const abcFile of abcFiles) {
     const relativePath = path.relative(ABC_DIR, abcFile); // e.g., "liturgy/liturgy_of_the_faithful/cherubic_hymn/cherubic-ancient.abc"
-    // HTML файлы генерируются напрямую в _site/partitures/...
-    const outputDir = path.join('./_site/partitures', path.dirname(relativePath)); // e.g., "_site/partitures/liturgy/liturgy_of_the_faithful/cherubic_hymn"
+    // HTML файлы генерируются напрямую в OUTPUT_DIR_WEB (->_site/partitures/...)
+    const outputDir = path.join(OUTPUT_DIR_WEB, path.dirname(relativePath)); // e.g., "_site/partitures/liturgy/liturgy_of_the_faithful/cherubic_hymn"
     const parentFolderPath = path.dirname(relativePath); // e.g., "liturgy/liturgy_of_the_faithful/cherubic_hymn"
 
     await generateAbcHtmlFile(abcFile, outputDir, parentFolderPath); // Вызываем новую функцию

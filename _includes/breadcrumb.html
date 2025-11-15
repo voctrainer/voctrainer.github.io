@@ -1,0 +1,27 @@
+<!-- _includes/breadcrumb.html -->
+<nav class="breadcrumb">
+  <a href="{{ '/' | relative_url }}">Главная</a>
+  {% assign crumbs = page.url | split: '/' %}
+  {% for crumb in crumbs offset: 1 %}
+    {% if forloop.last %}
+      <span> > {{ page.title }}</span>
+    {% else %}
+      {% assign crumb_path = '' %}
+      {% for c in crumbs limit: forloop.index %}
+        {% assign crumb_path = crumb_path | append: c | append: '/' %}
+      {% endfor %}
+      {% assign crumb_title = crumb | replace: '-', ' ' | replace: '_', ' ' | capitalize %}
+      {% if crumb == 'partitures' %}
+        {% assign crumb_title = 'Партитуры' %}
+      {% endif %}
+      <!-- Попробуем получить заголовок из folder.index, если он существует -->
+      {% assign folder_index_path = 'abc/' | append: crumb_path | append: 'folder.index' %}
+      {% assign folder_index_path_abs = folder_index_path | replace: '//', '/' %}
+      {% if site.data[folder_index_path_abs] %}
+        {% assign folder_index_content = site.data[folder_index_path_abs] %}
+        {% assign crumb_title = folder_index_content | split: '#' | first | replace: '#', '' | strip %}
+      {% endif %}
+      <a href="{{ crumb_path | relative_url }}"> > {{ crumb_title }}</a>
+    {% endif %}
+  {% endfor %}
+</nav>

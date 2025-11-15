@@ -23,9 +23,7 @@
           <div id="folder-tree"></div>
         </aside>
         <main class="main-content grid-col-9">
-          {% if page.full_tree %}
-            <div id="full-tree"></div>
-          {% endif %}
+          <!-- Убрали <div id="full-tree"></div> -->
           <div class="content-grid">
             {{ content }} <!-- Содержимое из folder.index вставляется сюда -->
           </div>
@@ -71,18 +69,6 @@
           }
         });
         // --- КОНЕЦ НОВОГО ---
-
-        // Инициализация полного дерева на главной странице каталога
-        if (document.getElementById('full-tree')) {
-          $('#full-tree').jstree({
-            'core': {
-              'data': {
-                'url': "{{ '/partitures/full-tree.json' | relative_url }}"
-              }
-            },
-            'plugins': ['wholerow']
-          });
-        }
       });
     </script>
   </body>

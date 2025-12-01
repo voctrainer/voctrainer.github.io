@@ -25,30 +25,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: "20"
 
       # Устанавливаем зависимости Node.js, указанные в package.json
       - name: Install Node.js dependencies
         run: npm install
 
       # Запускаем ваш скрипт convert-abc.js
-      - name: Generate partitures from ABC files using convert-abc.js
+      - name: Generate scores from ABC files using convert-abc.js
         run: |
           echo "🚀 Starting regeneration from ABC files using convert-abc.js"
           echo "=== ABC source structure ==="
           find abc -name "*.abc" -o -name "folder.index" | sort
           node convert-abc.js
           echo "✅ Regeneration using convert-abc.js completed"
-          echo "=== Generated files structure in _site/partitures ==="
-          find _site/partitures -name "*.html" -o -name "*.md" -o -name "*.json" | sort
-          echo "=== File counts in _site/partitures ==="
-          echo "Generated HTML/MD files: $(find _site/partitures -name '*.html' -o -name '*.md' | wc -l)"
-          echo "Generated JSON files: $(find _site/partitures -name '*.json' | wc -l)"
+          echo "=== Generated files structure in _site/scores ==="
+          find _site/scores -name "*.html" -o -name "*.md" -o -name "*.json" | sort
+          echo "=== File counts in _site/scores ==="
+          echo "Generated HTML/MD files: $(find _site/scores -name '*.html' -o -name '*.md' | wc -l)"
+          echo "Generated JSON files: $(find _site/scores -name '*.json' | wc -l)"
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: "3.1"
           bundler-cache: true # Установит зависимости из Gemfile и закэширует их
 
       # bundle install автоматически выполнится благодаря bundler-cache: true
@@ -65,7 +65,7 @@ jobs:
           echo "=== Final site structure in _site ==="
           find _site -name "*.html" | sort
           echo "=== Key files verification ==="
-          [ -f "_site/partitures/index.html" ] && echo "✅ _site/partitures/index.html exists" || echo "❌ _site/partitures/index.html missing"
+          [ -f "_site/scores/index.html" ] && echo "✅ _site/scores/index.html exists" || echo "❌ _site/scores/index.html missing"
           [ -f "_site/index.html" ] && echo "✅ _site/index.html exists" || echo "❌ _site/index.html missing"
 
       - name: Setup Pages

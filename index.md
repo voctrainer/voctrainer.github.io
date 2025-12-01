@@ -8,7 +8,7 @@ title: Вокальный тренажер
 прослушивания и изучения отдельных партий.
 
 <div style="text-align: center; margin: 40px 0;">
-    <a href="{{ '/partitures/' | relative_url }}" class="btn-primary">
+    <a href="{{ '/scores/' | relative_url }}" class="btn-primary">
         📁 Перейти к партитурам
     </a>
 </div>

@@ -11,7 +11,7 @@
         {% assign crumb_path = crumb_path | append: c | append: '/' %}
       {% endfor %}
       {% assign crumb_title = crumb | replace: '-', ' ' | replace: '_', ' ' | capitalize %}
-      {% if crumb == 'partitures' %}
+      {% if crumb == 'scores' %}
         {% assign crumb_title = 'Партитуры' %}
       {% endif %}
       <!-- Попробуем получить заголовок из folder.index, если он существует -->

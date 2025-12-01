@@ -30,6 +30,6 @@ exclude:
 
 # Collections for custom content (if needed later)
 collections:
-  partitures:
+  scores:
     output: true
-    permalink: /partitures/:path/
+    permalink: /scores/:path/

@@ -2,7 +2,7 @@
 
 ## Структура проекта
 
-Партитуры хранятся в папке partitures. Навигация строится автоматически.
+Партитуры хранятся в папке scores. Навигация строится автоматически.
 
 Партитуры размещать в отдельном файле `.abc`, файлы будут обработаны, и преобразованы в страницы статического сайта.
 
@@ -30,11 +30,18 @@ your-repo/
 │   ├── css/
 │   │   ├── main.css        # Основные стили
 │   │   └── music.min.css   # Стили для нот
+│   ├── jstree/         # Папка с jsTree
+│   │       ├── 32px.png
+│   │       ├── 40px.png
+│   │       ├── style.css
+│   │       └── style.min.css
 │   └── js/
 │       ├── jstree/         # Папка с jsTree
 │       │   └── jstree.min.js
 │       ├── abc-ui-1.0.0.min.js
-│       └── acoustic_grand_piano-mp3.js
+│       ├── acoustic_grand_piano-mp3.js
+│       ├── jquery.min.js
+│       └── navigation.js
 ├── assets/images/
 │   └── favicon.ico         # Фавикон
 ├── _config.yml             # Конфигурация Jekyll
@@ -73,10 +80,10 @@ abc/
     └── heruvimskaya_staro_bolgarskaya.abc
 ```
 
-3. Папка `partitures/` (автогенерация - НЕ ТРОГАТЬ!)
+3. Папка `scores/` (автогенерация - НЕ ТРОГАТЬ!)
 
 ```text
-partitures/                     ← ВСЁ СОДЕРЖИМОЕ АВТОГЕНЕРИРУЕТСЯ!
+scores/                     ← ВСЁ СОДЕРЖИМОЕ АВТОГЕНЕРИРУЕТСЯ!
 ├── filelist.json               ← Автогенерация для навигации
 ├── index.md                    ← Автогенерация из abc/folder.index
 ├── heruvimskaya_spasskaya.html ← Автогенерация из abc/... .abc

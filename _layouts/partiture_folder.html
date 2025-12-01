@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ page.title | default: site.title }}</title>
     <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}" />
-    <link rel="stylesheet" href="{{ '/assets/css/jstree/style.min.css' | relative_url }}" />
     <link rel="icon" type="image/x-icon" href="{{ '/assets/images/favicon.ico' | relative_url }}"/>
   </head>
   <body>
@@ -18,10 +17,6 @@
         </div>
       </div>
       <div class="grid-row">
-        <aside class="sidebar-grid grid-col-3">
-          <h3>Навигация</h3>
-          <div id="folder-tree"></div>
-        </aside>
         <main class="main-content grid-col-9">
           <!-- Убрали <div id="full-tree"></div> -->
           <div class="content-grid">
@@ -31,45 +26,5 @@
       </div>
     </div>
 
-    <!-- Подключаем jQuery ПЕРЕД jstree -->
-    <script src="{{ '/assets/js/jquery.min.js' | relative_url }}"></script>
-    <script src="{{ '/assets/js/jstree/jstree.min.js' | relative_url }}"></script>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Инициализация дерева навигации
-        $('#folder-tree').jstree({
-          'core': {
-            'data': {
-              'url': "{{ '/partitures/full-tree.json' | relative_url }}",
-              'data': function(node) {
-                return { 'id': node.id };
-              }
-            }
-          },
-          'plugins': ['wholerow']
-        });
-
-        // --- НОВОЕ: Обработчик клика по узлу jsTree ---
-        $('#folder-tree').on('select_node.jstree', function (e, data) {
-          // Получаем ID узла (который соответствует пути)
-          let nodeId = data.node.id;
-
-          // Формируем URL для перехода
-          // Если id заканчивается на .html, это файл
-          if (nodeId.endsWith('.html')) {
-             // nodeId = 'path/to/file.html'
-             // URL = /partitures/path/to/file.html
-             window.location.href = '/partitures/' + nodeId;
-          } else {
-             // Если не заканчивается на .html, это папка
-             // nodeId = 'path/to/folder'
-             // URL = /partitures/path/to/folder/ (Jekyll создаст index.html)
-             window.location.href = '/partitures/' + nodeId + '/';
-          }
-        });
-        // --- КОНЕЦ НОВОГО ---
-      });
-    </script>
   </body>
 </html>

@@ -48,8 +48,14 @@ function extractTitleAndComposer(abcContent) {
                 title = tContent;
             }
         } else if (line.startsWith('C:')) {
-            composer = line.substring(2).trim();
-        } else if (line.trim() === '') {
+            const cContent = line.substring(2).trim();
+            if (composer) {
+                composer += ' ' + cContent;
+            } else {
+                composer = cContent;
+            }
+        } else if (line.startsWith('K:') || line.startsWith('M:') || line.startsWith('L:') || line.startsWith('V:')) {
+            // Достигли полей тела музыки - заголовки закончились
             break;
         }
     }

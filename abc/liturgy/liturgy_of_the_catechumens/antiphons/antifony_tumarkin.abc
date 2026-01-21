@@ -16,6 +16,7 @@ V:2 clef=treble name="Alto"
 V:3 clef=bass octave=-2 name="Tenor"
 %%MIDI program 40
 V:4 clef=bass octave=-2 name="Bass"
+%%MIDI program 40
 %%score [(1 2) (3 4)]
 [V:1]GGGB BBBB A2AB2 | BBB GGG ^F2FG2 || %1
 [V:2]DDD GGGGG F2FF2 | FFFEEED2DD2 || %1

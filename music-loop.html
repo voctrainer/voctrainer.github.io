@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Разучивание с зацикливанием</title>
+    <link rel="stylesheet" href="./abcj-audio.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/abcjs/6.2.2/abcjs-basic-min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 1200px; margin: 0 auto; background: #fdfdfd; }
+
+        /* Основной интерфейс */
+        .panel {
+            position: sticky; top: 0; z-index: 50;
+            background: #fff; padding: 15px; border-bottom: 2px solid #ddd;
+            display: flex; flex-direction: column; gap: 10px;
+        }
+        .controls {
+            display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+            min-width: 100%;
+        }
+        .button-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: nowrap;
+        }
+        .tempo-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 10px;
+            background: #f0f0f0;
+            border-radius: 5px;
+        }
+        .tempo-control label {
+            font-weight: bold;
+            color: #555;
+        }
+        #tempo-slider {
+            width: 150px;
+        }
+        #tempo-value {
+            min-width: 60px;
+            font-weight: bold;
+            color: #2196f3;
+        }
+
+        button {
+            padding: 10px 20px; font-size: 15px; font-weight: bold; cursor: pointer;
+            border: none; border-radius: 5px; color: white; transition: 0.2s;
+        }
+        .btn-play-fragment { background: #4caf50; display: none; }
+        .btn-play-fragment:hover { background: #388e3c; }
+        .btn-stop-fragment { background: #f44336; display: none; }
+        .btn-stop-fragment:hover { background: #c62828; }
+        .btn-reset { background: #90a4ae; }
+        .btn-reset:hover { background: #607d8b; }
+
+        #status { font-weight: bold; color: #555; margin-left: auto; }
+        #paper { margin-top: 20px; padding: 20px; }
+
+        /* Выделение */
+        .selected-measure { fill: #2196f3 !important; stroke: #2196f3 !important; }
+        g.abcjs-note { cursor: pointer; }
+        g.abcjs-note:hover { opacity: 0.7; }
+
+        /* Подсветка текущих нот */
+        .highlight { fill: #ff9800 !important; }
+        .abcjs-cursor { stroke: red; stroke-width: 2; }
+
+        /* ABCJS Audio Controls */
+        #audio {
+            width: 100%;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            margin-top: 15px;
+        }
+
+        .audio-error {
+            color: red;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="panel">
+    <div class="controls">
+        <div class="button-group">
+            <button onclick="playFragment()" class="btn-play-fragment">▶️ ИГРАТЬ ФРАГМЕНТ</button>
+            <button onclick="stopFragment()" class="btn-stop-fragment">⏹️ СТОП</button>
+            <button onclick="resetSelection()" class="btn-reset">Сброс</button>
+        </div>
+        <div class="tempo-control">
+            <label for="tempo-slider">Темп фрагмента:</label>
+            <input type="range" id="tempo-slider" min="25" max="600" value="100" step="5" oninput="updateTempo(this.value)">
+            <span id="tempo-value">100%</span>
+        </div>
+        <div id="status">Шаг 1: Выделите такты кликами</div>
+    </div>
+</div>
+
+<div id="paper"></div>
+<div id="audio"></div>
+
+<script>
+// ==========================================
+var abcString = `
+X:1
+T:Зас тольная (Final Fix)
+%%barnumbers 1
+M:4/4
+L:1/8
+Q:1/4=100
+K:C
+V:1 name="Soprano"
+c4 G4 | A4 G4 | F4 E4 | D8 | C8 |]
+V:2 name="Alto"
+E4 E4 | F4 E4 | D4 C4 | B,8 | C8 |]
+w: Вы-пьем с~го-ря где же кру-жка
+V:3 name="Tenor" clef=bass
+G,4 C4 | C4 C4 | A,4 G,4 | G,8 | E,8 |]
+V:4 name="Bass" clef=bass
+C,4 C,4 | F,4 C,4 | F,4 G,4 | G,,8 | C,8 |]
+`;
+// ==========================================
+
+var visualObj;
+var fragmentVisualObj; // Отдельный visualObj для фрагмента с измененным темпом
+var synthControl; // Для нативного плеера (вся партит ура)
+var fragmentSynth; // Для зацикленного фрагмента
+var timingCallbacks;
+var cursorControl;
+var selStart = null, selEnd = null, selectStep = 0;
+var NUM_BEATS_PER_MEASURE = 4; // 4/4 такт: 4 четверти (для ABCJS TimingCallbacks)
+var totalMeasures = 5; // У нас всего 5 тактов
+var tempoMultiplier = 1.0; // Множитель темпа для фрагмента (1.0 = 100%)
+
+window.onload = function() {
+    // Рендер партитуры
+    visualObj = ABCJS.renderAbc("paper", abcString, {
+        add_classes: true,
+        responsive: "resize",
+        clickListener: onScoreClick
+    })[0];
+
+    console.log("Loaded visualObj:", visualObj);
+
+    // Инициализация НАТИВНОГО плеера для всей партитуры
+    if (ABCJS.synth.supportsAudio()) {
+        synthControl = new ABCJS.synth.SynthController();
+        synthControl.load("#audio", new CursorControl(), {
+            displayLoop: true,
+            displayRestart: true,
+            displayPlay: true,
+            displayProgress: true,
+            displayWarp: true
+        });
+        synthControl.setTune(visualObj, false);
+
+        // Создаем отдельный синтезатор для фрагмента
+        fragmentSynth = new ABCJS.synth.CreateSynth();
+        cursorControl = new CursorControlFragment();
+    } else {
+        document.querySelector("#audio").innerHTML = "<div class='audio-error'>Аудио не поддерживается в этом браузере.</div>";
+    }
+};
+
+// --- CURSOR CONTROL ДЛЯ НАТИВНОГО ПЛЕЕРА ---
+function CursorControl() {
+    var self = this;
+
+    self.onStart = function() {};
+    self.beatSubdivisions = 2;
+    self.onBeat = function(beatNumber, totalBeats, totalTime) {};
+    self.onEvent = function(ev) {};
+    self.onFinished = function() {};
+}
+
+// --- CURSOR CONTROL ДЛЯ ФРАГМЕНТА С ЗАЦИКЛИВАНИЕМ ---
+function CursorControlFragment() {
+    var self = this;
+
+    self.onStart = function() {
+        var svg = document.querySelector("#paper svg");
+        if (!svg) return;
+
+        // Удаляем старый курсор если есть
+        var oldCursor = svg.querySelector(".abcjs-cursor-fragment");
+        if (oldCursor) {
+            oldCursor.remove();
+        }
+
+        var cursor = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        cursor.setAttribute("class", "abcjs-cursor-fragment");
+        cursor.setAttribute("style", "stroke: red; stroke-width: 2;");
+        cursor.setAttributeNS(null, 'x1', 0);
+        cursor.setAttributeNS(null, 'y1', 0);
+        cursor.setAttributeNS(null, 'x2', 0);
+        cursor.setAttributeNS(null, 'y2', 0);
+        svg.appendChild(cursor);
+    };
+
+    self.onBeat = function(beatNumber, totalBeats, totalTime) {
+        if (selStart !== null && selEnd !== null && timingCallbacks) {
+            // Вычисляем конечный бит: начало такта ПОСЛЕ последнего выбранного
+            // Для тактов 2-3 (индексы 1-2): endBeat = (2+1)*8 = 24
+            var endBeat = (selEnd + 1) * NUM_BEATS_PER_MEASURE;
+
+            console.log("Beat:", beatNumber, "/ EndBeat:", endBeat, "Range:", selStart, "-", selEnd, "TotalBeats:", totalBeats);
+
+            // Когда достигли конца фрагмента, возвращаемся к началу
+            if (beatNumber >= endBeat) {
+                var startPosition = selStart / totalMeasures;
+                console.log("Looping back to position:", startPosition);
+                fragmentSynth.seek(startPosition);
+                timingCallbacks.setProgress(startPosition);
+            }
+        }
+    };
+
+    self.onEvent = function(ev) {
+        if (!ev) return;
+        if (ev.measureStart && ev.left === null) return;
+
+        var lastSelection = document.querySelectorAll("#paper svg .highlight");
+        for (var k = 0; k < lastSelection.length; k++)
+            lastSelection[k].classList.remove("highlight");
+
+        for (var i = 0; i < ev.elements.length; i++) {
+            var note = ev.elements[i];
+            for (var j = 0; j < note.length; j++) {
+                note[j].classList.add("highlight");
+            }
+        }
+
+        var cursor = document.querySelector("#paper svg .abcjs-cursor-fragment");
+        if (cursor) {
+            cursor.setAttribute("x1", ev.left - 2);
+            cursor.setAttribute("x2", ev.left - 2);
+            cursor.setAttribute("y1", ev.top);
+            cursor.setAttribute("y2", ev.top + ev.height);
+        }
+    };
+
+    self.onFinished = function() {
+        var els = document.querySelectorAll("#paper svg .highlight");
+        for (var i = 0; i < els.length; i++) {
+            els[i].classList.remove("highlight");
+        }
+        var cursor = document.querySelector("#paper svg .abcjs-cursor-fragment");
+        if (cursor) {
+            cursor.setAttribute("x1", 0);
+            cursor.setAttribute("x2", 0);
+            cursor.setAttribute("y1", 0);
+            cursor.setAttribute("y2", 0);
+        }
+    };
+}
+
+// --- ПРОИГРЫВАНИЕ ФРАГМЕНТА С ЗАЦИКЛИВАНИЕМ ---
+function playFragment() {
+    if (selStart === null || selEnd === null) {
+        alert("Сначала выделите такты!");
+        return;
+    }
+
+    // Останавливаем нативный плеер если он играет
+    if (synthControl) {
+        synthControl.pause();
+    }
+
+    var playButton = document.querySelector(".btn-play-fragment");
+    var stopButton = document.querySelector(".btn-stop-fragment");
+
+    playButton.style.display = "none";
+    stopButton.style.display = "inline-block";
+
+    if (ABCJS.synth.supportsAudio()) {
+        window.AudioContext = window.AudioContext ||
+            window.webkitAudioContext ||
+            navigator.mozAudioContext ||
+            navigator.msAudioContext;
+        var audioContext = new window.AudioContext();
+
+        audioContext.resume().then(function() {
+            // Создаем visualObj с измененным темпом для фрагмента
+            var modifiedAbc = abcString.replace(/Q:1\/4=100/, "Q:1/4=" + Math.round(100 * tempoMultiplier));
+            fragmentVisualObj = ABCJS.renderAbc("*", modifiedAbc, { add_classes: true })[0];
+
+            fragmentSynth.init({
+                audioContext: audioContext,
+                visualObj: fragmentVisualObj
+            }).then(function() {
+                timingCallbacks = new ABCJS.TimingCallbacks(fragmentVisualObj, {
+                    beatCallback: cursorControl.onBeat,
+                    eventCallback: cursorControl.onEvent
+                });
+                cursorControl.onStart();
+
+                fragmentSynth.prime().then(function() {
+                    var startPosition = selStart / totalMeasures;
+                    fragmentSynth.seek(startPosition);
+                    timingCallbacks.setProgress(startPosition);
+
+                    fragmentSynth.start();
+                    timingCallbacks.start();
+                    console.log("Fragment playback started from measure:", selStart, "with tempo:", (tempoMultiplier * 100) + "% (BPM:", Math.round(100 * tempoMultiplier) + ")");
+                }).catch(function(error) {
+                    console.error("Prime error:", error);
+                });
+            }).catch(function(error) {
+                console.error("Fragment synth init error:", error);
+            });
+        });
+    } else {
+        alert("Аудио не поддерживается в этом браузере.");
+    }
+}
+
+function stopFragment() {
+    var playButton = document.querySelector(".btn-play-fragment");
+    var stopButton = document.querySelector(".btn-stop-fragment");
+
+    playButton.style.display = "inline-block";
+    stopButton.style.display = "none";
+
+    if (fragmentSynth) {
+        fragmentSynth.stop();
+    }
+    if (timingCallbacks) {
+        timingCallbacks.stop();
+    }
+    if (cursorControl) {
+        cursorControl.onFinished();
+    }
+}
+
+// --- КЛИКИ И ВЫДЕЛЕНИЕ ---
+function onScoreClick(abcElem, tuneNumber, classes, analysis, drag, mouseEvent) {
+    if (!classes) return;
+    var match = classes.match(/abcjs-m(\d+)/);
+    if (!match) return;
+    var idx = parseInt(match[1]);
+
+    if (selectStep === 0) {
+        clearHighlights();
+        selStart = idx;
+        selectStep = 1;
+        highlight(selStart, selStart);
+        status("Начало: Такт " + (idx+1) + ". Кликните на конечный такт.");
+    } else if (selectStep === 1) {
+        if (idx < selStart) {
+            clearHighlights();
+            selStart = idx;
+            highlight(selStart, selStart);
+            status("Начало перенесено: Такт " + (idx+1));
+        } else {
+            selEnd = idx;
+            selectStep = 2;
+            highlight(selStart, selEnd);
+            status("Выбраны такты " + (selStart+1) + "-" + (selEnd+1) + ". Нажмите 'ИГРАТЬ ФРАГМЕНТ' для зацикленного воспроизведения.");
+
+            // Показываем кнопку воспроизведения фрагмента
+            document.querySelector(".btn-play-fragment").style.display = "inline-block";
+        }
+    } else {
+        // Если уже выбран фрагмент, начинаем заново
+        resetSelection();
+        onScoreClick(abcElem, tuneNumber, classes, analysis, drag, mouseEvent);
+    }
+}
+
+function highlight(s, e) {
+    for(var i=s; i<=e; i++) {
+        document.querySelectorAll(".abcjs-m"+i).forEach(el=>el.classList.add("selected-measure"));
+    }
+}
+
+function clearHighlights() {
+    document.querySelectorAll(".selected-measure").forEach(el=>el.classList.remove("selected-measure"));
+}
+
+function resetSelection() {
+    // Останавливаем воспроизведение фрагмента если активно
+    stopFragment();
+
+    clearHighlights();
+    selStart=null;
+    selEnd=null;
+    selectStep=0;
+    status("Сброшено. Выделите такты заново.");
+
+    // Скрываем кнопки фрагмента
+    document.querySelector(".btn-play-fragment").style.display = "none";
+    document.querySelector(".btn-stop-fragment").style.display = "none";
+}
+
+function status(t) {
+    document.getElementById("status").innerText = t;
+}
+
+function updateTempo(value) {
+    tempoMultiplier = value / 100;
+    document.getElementById("tempo-value").innerText = value + "%";
+
+    // Если фрагмент уже играет, перезапускаем с новым темпом
+    if (timingCallbacks && fragmentSynth) {
+        var isPlaying = document.querySelector(".btn-stop-fragment").style.display !== "none";
+        if (isPlaying) {
+            stopFragment();
+            // Небольшая задержка перед повторным запуском
+            setTimeout(function() {
+                playFragment();
+            }, 100);
+        }
+    }
+}
+</script>
+</body>
+</html>

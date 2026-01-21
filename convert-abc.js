@@ -13,6 +13,9 @@ const ASSETS_DIR = './assets';
 const JS_DIR = './assets/js';
 const CSS_DIR = './assets/css';
 
+// Глобальная настройка для генерации учебных партитур
+const GENERATE_TRAINING_SCORES = true;
+
 // Цвета интерфейса (теперь не используются в CSS, но могут быть полезны в скрипте)
 const COLORS = {
     primary: '#0772A1',
@@ -64,6 +67,200 @@ function extractTitleAndComposer(abcContent) {
         title: title.trim(),
         composer: composer.trim()
     };
+}
+
+// Определение голосов в партитуре
+function extractVoiceDefinitions(abcContent) {
+    const lines = abcContent.split('\n');
+    const voicePattern = /^V:(\d+)\s/;
+    const voices = new Set();
+
+    for (const line of lines) {
+        const match = line.match(voicePattern);
+        if (match) {
+            voices.add(match[1]);
+        }
+    }
+
+    return Array.from(voices).sort();
+}
+
+// Проверка, нужна ли учебная партитура
+function needsTrainingScore(abcContent) {
+    if (!GENERATE_TRAINING_SCORES) {
+        return false;
+    }
+
+    const lines = abcContent.split('\n');
+    const voices = extractVoiceDefinitions(abcContent);
+
+    if (voices.length === 0) {
+        return false;
+    }
+
+    // Проверяем, есть ли разбиение по строкам
+    // Подсчитываем количество вхождений первого голоса [V:1] или [V:первый_номер]
+    const firstVoice = voices[0];
+    const voiceMarkerPattern = new RegExp(`^\\[V:${firstVoice}\\]`, 'i');
+    let firstVoiceCount = 0;
+
+    for (const line of lines) {
+        if (voiceMarkerPattern.test(line.trim())) {
+            firstVoiceCount++;
+        }
+    }
+
+    // Если первый голос встречается более одного раза, значит есть разбиение по строкам
+    return firstVoiceCount > 1;
+}
+
+// Извлечение заголовка партитуры (все строки до первого [V:X])
+function extractHeader(abcContent) {
+    const lines = abcContent.split('\n');
+    const headerLines = [];
+
+    for (const line of lines) {
+        if (/^\[V:\d+\]/.test(line.trim())) {
+            break;
+        }
+        headerLines.push(line);
+    }
+
+    return headerLines.join('\n');
+}
+
+// Извлечение заголовка без Title и Composer
+function extractHeaderWithoutTitleComposer(abcContent) {
+    const lines = abcContent.split('\n');
+    const headerLines = [];
+
+    for (const line of lines) {
+        if (/^\[V:\d+\]/.test(line.trim())) {
+            break;
+        }
+        // Пропускаем строки T: и C:
+        if (!line.startsWith('T:') && !line.startsWith('C:')) {
+            headerLines.push(line);
+        }
+    }
+
+    return headerLines.join('\n');
+}
+
+// Разбиение партитуры по строкам
+function splitByLines(abcContent) {
+    const lines = abcContent.split('\n');
+    const voices = extractVoiceDefinitions(abcContent);
+
+    if (voices.length === 0) {
+        return [];
+    }
+
+    const firstVoice = voices[0];
+    const sections = [];
+    let currentSection = [];
+    let inMusicSection = false;
+
+    for (const line of lines) {
+        // Проверяем начало музыкальной секции
+        if (/^\[V:\d+\]/.test(line.trim())) {
+            inMusicSection = true;
+        }
+
+        if (!inMusicSection) {
+            continue;
+        }
+
+        // Если встретили начало новой строки (первый голос)
+        if (new RegExp(`^\\[V:${firstVoice}\\]`).test(line.trim())) {
+            if (currentSection.length > 0) {
+                sections.push(currentSection.join('\n'));
+                currentSection = [];
+            }
+        }
+
+        currentSection.push(line);
+    }
+
+    // Добавляем последнюю секцию
+    if (currentSection.length > 0) {
+        sections.push(currentSection.join('\n'));
+    }
+
+    return sections;
+}
+
+// Разбиение партитуры по %%text директивам
+function splitByText(abcContent) {
+    const lines = abcContent.split('\n');
+    const sections = [];
+    let currentSection = [];
+    let inMusicSection = false;
+
+    for (const line of lines) {
+        // Проверяем начало музыкальной секции
+        if (/^\[V:\d+\]/.test(line.trim())) {
+            inMusicSection = true;
+        }
+
+        if (!inMusicSection) {
+            continue;
+        }
+
+        // Если встретили %%text (кроме самой первой строки)
+        if (line.trim().startsWith('%%text') && currentSection.length > 0) {
+            sections.push(currentSection.join('\n'));
+            currentSection = [];
+        }
+
+        currentSection.push(line);
+    }
+
+    // Добавляем последнюю секцию
+    if (currentSection.length > 0) {
+        sections.push(currentSection.join('\n'));
+    }
+
+    return sections;
+}
+
+// Проверка наличия %%text в партитуре
+function hasTextDirectives(abcContent) {
+    return /^%%text/m.test(abcContent);
+}
+
+// Создание учебных разделов партитуры
+function createTrainingSections(abcContent) {
+    const fullHeader = extractHeader(abcContent);
+    const headerWithoutTitle = extractHeaderWithoutTitleComposer(abcContent);
+    const hasText = hasTextDirectives(abcContent);
+
+    const result = {
+        byLines: [],
+        byText: []
+    };
+
+    // Разбиение по строкам
+    const lineSections = splitByLines(abcContent);
+    if (lineSections.length > 0) {
+        result.byLines = lineSections.map((section, index) => {
+            const header = index === 0 ? fullHeader : headerWithoutTitle;
+            return header + '\n' + section;
+        });
+    }
+
+    // Разбиение по %%text (если есть)
+    if (hasText) {
+        const textSections = splitByText(abcContent);
+        if (textSections.length > 0) {
+            result.byText = textSections.map((section, index) => {
+                const header = index === 0 ? fullHeader : headerWithoutTitle;
+                return header + '\n' + section;
+            });
+        }
+    }
+
+    return result;
 }
 
 // Форматирование имени файла (пока не используется)
@@ -146,6 +343,49 @@ async function generateAbcHtmlFile(abcFilePath, outputDir, parentFolderPath) {
     const breadcrumbsHtml = generateBreadcrumbs(parentFolderPath);
     const navHtml = generateNav(parentFolderPath);
 
+    // Проверяем, нужна ли учебная партитура
+    const needsTraining = needsTrainingScore(abcContent);
+    let abcContainerHtml = '';
+
+    if (needsTraining) {
+        const trainingSections = createTrainingSections(abcContent);
+        const hasByText = trainingSections.byText.length > 0;
+
+        // Генерируем HTML с вкладками
+        abcContainerHtml = `
+          <div class="score-tabs">
+            <button class="tab-button active" data-tab="full">Полная партитура</button>
+            <button class="tab-button" data-tab="by-lines">По строкам</button>
+            ${hasByText ? '<button class="tab-button" data-tab="by-text">По разделам</button>' : ''}
+          </div>
+
+          <div class="tab-content active" id="full">
+            <div class="abc-container">
+              <div class="abc-source">${abcContent}</div>
+            </div>
+          </div>
+
+          <div class="tab-content" id="by-lines">
+            <div class="abc-container">
+              ${trainingSections.byLines.map(section => `<div class="abc-source">${section}</div>`).join('\n              ')}
+            </div>
+          </div>
+
+          ${hasByText ? `<div class="tab-content" id="by-text">
+            <div class="abc-container">
+              ${trainingSections.byText.map(section => `<div class="abc-source">${section}</div>`).join('\n              ')}
+            </div>
+          </div>` : ''}
+        `;
+    } else {
+        // Обычная партитура без вкладок
+        abcContainerHtml = `
+          <div class="abc-container">
+            <div class="abc-source">${abcContent}</div>
+          </div>
+        `;
+    }
+
     // Генерируем HTML (без jsTree, с ассетами из /assets)
     const htmlContent = `<!DOCTYPE html>
 <html lang="ru">
@@ -158,6 +398,39 @@ async function generateAbcHtmlFile(abcFilePath, outputDir, parentFolderPath) {
     <link rel="stylesheet" href="/assets/css/music.min.css" />
     <title>${title || ''}${composer ? ' - ' + composer : ''}</title>
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon.ico"/>
+    <style>
+      .score-tabs {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+        border-bottom: 2px solid #0772A1;
+        padding-bottom: 0;
+      }
+      .tab-button {
+        padding: 10px 20px;
+        background: #f0f0f0;
+        border: none;
+        border-radius: 5px 5px 0 0;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        transition: all 0.3s;
+      }
+      .tab-button:hover {
+        background: #e0e0e0;
+      }
+      .tab-button.active {
+        background: #0772A1;
+        color: white;
+      }
+      .tab-content {
+        display: none;
+      }
+      .tab-content.active {
+        display: block;
+      }
+    </style>
 </head>
 <body>
     <div class="grid-container">
@@ -176,9 +449,7 @@ async function generateAbcHtmlFile(abcFilePath, outputDir, parentFolderPath) {
           <nav class="breadcrumb">
             ${breadcrumbsHtml}
           </nav>
-          <div class="abc-container">
-            <div class="abc-source">${abcContent}</div>
-          </div>
+          ${abcContainerHtml}
         </main>
       </div>
     </div>
@@ -188,6 +459,7 @@ async function generateAbcHtmlFile(abcFilePath, outputDir, parentFolderPath) {
     <script src="/assets/js/abc-ui-1.0.0.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', function() {
+        // Инициализация ABC
         if (typeof $ABC_UI !== 'undefined') {
             $ABC_UI.init();
             $ABC_UTIL.addHtmlVievers({
@@ -196,6 +468,36 @@ async function generateAbcHtmlFile(abcFilePath, outputDir, parentFolderPath) {
                 bEditors: false
             });
         }
+
+        // Обработка вкладок
+        const tabButtons = document.querySelectorAll('.tab-button');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        tabButtons.forEach(button => {
+          button.addEventListener('click', () => {
+            const targetTab = button.getAttribute('data-tab');
+
+            // Убираем активный класс со всех кнопок и контента
+            tabButtons.forEach(btn => btn.classList.remove('active'));
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Добавляем активный класс к выбранной вкладке
+            button.classList.add('active');
+            document.getElementById(targetTab).classList.add('active');
+
+            // Переинициализируем ABC UI для новой вкладки
+            if (typeof $ABC_UI !== 'undefined') {
+              setTimeout(() => {
+                $ABC_UI.init();
+                $ABC_UTIL.addHtmlVievers({
+                  bMacro: true,
+                  bDeco: true,
+                  bEditors: false
+                });
+              }, 100);
+            }
+          });
+        });
       });
     </script>
 </body>

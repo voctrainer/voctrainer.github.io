@@ -1,0 +1,92 @@
+%abc-2.1
+X:1
+T:Чижичек
+C:Духовный кант
+M:4/4
+L:1/8
+Q:1/4=80
+K:Bb
+V:1 clef=treble
+V:2 clef=treble
+V:3 clef=bass octave=-1
+%%score [(1 2) 3]
+%%player_top
+%%text 1
+[V:1]B// z// z/ B// z// z/ B2 z// z/ B B (dc) B2 A A B2 B2 B c d c B2 A2 (B4 c4) |
+w:_ _ _ Кедр вы-со--кий съ~о-бла-ка-ми на-ра-вне вче-ра сто-ял*
+[V:2]z// z// z/ z// z// z/ z2 z// z/ G G (BA) G2 ^F F G2 G2 G A B A  G2 ^F2 (G4 A4) |
+[V:3]z// z// z/ z// z// z/ z2 z// z/ G G G2 G2 D D G2 G2 G G G G G2 D2(G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4) |
+w: Ны-не вверх* ле-жит ко-рня--ми: Силь-ный вихрь е-го со-рвал.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A BV A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 |
+w: Ны-не вверх* ле-жит ко-рня--ми: Силь-ный вихрь е-го со-рвал.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A BV A G2 ^F2 G4 |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 |
+%%text 2
+[V:1]B B (dcB) B A A B2 B2 B c (dcB) B A A (B4 c4) |
+w: Где цве-то---чек тот пре-кра-сный, Что до-ли---ну у-кра-шал?*
+[V:2]G G (BAG) G ^F F G2 G2 G A BAG G ^F F (G4 A4) |
+[V:3]G G G3 G D D G2 G2 G G G3 G D D (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4) |
+w: Ду-нул ве--тер и не-на--стье, И цве-ток, у-вы, за-вял!*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 |
+w: Ду-нул ве--тер и не-на--стье, И цве-ток, у-вы, за-вял!*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 G4 |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 |
+%%newpage
+%%text 3
+[V:1]B B (dcB) B A A B2 B2 B c d c B2 A2 (B4 c4) |
+w: Так и я** ско-ро за-вя-ну, Ско-ро жизнь мо-я прой-дёт,
+[V:2]G G (BAG) G ^F F G2 G2 G A B A G2 ^F2 (G4 A4) |
+[V:3]G G G3 G D D G2 G2 G G G G G2 D2(G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4)|
+w: Пра-хом я,* зе-млё-ю ста--ну, И-мя съ~жи-зни-ю сой-дёт.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 |
+w: Пра-хом я,* зе-млё-ю ста--ну, И-мя съ~жи-зни-ю сой-дёт.
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 G4 |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 |
+%%text 4
+[V:1]B c (dcB) B A A B2 B2 B c (dcB) B A A  (B4 c4) |
+w: И ни-кто** мо-ей мо-гил-ки Не при-дёт** тут по-сет-ить.*
+[V:2]G A (BAG) G ^F F G2 G2 G A B A G G ^F F (G4 A4) |
+[V:3]G G G3 G D D G2 G2 G G G3 G D D(G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4)|
+w: То-лько чи--жи-чек у-ны--лый На ней ся-дет по-гру-стить.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 |
+w: То-лько чи--жи-чек у-ны--лый На ней ся-дет по-гру-стить.
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 G4 |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 |
+%%text 5
+[V:1]B c (dcB) B A A B2 B2 B c d c B2 A2  (B4 c4) |
+w: И-ли ра---зве ми-мо-хо-дом Кто из стран-нич-ков прой-дёт.*
+[V:2]G A (BAG) G ^F F G2 G2 G A B A G2 ^F2 (G4 A4) |
+[V:3]G G G3 G D D G2 G2 G G G G G2 D2(G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4)|
+w: И у-ста--вши, на зе-лё--ном Дё-рне ся-дет от-до-хнёт.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 |
+w: И у-ста--вши, на зе-лё--ном Дё-рне ся-дет от-до-хнёт.
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 G4 |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 |
+%%text 6
+[V:1]B c (dcB) B A A B2 B2 B c d c B2 A2  (B4 c4) |
+w: Ра-звя-зав** су-му съ~е-до-ю Пе-ре-кре-сти-тся, вспла-кнёт,
+[V:2]G A (BAG) G ^F F G2 G2 G A B A G2 ^F2 (G4 A4) |
+[V:3]G G G3 G D D G2 G2 G G G G G2 D2(G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 (B4 c4)|
+w: Со-дро-гну--вше-йся ду-шо--ю Об у-со-пшем во-здо-хнёт.*
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 (G4A4) |
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 (G4 F4) |
+[V:1]d4 d (de) f2 c c (dc) B2 B c d c B2 A2 B4 ||
+w: Со-дро-гну--вше-йся ду-шо--ю Об у-со-пшем во-здо-хнёт.
+[V:2]B4 B (Bc) d2 A A (BA) G2 G A B A G2 ^F2 G4 ||
+[V:3][B4B,4][BB,] ([BB,][AA,])[B2B,2]F F D2 D2 G G G G G2 D2 G4 ||
